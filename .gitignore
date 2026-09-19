@@ -2,6 +2,5 @@ bin/
 obj/
 wwwroot/
 Properties/
-projeto.csproj
 appsettings.json
 appsettings.Development.json
