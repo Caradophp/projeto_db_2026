@@ -43,7 +43,7 @@ volumes:
    ```
 
 4. **Open in browser:**
-   Navigate to `http://localhost:8081`
+   Navigate to `http://localhost:8081/login`
 
 ## Notes
 
