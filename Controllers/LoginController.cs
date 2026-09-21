@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using projeto.Service;
 
@@ -19,7 +20,7 @@ public class LoginController (UserService userService) : Controller
     }
 
     [HttpPost]
-    public IActionResult CheckUserLogin(string email, string password)
+    public void CheckUserLogin(string email, string password)
     {
         
         if (email.Length == 0)
@@ -37,10 +38,11 @@ public class LoginController (UserService userService) : Controller
         if (!isValid)
         {
             ModelState.AddModelError("", "E-mail ou senha inválido");
-            return View("Index");
+            //return View("Index");
         }
 
-        return RedirectToAction("Index", "Home");
+        HttpContext.Response.WriteAsJsonAsync("sucesso");
+        //return RedirectToAction("Index", "Home");
     }
 
 }

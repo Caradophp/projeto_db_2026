@@ -39,12 +39,13 @@
                     <p class="mb-0 opacity-75">Crie sua conta para acessar tudo de forma simples, rápida e segura.</p>
                 </div>
             </div>
-            <form class="login-form col-md-7" asp-controller="User" asp-action="Create" method="post">
+            <form class="login-form col-md-7" method="post">
                 <div class="mb-4">
                     <h1 class="mb-2">Criar conta</h1>
                     <p class="subtitle mb-0">Preencha seus dados para começar.</p>
                 </div>
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="alert alert-danger visually-hidden"></div>
                 <div class="mb-3">
                     <label for="name" class="form-label">Nome</label>
                     <input id="name" type="text" class="form-control" placeholder="Seu nome completo" name="name" autocomplete="name" required autofocus>
@@ -61,10 +62,13 @@
                     <label for="confirmPassword" class="form-label">Confirmar senha</label>
                     <input id="confirmPassword" type="password" class="form-control" placeholder="Digite sua senha novamente" name="confirmPassword" autocomplete="new-password" minlength="6" required>
                 </div>
-                <button type="submit" class="btn btn-primary btn-login w-100">Criar minha conta</button>
+                <button type="button" class="btn btn-primary btn-login w-100" id="singupBtn">Criar minha conta</button>
                 <p class="text-center text-muted small mt-4 mb-0">Já tem uma conta? <a asp-controller="Login" asp-action="Index" class="fw-semibold text-decoration-none">Voltar para o login</a></p>
             </form>
         </div>
     </main>
+    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/login.js"></script>
 </body>
 </html>

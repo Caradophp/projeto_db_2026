@@ -59,4 +59,24 @@ public class UserRepository(IConfiguration configuration)
 
         return null;
     }
+
+    public bool ExistsByEmail(string email)
+    {
+        string sql = "SELECT 1 FROM users u WHERE u.email = :Email";
+
+        using var connection = new OracleConnection(_connectionString);
+        using var command = new OracleCommand(sql, connection);
+        
+        command.Parameters.Add("Email", email);
+
+        connection.Open();
+        OracleDataReader reader = command.ExecuteReader();
+
+        if (reader.Read())
+        {
+            return true;
+        }
+
+        return false;
+    }
 }

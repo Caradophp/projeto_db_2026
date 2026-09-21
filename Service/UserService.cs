@@ -10,8 +10,32 @@ public class UserService(UserRepository userRepository)
     
     private readonly UserRepository _userRepository = userRepository;
 
-    public IActionResult CreateUser(string name, string email, string password)
+    public IActionResult CreateUser(string name, string email, string password, string confirmPassword)
     {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            throw new Exception("Informe seu nome.");
+        }
+
+        if (string.IsNullOrWhiteSpace(email))
+        {
+             throw new Exception("Informe seu e-mail.");
+        }
+
+        if (string.IsNullOrWhiteSpace(password) || password.Length < 6)
+        {
+             throw new Exception("A senha deve ter pelo menos 6 caracteres.");
+        }
+
+        if (!string.Equals(password, confirmPassword, StringComparison.Ordinal))
+        {
+             throw new Exception("As senhas não coincidem.");
+        }
+
+        if (_userRepository.ExistsByEmail(email))
+        {
+            throw new Exception("E-mail já cadastrado");
+        }
         User user = new()
         {
             Name = name,
@@ -42,6 +66,9 @@ public class UserService(UserRepository userRepository)
             {
                 return true;
             }   
+        } else
+        {
+            throw new KeyNotFoundException("Usuário não encontrado");
         }
 
         return false;
