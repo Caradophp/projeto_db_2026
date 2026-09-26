@@ -37,12 +37,44 @@ public class LoginController (UserService userService) : Controller
 
         if (!isValid)
         {
-            ModelState.AddModelError("", "E-mail ou senha inválido");
-            //return View("Index");
+            throw new Exception("E-amil ou senha inválidos");
         }
 
         HttpContext.Response.WriteAsJsonAsync("sucesso");
         //return RedirectToAction("Index", "Home");
     }
 
+    [HttpPost]
+    public void SendEmailForRetrivePassword(string email)
+    {
+        _userService.SendEmailForRetrivePassword(email);
+        HttpContext.Response.WriteAsJsonAsync("sucesso");
+    }
+
+    [HttpPost]
+    public void CheckCode(int codigo, string email)
+    {
+        bool isValid = _userService.CheckCode(codigo, email);
+
+        if (isValid)
+        {
+            HttpContext.Response.StatusCode = 200;
+            HttpContext.Response.WriteAsJsonAsync("sucesso");
+        } else
+        {
+            HttpContext.Response.StatusCode = 401;
+            HttpContext.Response.WriteAsJsonAsync(new ProblemDetails()
+            {
+                Detail = "Código inválido"
+            });
+        }
+    }
+
+    [HttpPatch]
+    public void ChangeUserPassword(string email, string password, string confirmPassword)
+    {
+        _userService.ChangePass(email, password, confirmPassword);
+        HttpContext.Response.StatusCode = 200;
+        HttpContext.Response.WriteAsJsonAsync("sucesso");
+    }
 }

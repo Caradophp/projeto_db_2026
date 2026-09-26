@@ -2,11 +2,17 @@ using projeto.Controllers;
 using projeto.Repository;
 using projeto.Service;
 
+DotNetEnv.Env.Load();
+DotNetEnv.Env.TraversePath().Load();
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddScoped<CodeRepository>();
+builder.Services.AddScoped<UtilRepository>();
+builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<UserService>();
 

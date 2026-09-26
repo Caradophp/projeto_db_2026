@@ -1,14 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
+using Oracle.ManagedDataAccess.Client;
 using projeto.Models;
 using projeto.Models.Enums;
 using projeto.Repository;
 
 namespace projeto.Service;
 
-public class UserService(UserRepository userRepository)
+public class UserService(UserRepository userRepository, CodeRepository codeRepository, EmailService emailService, UtilRepository repository)
 {
     
     private readonly UserRepository _userRepository = userRepository;
+    private readonly CodeRepository _codeRepository = codeRepository;
+    private readonly EmailService _emailService = emailService;
+    private readonly UtilRepository _repository = repository;
 
     public IActionResult CreateUser(string name, string email, string password, string confirmPassword)
     {
@@ -73,4 +77,40 @@ public class UserService(UserRepository userRepository)
 
         return false;
     } 
+
+    public void SendEmailForRetrivePassword(string email)
+    {
+        User user = _userRepository.FindByEmail(email);
+        int randomCode = new Random().Next(100000, 999999);
+
+        if (user == null)
+        {
+            throw new Exception("E-mail não cadastrado no sistema");
+        }
+
+        _codeRepository.SaveCode(randomCode, user.Id);
+
+        _emailService.Send(email, 
+            "Código de recuperação de senha", "Prezado <b>" + user.Name 
+            + "</b>,  Segue abaixo o código para recuperação de senha do sistema<br><br>Código: <b>" + randomCode + "</b>");
+    }
+
+    public bool CheckCode(int code, string email)
+    {
+        User user = _userRepository.FindByEmail(email);
+        return _codeRepository.CheckIfCodeIsValid(code, user.Id);
+    }
+
+    public void ChangePass(string email, string password, string confirmPassword)
+    {
+        
+        if (password.Equals(confirmPassword))
+        {
+            _userRepository.ChangePass(email, password);
+        } else
+        {
+            throw new Exception("As senha devem ser iguais");
+        }
+
+    }
 }
