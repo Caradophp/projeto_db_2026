@@ -1,13 +1,14 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using projeto.Security;
 using projeto.Service;
 
 namespace projeto.Controllers;
 
-public class LoginController (UserService userService) : Controller
+public class LoginController (UserService userService, Jwt jwt) : Controller
 {
     
     private readonly UserService _userService = userService;
+    private readonly Jwt _jwt = jwt;
 
     public IActionResult Index()
     {
@@ -40,8 +41,13 @@ public class LoginController (UserService userService) : Controller
             throw new Exception("E-amil ou senha inválidos");
         }
 
-        HttpContext.Response.WriteAsJsonAsync("sucesso");
-        //return RedirectToAction("Index", "Home");
+        var token = _jwt.GenerateJwtToken(email, "");
+
+        Dictionary<string, string> data = new()
+        {
+            { "token", token }
+        };
+        HttpContext.Response.WriteAsJsonAsync(data);
     }
 
     [HttpPost]

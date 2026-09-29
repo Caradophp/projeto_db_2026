@@ -1,5 +1,6 @@
 using projeto.Controllers;
 using projeto.Repository;
+using projeto.Security;
 using projeto.Service;
 
 DotNetEnv.Env.Load();
@@ -15,8 +16,14 @@ builder.Services.AddScoped<UtilRepository>();
 builder.Services.AddScoped<EmailService>();
 builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<Jwt>();
 
 builder.Services.AddExceptionHandler<ExceptionController>();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<SecurityFilter>();
+});
+
 builder.Services.AddProblemDetails();
 
 var app = builder.Build();

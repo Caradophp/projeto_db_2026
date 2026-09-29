@@ -45,7 +45,8 @@ $('#enterBtn').click(() => {
             email,
             password 
         },
-        success: () => {
+        success: (result) => {
+            localStorage.setItem("token", result.token);
             location.href = '/';
         },
         error: (xhr, status, error) => {
