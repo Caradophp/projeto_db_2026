@@ -1,3 +1,28 @@
+$(document).ready(() => {
+    $.ajaxSetup({
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader("X-Api-Key", localStorage.getItem("token"));
+        }
+    });
+
+    $.ajax({
+        url: '/Home/CheckToken',
+        method: 'GET',
+        dataType: 'json',
+        data: {
+            token: localStorage.getItem("token")
+        },
+        success: () => {
+            console.log("Sessão ativa e operante");
+        },
+        error: () => {
+            if (location.href.split('/')[3] != 'login' && location.href.split('/')[3] != 'user') {
+                location.href = '/login';
+            }
+        }
+    });
+});
+
 function showDialog(html) {
     $('.content').html(html);
     $('.dialog').modal('show');

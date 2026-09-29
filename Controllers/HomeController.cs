@@ -1,7 +1,7 @@
 using System.Diagnostics;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using projeto.Models;
+using projeto.Security;
 
 namespace projeto.Controllers;
 
@@ -9,8 +9,11 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
 
-    public HomeController(ILogger<HomeController> logger)
+    private readonly Jwt _jwt;
+
+    public HomeController(ILogger<HomeController> logger, Jwt jwt)
     {
+        _jwt = jwt;
         _logger = logger;
     }
 
@@ -28,5 +31,20 @@ public class HomeController : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+
+    [HttpGet]
+    public void CheckToken(string token)
+    {
+        bool tokenIsValid = _jwt.ValidateJwtToken(token);
+
+        if (tokenIsValid)
+        {
+            HttpContext.Response.StatusCode = 200;
+            HttpContext.Response.WriteAsJsonAsync("sucesso");
+        } else
+        {
+            HttpContext.Response.StatusCode = 401;
+        }
     }
 }
