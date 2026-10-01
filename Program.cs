@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddScoped<projeto.Controllers.ColheitaController>();
 builder.Services.AddScoped<CodeRepository>();
 builder.Services.AddScoped<UtilRepository>();
 builder.Services.AddScoped<EmailService>();

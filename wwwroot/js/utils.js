@@ -5,22 +5,24 @@ $(document).ready(() => {
         }
     });
 
-    $.ajax({
-        url: '/Home/CheckToken',
-        method: 'GET',
-        dataType: 'json',
-        data: {
-            token: localStorage.getItem("token")
-        },
-        success: () => {
-            console.log("Sessão ativa e operante");
-        },
-        error: () => {
-            if (location.href.split('/')[3] != 'login' && location.href.split('/')[3] != 'user') {
-                location.href = '/login';
+    setInterval(()=> {
+        $.ajax({
+            url: '/Home/CheckToken',
+            method: 'GET',
+            dataType: 'json',
+            data: {
+                token: localStorage.getItem("token")
+            },
+            success: () => {
+                console.log("Sessão ativa e operante");
+            },
+            error: () => {
+                if (location.href.split('/')[3] != 'login' && location.href.split('/')[3] != 'user') {
+                    location.href = '/login';
+                }
             }
-        }
-    });
+        });
+    }, 1000)
 });
 
 function showDialog(html) {

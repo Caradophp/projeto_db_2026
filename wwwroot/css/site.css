@@ -19,6 +19,168 @@ html {
 
 body {
   margin-bottom: 60px;
+  color: #202a26;
+  background: #f4f6f2;
+  font-family: "Aptos", "Segoe UI", sans-serif;
+}
+
+.navbar {
+  min-height: 64px;
+  padding: 0.5rem 1rem;
+  background: #fff !important;
+}
+
+.navbar-brand {
+  color: #203c31;
+  font-size: 1.3rem;
+  font-weight: 750;
+}
+
+.brand-mark {
+  color: #bd5b37;
+}
+
+.navbar-nav .nav-link {
+  margin: 0 0.1rem;
+  padding: 0.65rem 0.7rem !important;
+  border-radius: 4px;
+  color: #46544d !important;
+  font-size: 0.92rem;
+  white-space: nowrap;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus {
+  color: #203c31 !important;
+  background: #edf2ed;
+}
+
+.management-page {
+  max-width: 1440px;
+  margin: 2.25rem auto 3rem;
+  padding: 0 1.25rem;
+}
+
+.management-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  margin-bottom: 1.75rem;
+}
+
+.management-eyebrow {
+  margin: 0 0 0.45rem;
+  color: #75827a;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.management-heading h1 {
+  margin: 0;
+  color: #203c31;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.management-description {
+  margin: 0.5rem 0 0;
+  color: #68756e;
+}
+
+.management-list {
+  overflow: hidden;
+  border: 1px solid #dce3dd;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.management-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.1rem;
+  border-bottom: 1px solid #e5eae5;
+}
+
+.management-search {
+  max-width: 360px;
+}
+
+.management-search .input-group-text {
+  color: #69776f;
+  background: #fff;
+}
+
+.management-toolbar .btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  border-color: #285844;
+  background: #285844;
+}
+
+.management-toolbar .btn-primary:disabled,
+.management-search .form-control:disabled {
+  opacity: 0.72;
+}
+
+.management-table {
+  margin: 0;
+  color: #34433a;
+}
+
+.management-table thead th {
+  padding: 0.9rem 1rem;
+  border-bottom: 1px solid #e5eae5;
+  background: #f8faf8;
+  color: #68756e;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.management-empty {
+  height: 220px;
+  color: #6e7b73 !important;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.management-empty > * {
+  display: block;
+}
+
+.management-empty strong {
+  margin: 0.5rem 0 0.25rem;
+  color: #35443b;
+  font-size: 0.98rem;
+}
+
+.management-empty-icon {
+  color: #9aa79e;
+  font-size: 1.55rem;
+}
+
+@media (max-width: 575.98px) {
+  .management-page {
+    margin-top: 1.5rem;
+    padding: 0 0.75rem;
+  }
+
+  .management-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .management-search {
+    max-width: none;
+  }
+
+  .management-toolbar .btn-primary {
+    justify-content: center;
+  }
 }
 
 .loader {
@@ -41,4 +203,21 @@ body {
 
 .loader span{
   color: white;
+}
+
+.infos-panel {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.infos-panel article {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    min-width: 400px;
+}
+
+.cursor-point {
+  cursor: pointer;
 }
