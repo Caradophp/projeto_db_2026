@@ -1,0 +1,46 @@
+@model ManagementListViewModel
+
+<section class="management-page" aria-labelledby="page-title">
+    <header class="management-heading">
+        <div>
+            <p class="management-eyebrow">GESTÃO DA LAVOURA</p>
+            <h1 id="page-title">@Model.Title</h1>
+            <p class="management-description">@Model.Description</p>
+        </div>
+    </header>
+
+    <section class="management-list" aria-label="Lista de @Model.Title">
+        <div class="management-toolbar">
+            <div class="input-group management-search">
+                <span class="input-group-text" aria-hidden="true"><i class="fa-solid fa-magnifying-glass"></i></span>
+                <input type="search" class="form-control" placeholder="@Model.SearchPlaceholder" aria-label="@Model.SearchPlaceholder">
+            </div>
+            <button type="button" class="btn btn-primary cursor-point" disabled title="Cadastro disponível em uma próxima etapa">
+                <i class="fa-solid fa-plus" aria-hidden="true"></i>
+                <span>@Model.AddLabel</span>
+            </button>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table management-table">
+                <thead>
+                    <tr>
+                        @foreach (var column in Model.Columns)
+                        {
+                            <th scope="col">@column</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="@Model.Columns.Count" class="management-empty">
+                            <span class="management-empty-icon" aria-hidden="true"><i class="fa-regular fa-rectangle-list"></i></span>
+                            <strong>Nenhum registro encontrado</strong>
+                            <span>Os registros de @Model.Title.ToLowerInvariant() aparecerão aqui.</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</section>
