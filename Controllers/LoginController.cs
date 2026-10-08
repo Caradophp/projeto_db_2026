@@ -38,7 +38,7 @@ public class LoginController (UserService userService, Jwt jwt) : Controller
 
         if (!isValid)
         {
-            throw new Exception("E-amil ou senha inválidos");
+            throw new Exception("E-mail ou senha inválidos");
         }
 
         var token = _jwt.GenerateJwtToken(email, "");
