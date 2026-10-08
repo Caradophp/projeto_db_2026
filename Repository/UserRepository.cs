@@ -2,17 +2,19 @@ using Microsoft.AspNetCore.Mvc;
 using Oracle.ManagedDataAccess.Client;
 using projeto.Models;
 using projeto.Models.Enums;
+using projeto.Service;
+using Microsoft.Extensions.Logging;
 
 namespace projeto.Repository;
 
-public class UserRepository(IConfiguration configuration)
+public class UserRepository(IConfiguration configuration, EncryptionService encryptionService, ILogger<UserRepository> logger)
 {
-    
     private readonly string _connectionString = configuration.GetConnectionString("OracleDb")
         ?? throw new InvalidOperationException("A string de conexão 'OracleDb' não foi configurada.");
 
-    public IActionResult CreateUser(User user)
+    public bool CreateUser(User user)
     {
+        string hashedPassword = encryptionService.HashPassword(user.Password);
 
         string sql = "INSERT INTO users (name, email, password) VALUES (:Name, :Email, :Password);";
 
@@ -21,13 +23,12 @@ public class UserRepository(IConfiguration configuration)
             using var command = new OracleCommand(sql, connection);
             command.Parameters.Add(new OracleParameter("Name", user.Name));
             command.Parameters.Add(new OracleParameter("Email", user.Email));
-            command.Parameters.Add(new OracleParameter("Password", user.Password));
+            command.Parameters.Add(new OracleParameter("Password", hashedPassword));
 
             connection.Open();
-            command.ExecuteNonQuery();
+            int rowsAffected = command.ExecuteNonQuery();
+            return rowsAffected > 0;
         }
-
-        return new RedirectToActionResult("Index", "User", null);
     }
 
     public User? CheckUserLogin(string email, string password)
@@ -41,7 +42,7 @@ public class UserRepository(IConfiguration configuration)
         connection.Open();
 
         using OracleDataReader reader = command.ExecuteReader();
-        while (reader.Read())
+        if (reader.Read())
         {
             User user = new()
             {
@@ -53,36 +54,42 @@ public class UserRepository(IConfiguration configuration)
                 CreatedAt = reader.GetDateTime(5)
             };
 
-            return user;
-            
+            if (encryptionService.VerifyPassword(password, user.Password))
+            {
+                return user;
+            }
+
+            if (user.Password == password)
+            {
+                ChangePass(user.Email, password);
+                return user;
+            }
         }
 
+        logger.LogWarning("Tentativa de login falhou para o usuário: {Email}", email);
         return null;
     }
 
-    public User FindByEmail(string email)
+    public User? FindByEmail(string email)
     {
         string sql = "SELECT id, name, email, password FROM users u WHERE u.email = :Email";
 
         using var connection = new OracleConnection(_connectionString);
         using var command = new OracleCommand(sql, connection);
-        
-        command.Parameters.Add("Email", email);
+        command.Parameters.Add(new OracleParameter("Email", email));
 
         connection.Open();
-        OracleDataReader reader = command.ExecuteReader();
+        using OracleDataReader reader = command.ExecuteReader();
 
         if (reader.Read())
         {
-            User user = new()
+            return new User
             {
-              Id = (int) reader.GetInt64(0),
-              Name = reader.GetString(1),
-              Email = reader.GetString(2),
-              Password = reader.GetString(3)
+                Id = (int)reader.GetInt64(0),
+                Name = reader.GetString(1),
+                Email = reader.GetString(2),
+                Password = reader.GetString(3)
             };
-
-            return user;
         }
 
         return null;
@@ -94,39 +101,29 @@ public class UserRepository(IConfiguration configuration)
 
         using var connection = new OracleConnection(_connectionString);
         using var command = new OracleCommand(sql, connection);
-        
-        command.Parameters.Add("Email", email);
+        command.Parameters.Add(new OracleParameter("Email", email));
 
         connection.Open();
-        OracleDataReader reader = command.ExecuteReader();
+        using OracleDataReader reader = command.ExecuteReader();
 
-        if (reader.Read())
-        {
-            return true;
-        }
-
-        return false;
+        return reader.Read();
     }
 
     public void ChangePass(string email, string newPassword)
     {
-        try
-        {
-            User userExists = this.FindByEmail(email) ?? throw new Exception("E-mail informado é inválido");
+        User? userExists = this.FindByEmail(email) ?? throw new Exception("E-mail informado é inválido");
 
-            string sql = "UPDATE USERS SET PASSWORD = :Password WHERE ID = :IdUser;";
+        string hashedPassword = encryptionService.HashPassword(newPassword);
 
-            using var connection = new OracleConnection(_connectionString);
-            using var command = new OracleCommand(sql, connection);
+        string sql = "UPDATE USERS SET PASSWORD = :Password WHERE ID = :IdUser";
 
-            command.Parameters.Add("Password", newPassword);
-            command.Parameters.Add("IdUser", userExists.Id);
+        using var connection = new OracleConnection(_connectionString);
+        using var command = new OracleCommand(sql, connection);
 
-            connection.Open();
-            command.ExecuteNonQuery();
-        } catch (OracleException)
-        {
-            throw;
-        }
+        command.Parameters.Add(new OracleParameter("Password", hashedPassword));
+        command.Parameters.Add(new OracleParameter("IdUser", userExists.Id));
+
+        connection.Open();
+        command.ExecuteNonQuery();
     }
 }

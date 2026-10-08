@@ -1,12 +1,16 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace projeto.Controllers;
 
-public class ExceptionController : IExceptionHandler
+public class ExceptionController(ILogger<ExceptionController> logger) : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
+        // Loga a exceção completa com stack trace para o desenvolvedor
+        logger.LogError(exception, "Ocorreu uma exceção não tratada: {Message}", exception.Message);
+
         var statusCode = exception switch
         {
             ArgumentException => StatusCodes.Status400BadRequest,
@@ -18,7 +22,7 @@ public class ExceptionController : IExceptionHandler
         var problemDetails = new ProblemDetails
         {
             Status = statusCode,
-            Title = "An error occurred while processing your request.",
+            Title = "Ocorreu um erro ao processar sua requisição.",
             Detail = exception.Message,
             Type = $"https://httpstatuses.com{statusCode}"
         };
@@ -26,6 +30,6 @@ public class ExceptionController : IExceptionHandler
         httpContext.Response.StatusCode = statusCode;
         await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
 
-        return true; 
+        return true;
     }
 }
