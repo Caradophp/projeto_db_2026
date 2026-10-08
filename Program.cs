@@ -1,3 +1,4 @@
+using Serilog;
 using projeto.Controllers;
 using projeto.Repository;
 using projeto.Security;
@@ -6,47 +7,63 @@ using projeto.Service;
 DotNetEnv.Env.Load();
 DotNetEnv.Env.TraversePath().Load();
 
-var builder = WebApplication.CreateBuilder(args);
+// Configuração Global do Serilog
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .WriteTo.Console()
+    .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
-
-builder.Services.AddScoped<projeto.Controllers.ColheitaController>();
-builder.Services.AddScoped<CodeRepository>();
-builder.Services.AddScoped<UtilRepository>();
-builder.Services.AddScoped<EmailService>();
-builder.Services.AddScoped<UserRepository>();
-builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<Jwt>();
-
-builder.Services.AddExceptionHandler<ExceptionController>();
-builder.Services.AddControllers(options =>
+try
 {
-    options.Filters.Add<SecurityFilter>();
-});
+    Log.Information("Iniciando a aplicação web...");
+    var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddProblemDetails();
+    // Integração do Serilog com o pipeline de log do .NET
+    builder.Host.UseSerilog();
 
-var app = builder.Build();
+    // Add services to the container.
+    builder.Services.AddControllersWithViews();
 
-// Configure the HTTP request pipeline.
-// if (!app.Environment.IsDevelopment())
-// {
-//     app.UseExceptionHandler("/Home/Error");
-//     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-//     app.UseHsts();
-// }
+    builder.Services.AddScoped<projeto.Controllers.ColheitaController>();
+    builder.Services.AddScoped<CodeRepository>();
+    builder.Services.AddScoped<UtilRepository>();
+    builder.Services.AddScoped<EmailService>();
+    builder.Services.AddScoped<UserRepository>();
+    builder.Services.AddScoped<UserService>();
+    builder.Services.AddScoped<Jwt>();
+    builder.Services.AddScoped<EncryptionService>();
 
-app.UseExceptionHandler();
-app.UseHttpsRedirection();
-app.UseStaticFiles();
+    builder.Services.AddExceptionHandler<ExceptionController>();
+    builder.Services.AddControllers(options =>
+    {
+        options.Filters.Add<SecurityFilter>();
+    });
 
-app.UseRouting();
+    builder.Services.AddProblemDetails();
 
-app.UseAuthorization();
+    var app = builder.Build();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    // Configure the HTTP request pipeline.
+    app.UseExceptionHandler();
+    app.UseHttpsRedirection();
+    app.UseStaticFiles();
 
-app.Run();
+    app.UseRouting();
+
+    app.UseAuthorization();
+
+    app.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+
+    app.Run();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "A aplicação terminou inesperadamente");
+}
+finally
+{
+    Log.CloseAndFlush();
+}
