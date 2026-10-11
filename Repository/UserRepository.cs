@@ -61,7 +61,7 @@ public class UserRepository(IConfiguration configuration, EncryptionService encr
 
             if (user.Password == password)
             {
-                ChangePass(user.Email, password);
+                ChangePass(user.Email, password, true);
                 return user;
             }
         }
@@ -109,7 +109,7 @@ public class UserRepository(IConfiguration configuration, EncryptionService encr
         return reader.Read();
     }
 
-    public void ChangePass(string email, string newPassword)
+    public void ChangePass(string email, string newPassword, bool needOpenConnection)
     {
         User? userExists = this.FindByEmail(email) ?? throw new Exception("E-mail informado é inválido");
 
@@ -123,7 +123,9 @@ public class UserRepository(IConfiguration configuration, EncryptionService encr
         command.Parameters.Add(new OracleParameter("Password", hashedPassword));
         command.Parameters.Add(new OracleParameter("IdUser", userExists.Id));
 
-        connection.Open();
+        if (needOpenConnection) {
+            connection.Open();
+        }
         command.ExecuteNonQuery();
     }
 }

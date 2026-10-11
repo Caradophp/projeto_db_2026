@@ -18,7 +18,8 @@ public class UtilRepository (IConfiguration configuration)
         "CODES_SENT",
         "COLHEITAS",
         "CULTURAS",
-        "TALHOES"
+        "TALHOES",
+        "MIGRATIONS"
     };
 
     // Lista de palavras-chave proibidas na cláusula WHERE para evitar ataques de modificação

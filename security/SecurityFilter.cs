@@ -21,7 +21,15 @@ public class SecurityFilter(Jwt jwt) : IAsyncActionFilter
         // Verifica se a rota está na lista de exceções públicas
         // Nota: /user foi removido da lista pública para garantir segurança,
         // a menos que existam endpoints específicos de cadastro.
-        if (_publicPaths.Contains(path) || path.StartsWith("/login"))
+
+        // ATANÇÂO: /user foi colocada novamente pois é necessário para o cadastro de novos usuários
+        //ATENÇÂO 2: / e /gestao foram adicionados para que durante a navação entre as páginas ondem o token não é enviado o usuário não seja enviado para o login.
+        // O frontend irá verificar se o token é válido e caso não seja irá jogar o usuário para o login
+        if (_publicPaths.Contains(path) 
+            || path.StartsWith("/login") 
+            || path.StartsWith("/user") 
+            || path.StartsWith("/gestao") 
+            || path.Split("/").Length <= 2)
         {
             await next();
             return;

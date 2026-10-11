@@ -1,7 +1,7 @@
 $(document).ready(() => {
     $.ajaxSetup({
         beforeSend: function (xhr) {
-            xhr.setRequestHeader("X-Api-Key", localStorage.getItem("token"));
+            xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("token"));
         }
     });
 
@@ -18,6 +18,7 @@ $(document).ready(() => {
             },
             error: () => {
                 if (location.href.split('/')[3] != 'login' && location.href.split('/')[3] != 'user') {
+                    localStorage.removeItem("token");
                     location.href = '/login';
                 }
             }
@@ -37,3 +38,8 @@ function openLoader() {
 function closeLoader() {
     $('#loader').addClass('visually-hidden');
 }
+
+$("#logout").click(() => {
+    localStorage.removeItem("token");
+    location.href = "/login";
+});
