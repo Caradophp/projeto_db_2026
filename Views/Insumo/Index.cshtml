@@ -1,0 +1,47 @@
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Gestão de Insumos";
+}
+
+<div id="insumo-management">
+    @* The ManagementList is rendered by the controller action Index *@
+
+    @* Modal for Add/Edit *@
+    <div class="modal fade" id="insumoModal" tabindex="-1" aria-labelledby="insumoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="insumoModalLabel">Novo Insumo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="insumoForm">
+                        <input type="hidden" id="insumoId" name="Id" value="0">
+                        <div class="mb-3">
+                            <label for="insumoNome" class="form-label">Nome</label>
+                            <input type="text" class="form-control" id="insumoNome" name="Nome" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="insumoTipo" class="form-label">Tipo</label>
+                            <input type="text" class="form-control" id="insumoTipo" name="Tipo">
+                        </div>
+                        <div class="mb-3">
+                            <label for="insumoUnidade" class="form-label">Unidade de Medida</label>
+                            <input type="text" class="form-control" id="insumoUnidade" name="UnidadeMedida" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="insumoEstoque" class="form-label">Estoque</label>
+                            <input type="number" step="0.01" class="form-control" id="insumoEstoque" name="Estoque" required>
+                        </div>
+                        <div class="text-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/insumo.js"></script>
