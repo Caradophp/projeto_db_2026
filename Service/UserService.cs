@@ -46,7 +46,8 @@ public class UserService(UserRepository userRepository, CodeRepository codeRepos
             Email = email,
             Password = password
         };
-        return _userRepository.CreateUser(user);
+        _userRepository.CreateUser(user);
+        return new RedirectToActionResult("Index", "User", null);
     }
 
     public bool CheckUserLogin(string email, string password)
@@ -66,16 +67,11 @@ public class UserService(UserRepository userRepository, CodeRepository codeRepos
                 throw new Exception("Usuário detativado");
             }
 
-            if (user.Password.Equals(password))
-            {
-                return true;
-            }   
+            return true;
         } else
         {
             throw new KeyNotFoundException("Usuário não encontrado");
         }
-
-        return false;
     } 
 
     public void SendEmailForRetrivePassword(string email)
@@ -106,7 +102,7 @@ public class UserService(UserRepository userRepository, CodeRepository codeRepos
         
         if (password.Equals(confirmPassword))
         {
-            _userRepository.ChangePass(email, password);
+            _userRepository.ChangePass(email, password, true);
         } else
         {
             throw new Exception("As senha devem ser iguais");

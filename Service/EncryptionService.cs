@@ -34,7 +34,7 @@ public class EncryptionService
         {
             return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
         }
-        catch (BCrypt.Net.BCryptException)
+        catch (Exception)
         {
             // Retorna falso se o hash estiver em formato inválido (útil para migração de texto plano)
             return false;

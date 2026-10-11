@@ -3,6 +3,7 @@ using projeto.Controllers;
 using projeto.Repository;
 using projeto.Security;
 using projeto.Service;
+using projeto.Database;
 
 DotNetEnv.Env.Load();
 DotNetEnv.Env.TraversePath().Load();
@@ -33,6 +34,7 @@ try
     builder.Services.AddScoped<UserService>();
     builder.Services.AddScoped<Jwt>();
     builder.Services.AddScoped<EncryptionService>();
+    builder.Services.AddScoped<MigrationExecutor>();
 
     builder.Services.AddExceptionHandler<ExceptionController>();
     builder.Services.AddControllers(options =>
