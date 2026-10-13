@@ -1,0 +1,43 @@
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Gestão de Propriedades";
+}
+
+<div id="propriedade-management">
+    @* The ManagementList is rendered by the controller action Index *@
+
+    @* Modal for Add/Edit *@
+    <div class="modal fade" id="propriedadeModal" tabindex="-1" aria-labelledby="propriedadeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="propriedadeModalLabel">Nova Propriedade</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="propriedadeForm">
+                        <input type="hidden" id="propriedadeId" name="Id" value="0">
+                        <div class="mb-3">
+                            <label for="propNome" class="form-label">Nome da Propriedade</label>
+                            <input type="text" class="form-control" id="propNome" name="Nome" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="propArea" class="form-label">Área Total (ha)</label>
+                            <input type="number" step="0.01" class="form-control" id="propArea" name="AreaTotal" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="propUser" class="form-label">ID do Usuário</label>
+                            <input type="number" class="form-control" id="propUser" name="UserId" required>
+                        </div>
+                        <div class="text-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/propriedade.js"></script>

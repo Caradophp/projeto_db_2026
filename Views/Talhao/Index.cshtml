@@ -1,0 +1,49 @@
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Gestão de Talhões";
+}
+
+<div id="talhao-management">
+    @* The ManagementList is rendered by the controller action Index *@
+
+    @* Modal for Add/Edit *@
+    <div class="modal fade" id="talhaoModal" tabindex="-1" aria-labelledby="talhaoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="talhaoModalLabel">Novo Talhão</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="talhaoForm">
+                        <input type="hidden" id="talhaoId" name="Id" value="0">
+                        <div class="mb-3">
+                            <label for="talNome" class="form-label">Nome do Talhão</label>
+                            <input type="text" class="form-control" id="talNome" name="Nome" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="talArea" class="form-label">Área (ha)</label>
+                            <input type="number" step="0.01" class="form-control" id="talArea" name="Area" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="talProp" class="form-label">Propriedade</label>
+                            <select class="form-select" id="talProp" name="PropriedadeId" required>
+                                <option value="">Selecione uma propriedade...</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="talDesc" class="form-label">Descrição</label>
+                            <textarea class="form-control" id="talDesc" name="Descricao" rows="3"></textarea>
+                        </div>
+                        <div class="text-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/talhao.js"></script>

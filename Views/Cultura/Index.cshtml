@@ -1,0 +1,39 @@
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Gestão de Culturas";
+}
+
+<div id="cultura-management">
+    @* The ManagementList is rendered by the controller action Index *@
+
+    @* Modal for Add/Edit *@
+    <div class="modal fade" id="culturaModal" tabindex="-1" aria-labelledby="culturaModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="culturaModalLabel">Nova Cultura</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="culturaForm">
+                        <input type="hidden" id="culturaId" name="Id" value="0">
+                        <div class="mb-3">
+                            <label for="cultNome" class="form-label">Nome da Cultura</label>
+                            <input type="text" class="form-control" id="cultNome" name="Nome" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cultDesc" class="form-label">Descrição</label>
+                            <textarea class="form-control" id="cultDesc" name="Descricao" rows="3"></textarea>
+                        </div>
+                        <div class="text-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/cultura.js"></script>
