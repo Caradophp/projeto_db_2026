@@ -100,7 +100,67 @@ body {
     background: #25643b;
 }
 
+/* Campo de senha */
+
+.password-field {
+    position: relative;
+}
+
+.password-field .form-control {
+    padding-right: 3.5rem;
+}
+
+.password-toggle {
+    position: absolute;
+    top: 50%;
+    right: .75rem;
+    transform: translateY(-50%);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 36px;
+    height: 36px;
+
+    padding: 0;
+
+    border: none;
+    border-radius: 8px;
+
+    color: var(--muted);
+    background: transparent;
+
+    cursor: pointer;
+    z-index: 2;
+}
+
+.password-toggle:hover {
+    color: var(--primary);
+    background: #f0f5f1;
+}
+
+.password-toggle:focus-visible {
+    outline: 2px solid rgba(47, 125, 74, .35);
+    outline-offset: 2px;
+}
+
+.password-icon {
+    display: block;
+    color: #6b7f75;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.password-toggle:hover .password-icon {
+    color: var(--primary);
+}
+
+/* Responsividade */
+
 @media (max-width: 767.98px) {
+
     .login-page {
         padding: 1rem;
         align-items: flex-start !important;
@@ -135,6 +195,7 @@ body {
 }
 
 @media (max-width: 400px) {
+
     .login-page {
         padding: .5rem;
     }
