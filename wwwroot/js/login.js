@@ -26,40 +26,79 @@ $(document).ready(() => {
 
         if (passwordIsHidden) {
             passwordInput.attr('type', 'text');
-
             passwordIcon.text('○');
 
             toggleButton.attr('aria-label', 'Ocultar senha');
             toggleButton.attr('title', 'Ocultar senha');
         } else {
             passwordInput.attr('type', 'password');
-
             passwordIcon.text('◉');
 
             toggleButton.attr('aria-label', 'Mostrar senha');
             toggleButton.attr('title', 'Mostrar senha');
         }
     });
+
+    $('#email, #password').on('input', function () {
+        $(this).removeClass('input-error');
+
+        if (
+            $('#email').val().trim() !== '' &&
+            $('#password').val() !== ''
+        ) {
+            $('.alert').addClass('visually-hidden');
+        }
+    });
 });
 
 
 $('#enterBtn').click(() => {
-    const email = $('#email').val();
-    const password = $('#password').val();
+    const emailInput = $('#email');
+    const passwordInput = $('#password');
+    const alert = $('.alert');
+
+    const email = emailInput.val().trim();
+    const password = passwordInput.val();
+
+    emailInput.removeClass('input-error');
+    passwordInput.removeClass('input-error');
 
     if (email === '') {
-        $('.alert').html('E-mail deve ser informado');
-        $('.alert').removeClass('visually-hidden');
+        emailInput.addClass('input-error');
+
+        alert
+            .html('E-mail deve ser informado.')
+            .removeClass('visually-hidden');
+
+        emailInput.focus();
+        return;
+    }
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailPattern.test(email)) {
+        emailInput.addClass('input-error');
+
+        alert
+            .html('Informe um e-mail válido.')
+            .removeClass('visually-hidden');
+
+        emailInput.focus();
         return;
     }
 
     if (password === '') {
-        $('.alert').html('Senha deve ser informada');
-        $('.alert').removeClass('visually-hidden');
+        passwordInput.addClass('input-error');
+
+        alert
+            .html('Senha deve ser informada.')
+            .removeClass('visually-hidden');
+
+        passwordInput.focus();
         return;
     }
 
-    $('.alert').addClass('visually-hidden');
+    alert.addClass('visually-hidden');
 
     $.ajax({
         url: '/Login/CheckUserLogin',
@@ -76,11 +115,22 @@ $('#enterBtn').click(() => {
             location.href = '/';
         },
 
-        error: (xhr, status, error) => {
-            let responseJSON = JSON.parse(xhr.responseText);
+        error: (xhr) => {
+            let message = 'Não foi possível realizar o login.';
 
-            $('.alert').html(responseJSON.detail);
-            $('.alert').removeClass('visually-hidden');
+            try {
+                const responseJSON = JSON.parse(xhr.responseText);
+
+                if (responseJSON.detail) {
+                    message = responseJSON.detail;
+                }
+            } catch {
+                // Mantém uma mensagem amigável caso a resposta não seja JSON.
+            }
+
+            alert
+                .html(message)
+                .removeClass('visually-hidden');
         }
     });
 });
@@ -104,7 +154,7 @@ $('#singupBtn').click(() => {
             location.href = '/Login';
         },
 
-        error: (xhr, status, error) => {
+        error: (xhr) => {
             let responseJSON = JSON.parse(xhr.responseText);
 
             $('.alert').html(responseJSON.detail);
@@ -150,7 +200,7 @@ $('#sendEmailBtn').click(() => {
             closeLoader();
         },
 
-        error: (xhr, status, error) => {
+        error: (xhr) => {
             closeLoader();
 
             let responseJSON = JSON.parse(xhr.responseText);
@@ -198,7 +248,7 @@ $('#checkCodeBtn').click(() => {
             closeLoader();
         },
 
-        error: (xhr, status, error) => {
+        error: (xhr) => {
             let responseJSON = JSON.parse(xhr.responseText);
 
             $('.alert').addClass('alert-danger');
@@ -262,7 +312,7 @@ $('#newPassBtn').click(() => {
                 }, 3000);
             },
 
-            error: (xhr, status, error) => {
+            error: (xhr) => {
                 let responseJSON = JSON.parse(xhr.responseText);
 
                 $('.alert').addClass('alert-danger');

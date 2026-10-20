@@ -2,6 +2,7 @@
     --ink: #173229;
     --muted: #6b7f75;
     --primary: #2f7d4a;
+    --danger: #dc3545;
 }
 
 body {
@@ -82,6 +83,9 @@ body {
     padding: .8rem 1rem;
     border: 1px solid #e1e5f0;
     border-radius: 10px;
+    transition:
+        border-color .2s ease,
+        box-shadow .2s ease;
 }
 
 .form-control:focus {
@@ -94,10 +98,35 @@ body {
     border: 0;
     border-radius: 10px;
     background: var(--primary);
+    transition:
+        background-color .2s ease,
+        transform .2s ease;
 }
 
 .btn-login:hover {
     background: #25643b;
+}
+
+.btn-login:active {
+    transform: scale(.99);
+}
+
+/* Mensagens de validação */
+
+.alert {
+    border: 0;
+    border-radius: 10px;
+    font-size: .9rem;
+}
+
+.input-error {
+    border-color: var(--danger) !important;
+    box-shadow: 0 0 0 .2rem rgba(220, 53, 69, .12) !important;
+}
+
+.input-error:focus {
+    border-color: var(--danger) !important;
+    box-shadow: 0 0 0 .2rem rgba(220, 53, 69, .18) !important;
 }
 
 /* Campo de senha */
@@ -160,7 +189,6 @@ body {
 /* Responsividade */
 
 @media (max-width: 767.98px) {
-
     .login-page {
         padding: 1rem;
         align-items: flex-start !important;
@@ -195,7 +223,6 @@ body {
 }
 
 @media (max-width: 400px) {
-
     .login-page {
         padding: .5rem;
     }
