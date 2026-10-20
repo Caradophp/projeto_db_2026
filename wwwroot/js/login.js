@@ -56,6 +56,7 @@ $('#enterBtn').click(() => {
     const emailInput = $('#email');
     const passwordInput = $('#password');
     const alert = $('.alert');
+    const enterButton = $('#enterBtn');
 
     const email = emailInput.val().trim();
     const password = passwordInput.val();
@@ -100,6 +101,10 @@ $('#enterBtn').click(() => {
 
     alert.addClass('visually-hidden');
 
+    enterButton
+        .prop('disabled', true)
+        .text('Entrando...');
+
     $.ajax({
         url: '/Login/CheckUserLogin',
         method: 'POST',
@@ -131,6 +136,12 @@ $('#enterBtn').click(() => {
             alert
                 .html(message)
                 .removeClass('visually-hidden');
+        },
+
+        complete: () => {
+            enterButton
+                .prop('disabled', false)
+                .text('Entrar');
         }
     });
 });

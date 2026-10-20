@@ -104,11 +104,55 @@ body {
 }
 
 .btn-login:hover {
-    background: #25643b;
+    background-color: #25643b;
+    border-color: #25643b;
 }
 
-.btn-login:active {
+.btn-login:focus,
+.btn-login:focus-visible {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+    color: #fff !important;
+    box-shadow: 0 0 0 .2rem rgba(47, 125, 74, .20) !important;
+    outline: none !important;
+}
+
+.btn-login:active,
+.btn-login:active:focus {
+    background-color: #25643b !important;
+    border-color: #25643b !important;
+    color: #fff !important;
+    box-shadow: 0 0 0 .2rem rgba(47, 125, 74, .20) !important;
     transform: scale(.99);
+}
+
+.btn-login:disabled,
+.btn-login.disabled {
+    background-color: #3f8f59 !important;
+    border-color: #3f8f59 !important;
+    color: #fff !important;
+    opacity: .75;
+    cursor: not-allowed;
+    box-shadow: none !important;
+}
+.btn-login:disabled,
+.btn-login.disabled {
+    background-color: #3f8f59 !important;
+    border-color: #3f8f59 !important;
+    color: #fff !important;
+    opacity: .75;
+    cursor: not-allowed;
+    box-shadow: none !important;
+}
+
+.btn-login:disabled:focus,
+.btn-login:disabled:active,
+.btn-login.disabled:focus,
+.btn-login.disabled:active {
+    background-color: #3f8f59 !important;
+    border-color: #3f8f59 !important;
+    box-shadow: none !important;
+    outline: none;
 }
 
 /* Mensagens de validação */
