@@ -17,127 +17,195 @@
 </head>
 
 <body>
+
     <div class="loader visually-hidden" id="loader">
         <img src="~/img/agriculture_loading.gif" alt="Carregando" />
         <span>Carregando...</span>
     </div>
 
-    <main class="login-page d-flex align-items-center justify-content-center">
-        <div class="login-card row g-0">
+    <main class="login-page">
 
-            <div class="login-intro col-md-5">
-                <div class="brand">BANCO DADOS</div>
+        <section class="login-card">
 
-                <div>
-                    <h2 class="fw-bold mb-3">Bem-vindo de volta!</h2>
-                    <p class="mb-0 opacity-75">
-                        Acesse sua conta de forma simples, rápida e segura.
+            <!-- PAINEL COM IMAGEM -->
+            <div class="login-visual">
+
+                <div class="login-visual-overlay"></div>
+
+                <div class="login-brand">
+                    BANCO DADOS
+                </div>
+
+                <div class="login-welcome">
+                    <h2>Bem-vindo de volta!</h2>
+
+                    <p>
+                        Acesse sua conta de forma simples,
+                        rápida e segura.
                     </p>
                 </div>
+
             </div>
 
-            <form class="login-form col-md-7" method="post">
+            <!-- FORMULÁRIO -->
+            <div class="login-content">
 
-                <div class="mb-4">
-                    <h1 class="mb-2">Entrar</h1>
+                <form class="login-form" method="post">
 
-                    <p class="subtitle mb-0 p1">
-                        Informe seus dados para continuar.
-                    </p>
+                    <div class="login-heading">
+                        <h1>Entrar</h1>
 
-                    <p class="subtitle mb-0 visually-hidden p2">
-                        Informe sua nova senha para continuar.
-                    </p>
-                </div>
+                        <p class="subtitle p1">
+                            Informe seus dados para continuar.
+                        </p>
 
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <p class="subtitle p2 visually-hidden">
+                            Informe sua nova senha para continuar.
+                        </p>
+                    </div>
 
-                <div class="alert alert-danger visually-hidden"></div>
+                    <div
+                        asp-validation-summary="ModelOnly"
+                        class="text-danger">
+                    </div>
 
-                <div class="mb-3">
-                    <label for="email" class="form-label">E-mail</label>
+                    <div
+                        class="alert alert-danger visually-hidden"
+                        role="alert">
+                    </div>
 
-                    <input id="email"
-                           type="email"
-                           class="form-control"
-                           placeholder="seu@email.com"
-                           name="email"
-                           autocomplete="email"
-                           required />
-                </div>
+                    <!-- EMAIL -->
+                    <div class="login-field">
 
-                <div class="mb-3">
-                    <label for="password" class="form-label">Senha</label>
-                    <div class="password-field">
-                        <input id="password"
-                               type="password"
-                               class="form-control"
-                               placeholder="Digite sua senha"
-                               name="password"
-                               autocomplete="current-password"
-                               required />
+                        <label for="email" class="form-label">
+                            E-mail
+                        </label>
 
-                        <button type="button"
+                        <input
+                            id="email"
+                            type="email"
+                            class="form-control"
+                            placeholder="seu@email.com"
+                            name="email"
+                            autocomplete="email"
+                            required />
+
+                    </div>
+
+                    <!-- SENHA -->
+                    <div class="login-field">
+
+                        <label for="password" class="form-label">
+                            Senha
+                        </label>
+
+                        <div class="password-field">
+
+                            <input
+                                id="password"
+                                type="password"
+                                class="form-control"
+                                placeholder="Digite sua senha"
+                                name="password"
+                                autocomplete="current-password"
+                                required />
+
+                            <button
+                                type="button"
                                 class="password-toggle"
                                 id="togglePassword"
                                 aria-label="Mostrar senha"
                                 title="Mostrar senha">
 
-                            <span class="password-icon"
-                                  id="passwordIcon"
-                                  aria-hidden="true">◉</span>
-                        </button>
+                                <span
+                                    id="passwordIcon"
+                                    aria-hidden="true">
+                                    ◉
+                                </span>
+
+                            </button>
+
+                        </div>
+
                     </div>
-                </div>
 
-                <div class="mb-3 visually-hidden" id="newPassForm">
-                    <label for="confirmPassword" class="form-label">
-                        Confirme sua Senha
-                    </label>
+                    <!-- CONFIRMAR NOVA SENHA -->
+                    <div
+                        class="login-field visually-hidden"
+                        id="newPassForm">
 
-                    <input id="confirmPassword"
-                           type="password"
-                           class="form-control"
-                           placeholder="Digite sua senha"
-                           name="confirmPassword"
-                           required />
-                </div>
+                        <label
+                            for="confirmPassword"
+                            class="form-label">
 
-                <div class="d-flex justify-content-end mb-4">
-                    <a href="/login/forgotpassword"
-                       class="small text-decoration-none">
-                        Esqueceu sua senha?
-                    </a>
-                </div>
+                            Confirme sua senha
 
-                <button type="button"
-                        class="btn btn-primary btn-login w-100"
+                        </label>
+
+                        <input
+                            id="confirmPassword"
+                            type="password"
+                            class="form-control"
+                            placeholder="Digite sua senha novamente"
+                            name="confirmPassword" />
+
+                    </div>
+
+                    <!-- ESQUECI A SENHA -->
+                    <div class="forgot-password p1">
+
+                        <a href="/login/forgotpassword">
+                            Esqueceu sua senha?
+                        </a>
+
+                    </div>
+
+                    <!-- BOTÃO LOGIN -->
+                    <button
+                        type="button"
+                        class="btn-login"
                         id="enterBtn">
-                    Entrar
-                </button>
 
-                <button type="button"
-                        class="btn btn-primary btn-login w-100 visually-hidden"
+                        Entrar
+
+                    </button>
+
+                    <!-- BOTÃO NOVA SENHA -->
+                    <button
+                        type="button"
+                        class="btn-login visually-hidden"
                         id="newPassBtn">
-                    Confirmar
-                </button>
 
-                <p class="text-center text-muted small mt-4 mb-0 p1">
-                    Não é usuário?
+                        Confirmar
 
-                    <a asp-controller="User"
-                       asp-action="Index"
-                       class="fw-semibold text-decoration-none">
-                        Cadastre-se
-                    </a>
-                </p>
+                    </button>
 
-            </form>
-        </div>
+                    <!-- CADASTRO -->
+                    <p class="signup-text p1">
+
+                        Não é usuário?
+
+                        <a
+                            asp-controller="User"
+                            asp-action="Index">
+
+                            Cadastre-se
+
+                        </a>
+
+                    </p>
+
+                </form>
+
+            </div>
+
+        </section>
+
     </main>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/utils.js"></script>
     <script src="~/js/login.js" asp-append-version="true"></script>
+
 </body>
 </html>
