@@ -1,20 +1,8 @@
 $(document).ready(() => {
-    const urlParams = new URLSearchParams(window.location.search);
 
-    const showNewPasswordForm = urlParams.get('showNewPasswordForm');
-    const userEmail = urlParams.get('email');
-
-    if (showNewPasswordForm === 'true') {
-        $('#email').prop('disabled', true);
-        $('#email').val(userEmail);
-
-        $('.p1').addClass('visually-hidden');
-        $('.p2').removeClass('visually-hidden');
-
-        $('#newPassForm').removeClass('visually-hidden');
-        $('#newPassBtn').removeClass('visually-hidden');
-        $('#enterBtn').addClass('visually-hidden');
-    }
+    // =========================================================
+    // LOGIN - MOSTRAR / OCULTAR SENHA
+    // =========================================================
 
     $('#togglePassword').click(() => {
         const passwordInput = $('#password');
@@ -26,31 +14,67 @@ $(document).ready(() => {
 
         if (passwordIsHidden) {
             passwordInput.attr('type', 'text');
-            passwordIcon.text('○');
+            passwordIcon.text('◉');
 
             toggleButton.attr('aria-label', 'Ocultar senha');
             toggleButton.attr('title', 'Ocultar senha');
         } else {
             passwordInput.attr('type', 'password');
-            passwordIcon.text('◉');
+            passwordIcon.text('◎');
 
             toggleButton.attr('aria-label', 'Mostrar senha');
             toggleButton.attr('title', 'Mostrar senha');
         }
     });
 
+
+    // =========================================================
+    // LIMPAR ERROS DO LOGIN ENQUANTO DIGITA
+    // =========================================================
+
     $('#email, #password').on('input', function () {
         $(this).removeClass('input-error');
 
         if (
-            $('#email').val().trim() !== '' &&
+            $('#email').val()?.trim() !== '' &&
             $('#password').val() !== ''
         ) {
             $('.alert').addClass('visually-hidden');
         }
     });
+
+
+    // =========================================================
+    // RECUPERAÇÃO - ACEITAR APENAS NÚMEROS NO CÓDIGO
+    // =========================================================
+
+    $('#codigo').on('input', function () {
+        const codigo = $(this)
+            .val()
+            .replace(/\D/g, '')
+            .slice(0, 6);
+
+        $(this).val(codigo);
+        $(this).removeClass('input-error');
+    });
+
+
+    // =========================================================
+    // RECUPERAÇÃO - LIMPAR ERROS DAS NOVAS SENHAS
+    // =========================================================
+
+    $('#newPassword, #confirmNewPassword').on(
+        'input',
+        function () {
+            $(this).removeClass('input-error');
+        }
+    );
 });
 
+
+// =============================================================
+// LOGIN
+// =============================================================
 
 $('#enterBtn').click(() => {
     const emailInput = $('#email');
@@ -121,16 +145,18 @@ $('#enterBtn').click(() => {
         },
 
         error: (xhr) => {
-            let message = 'Não foi possível realizar o login.';
+            let message =
+                'Não foi possível realizar o login.';
 
             try {
-                const responseJSON = JSON.parse(xhr.responseText);
+                const responseJSON =
+                    JSON.parse(xhr.responseText);
 
                 if (responseJSON.detail) {
                     message = responseJSON.detail;
                 }
             } catch {
-                // Mantém uma mensagem amigável caso a resposta não seja JSON.
+                // Mantém uma mensagem amigável.
             }
 
             alert
@@ -146,6 +172,10 @@ $('#enterBtn').click(() => {
     });
 });
 
+
+// =============================================================
+// CADASTRO
+// =============================================================
 
 $('#singupBtn').click(() => {
     $.ajax({
@@ -166,23 +196,72 @@ $('#singupBtn').click(() => {
         },
 
         error: (xhr) => {
-            let responseJSON = JSON.parse(xhr.responseText);
+            let message =
+                'Não foi possível realizar o cadastro.';
 
-            $('.alert').html(responseJSON.detail);
-            $('.alert').removeClass('visually-hidden');
+            try {
+                const responseJSON =
+                    JSON.parse(xhr.responseText);
+
+                if (responseJSON.detail) {
+                    message = responseJSON.detail;
+                }
+            } catch {
+                // Mantém a mensagem padrão.
+            }
+
+            $('.alert')
+                .html(message)
+                .removeClass('visually-hidden');
         }
     });
 });
 
 
+// =============================================================
+// RECUPERAÇÃO - ETAPA 1
+// ENVIAR CÓDIGO PARA O E-MAIL
+// =============================================================
+
 $('#sendEmailBtn').click(() => {
-    let email = $('#email').val();
+    const emailInput = $('#email');
+    const email = emailInput.val().trim();
+    const alert = $('.alert');
+    const button = $('#sendEmailBtn');
+
+    emailInput.removeClass('input-error');
 
     if (email === '') {
-        $('.alert').html('E-mail deve ser informado');
-        $('.alert').removeClass('visually-hidden');
+        emailInput.addClass('input-error');
+
+        alert
+            .removeClass('alert-info')
+            .addClass('alert-danger')
+            .html('E-mail deve ser informado.')
+            .removeClass('visually-hidden');
+
+        emailInput.focus();
         return;
     }
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailPattern.test(email)) {
+        emailInput.addClass('input-error');
+
+        alert
+            .removeClass('alert-info')
+            .addClass('alert-danger')
+            .html('Informe um e-mail válido.')
+            .removeClass('visually-hidden');
+
+        emailInput.focus();
+        return;
+    }
+
+    alert.addClass('visually-hidden');
+
+    button.prop('disabled', true);
 
     openLoader();
 
@@ -196,48 +275,96 @@ $('#sendEmailBtn').click(() => {
         },
 
         success: () => {
-            let alert = $('.alert');
-
-            $('#codeForm').removeClass('visually-hidden');
             $('.mainForm').addClass('visually-hidden');
 
-            alert.removeClass('alert-danger visually-hidden');
-            alert.addClass('alert-info');
+            $('#codeForm')
+                .removeClass('visually-hidden');
 
-            alert.html(
-                'O código de recuperação de senha foi enviado para seu e-mail, informe o mesmo abaixo para continuar com a recuperação de senha.'
-            );
+            alert
+                .removeClass('alert-danger')
+                .addClass('alert-info')
+                .html(
+                    'O código de recuperação foi enviado para o seu e-mail.'
+                )
+                .removeClass('visually-hidden');
 
-            closeLoader();
+            $('#codigo').focus();
         },
 
         error: (xhr) => {
+            let message =
+                'Não foi possível enviar o código de recuperação.';
+
+            try {
+                const responseJSON =
+                    JSON.parse(xhr.responseText);
+
+                if (responseJSON.detail) {
+                    message = responseJSON.detail;
+                }
+            } catch {
+                // Mantém a mensagem padrão.
+            }
+
+            alert
+                .removeClass('alert-info')
+                .addClass('alert-danger')
+                .html(message)
+                .removeClass('visually-hidden');
+        },
+
+        complete: () => {
+            button.prop('disabled', false);
             closeLoader();
-
-            let responseJSON = JSON.parse(xhr.responseText);
-
-            $('.alert').html(responseJSON.detail);
-            $('.alert').removeClass('visually-hidden');
         }
     });
 });
 
 
+// =============================================================
+// RECUPERAÇÃO - ETAPA 2
+// VALIDAR CÓDIGO
+// =============================================================
+
 $('#checkCodeBtn').click(() => {
-    let codigo = $('#codigo').val();
-    let email = $('#email').val();
+    const codigoInput = $('#codigo');
+    const codigo = codigoInput.val().trim();
+    const email = $('#email').val().trim();
+
+    const alert = $('.alert');
+    const button = $('#checkCodeBtn');
+
+    codigoInput.removeClass('input-error');
 
     if (codigo === '') {
-        let alert = $('.alert');
+        codigoInput.addClass('input-error');
 
-        alert.removeClass('alert-info');
-        alert.addClass('alert-danger');
+        alert
+            .removeClass('alert-info')
+            .addClass('alert-danger')
+            .html('Código deve ser informado.')
+            .removeClass('visually-hidden');
 
-        alert.html('Código deve ser informado');
-        alert.removeClass('visually-hidden');
-
+        codigoInput.focus();
         return;
     }
+
+    if (!/^\d{6}$/.test(codigo)) {
+        codigoInput.addClass('input-error');
+
+        alert
+            .removeClass('alert-info')
+            .addClass('alert-danger')
+            .html('Informe o código de 6 dígitos.')
+            .removeClass('visually-hidden');
+
+        codigoInput.focus();
+        return;
+    }
+
+    alert.addClass('visually-hidden');
+
+    button.prop('disabled', true);
 
     openLoader();
 
@@ -252,86 +379,198 @@ $('#checkCodeBtn').click(() => {
         },
 
         success: () => {
-            window.location.href =
-                '/login?showNewPasswordForm=true&email=' +
-                encodeURIComponent(email);
 
-            closeLoader();
+            // Não redirecionamos mais para /login.
+            // Apenas avançamos para a etapa 3.
+            $('#codeForm')
+                .addClass('visually-hidden');
+
+            $('#newPasswordForm')
+                .removeClass('visually-hidden');
+
+            alert
+                .removeClass('alert-danger alert-info')
+                .addClass('visually-hidden')
+                .html('');
+
+            $('#newPassword').focus();
         },
 
         error: (xhr) => {
-            let responseJSON = JSON.parse(xhr.responseText);
+            let message =
+                'Código inválido ou expirado.';
 
-            $('.alert').addClass('alert-danger');
-            $('.alert').html(responseJSON.detail);
-            $('.alert').removeClass('visually-hidden');
+            try {
+                const responseJSON =
+                    JSON.parse(xhr.responseText);
 
+                if (responseJSON.detail) {
+                    message = responseJSON.detail;
+                }
+            } catch {
+                // Mantém a mensagem padrão.
+            }
+
+            codigoInput.addClass('input-error');
+
+            alert
+                .removeClass('alert-info')
+                .addClass('alert-danger')
+                .html(message)
+                .removeClass('visually-hidden');
+        },
+
+        complete: () => {
+            button.prop('disabled', false);
             closeLoader();
         }
     });
 });
 
 
-$('#newPassBtn').click(() => {
-    const email = $('#email');
-    const password = $('#password');
-    const confirmPassword = $('#confirmPassword');
+// =============================================================
+// RECUPERAÇÃO - ETAPA 3
+// ALTERAR SENHA
+// =============================================================
+
+$('#changePasswordBtn').click(() => {
+    const email = $('#email').val().trim();
+
+    // O código continua no campo da etapa anterior,
+    // mesmo estando visualmente oculto.
+    const codigo = $('#codigo').val().trim();
+
+    const passwordInput = $('#newPassword');
+    const confirmPasswordInput =
+        $('#confirmNewPassword');
+
+    const password = passwordInput.val();
+    const confirmPassword =
+        confirmPasswordInput.val();
+
     const alert = $('.alert');
+    const button = $('#changePasswordBtn');
 
-    alert.removeClass('visually-hidden');
+    passwordInput.removeClass('input-error');
+    confirmPasswordInput.removeClass('input-error');
 
-    if (email.val() === '') {
-        alert.html('E-mail deve ser informado');
+    if (password === '') {
+        passwordInput.addClass('input-error');
 
-    } else if (password.val() === '') {
-        alert.html('Senha deve ser informada');
+        alert
+            .removeClass('alert-info')
+            .addClass('alert-danger')
+            .html('Nova senha deve ser informada.')
+            .removeClass('visually-hidden');
 
-    } else if (confirmPassword.val() === '') {
-        alert.html('Confirmação da senha deve ser informada');
+        passwordInput.focus();
+        return;
+    }
 
-    } else if (password.val() !== confirmPassword.val()) {
-        alert.html('As senhas informadas devem ser iguais');
+    if (confirmPassword === '') {
+        confirmPasswordInput.addClass('input-error');
 
-    } else {
-        alert.addClass('visually-hidden');
+        alert
+            .removeClass('alert-info')
+            .addClass('alert-danger')
+            .html(
+                'Confirmação da nova senha deve ser informada.'
+            )
+            .removeClass('visually-hidden');
 
-        openLoader();
+        confirmPasswordInput.focus();
+        return;
+    }
 
-        $.ajax({
-            url: '/Login/ChangeUserPassword',
-            method: 'PATCH',
-            dataType: 'json',
+    if (password !== confirmPassword) {
+        passwordInput.addClass('input-error');
+        confirmPasswordInput.addClass('input-error');
 
-            data: {
-                email: email.val(),
-                password: password.val(),
-                confirmPassword: confirmPassword.val()
-            },
+        alert
+            .removeClass('alert-info')
+            .addClass('alert-danger')
+            .html('As senhas informadas devem ser iguais.')
+            .removeClass('visually-hidden');
 
-            success: () => {
-                alert.removeClass('alert-danger visually-hidden');
-                alert.addClass('alert-info');
+        confirmPasswordInput.focus();
+        return;
+    }
 
-                alert.html(
-                    'Senha alterada com sucesso! Estamos te redirecionando para a tela de login.'
+    if (codigo === '') {
+        alert
+            .removeClass('alert-info')
+            .addClass('alert-danger')
+            .html(
+                'Não foi possível validar a recuperação. Solicite um novo código.'
+            )
+            .removeClass('visually-hidden');
+
+        return;
+    }
+
+    alert.addClass('visually-hidden');
+
+    button.prop('disabled', true);
+
+    openLoader();
+
+    $.ajax({
+        url: '/Login/ChangeUserPassword',
+        method: 'PATCH',
+        dataType: 'json',
+
+        data: {
+            email,
+            password,
+            confirmPassword,
+            codigo
+        },
+
+        success: () => {
+            alert
+                .removeClass(
+                    'alert-danger visually-hidden'
+                )
+                .addClass('alert-info')
+                .html(
+                    'Senha alterada com sucesso! Você será redirecionado para o login.'
                 );
 
-                closeLoader();
+            passwordInput.val('');
+            confirmPasswordInput.val('');
+            $('#codigo').val('');
 
-                setTimeout(() => {
-                    window.location.href = '/Login';
-                }, 3000);
-            },
+            setTimeout(() => {
+                window.location.href = '/Login';
+            }, 2500);
+        },
 
-            error: (xhr) => {
-                let responseJSON = JSON.parse(xhr.responseText);
+        error: (xhr) => {
+            let message =
+                'Não foi possível alterar sua senha.';
 
-                $('.alert').addClass('alert-danger');
-                $('.alert').html(responseJSON.detail);
-                $('.alert').removeClass('visually-hidden');
+            try {
+                const responseJSON =
+                    JSON.parse(xhr.responseText);
 
-                closeLoader();
+                if (responseJSON.detail) {
+                    message = responseJSON.detail;
+                }
+            } catch {
+                // Mantém a mensagem padrão.
             }
-        });
-    }
+
+            alert
+                .removeClass('alert-info')
+                .addClass('alert-danger')
+                .html(message)
+                .removeClass('visually-hidden');
+
+            button.prop('disabled', false);
+        },
+
+        complete: () => {
+            closeLoader();
+        }
+    });
 });
