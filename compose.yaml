@@ -1,0 +1,12 @@
+services:
+  oracle_db:
+    image: gvenzl/oracle-free
+    ports:
+      - "1521:1521"
+    environment: 
+      - ORACLE_PASSWORD=123
+    volumes:
+      - data:/opt/oracle/oradata
+
+volumes:
+  data:
