@@ -5,7 +5,7 @@ $(document).ready(() => {
         }
     });
 
-    setInterval(()=> {
+    setInterval(() => {
         $.ajax({
             url: '/Home/CheckToken',
             method: 'GET',
@@ -17,7 +17,10 @@ $(document).ready(() => {
                 console.log("Sessão ativa e operante");
             },
             error: () => {
-                if (location.href.split('/')[3] != 'login' && location.href.split('/')[3] != 'user') {
+                const currentPage =
+                    location.href.split('/')[3]?.toLowerCase() ?? '';
+
+                if (currentPage !== 'login' && currentPage !== 'user') {
                     localStorage.removeItem("token");
                     location.href = '/login';
                 }
