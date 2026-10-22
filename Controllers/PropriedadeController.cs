@@ -7,22 +7,7 @@ namespace projeto.Controllers;
 public class PropriedadeController(PropriedadeService propriedadeService) : Controller
 {
     private readonly PropriedadeService _propriedadeService = propriedadeService;
-
-    [HttpGet]
-    public IActionResult Index()
-    {
-        ViewData["Title"] = "Gestão de Propriedades";
-
-        return View("~/Views/Shared/ManagementList.cshtml", new ManagementListViewModel
-        {
-            Title = "Gestão de Propriedades",
-            Description = "Gerencie as propriedades rurais vinculadas ao sistema.",
-            SearchPlaceholder = "Pesquisar propriedade...",
-            AddLabel = "Nova Propriedade",
-            Columns = new[] { "ID", "Nome", "Área Total", "Usuário", "Ações" }
-        });
-    }
-
+    
     [HttpGet]
     public IActionResult GetList()
     {

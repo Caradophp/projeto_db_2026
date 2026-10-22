@@ -70,7 +70,7 @@ public class UserService(UserRepository userRepository, CodeRepository codeRepos
             return true;
         } else
         {
-            throw new KeyNotFoundException("Usuário não encontrado");
+            throw new KeyNotFoundException("E-mail ou senha inválido    ");
         }
     } 
 
