@@ -10,9 +10,9 @@
 
 ## Creating an Oracle Database Instance Using Docker
 
-### `docker-compose.yml` Example
+### `compose.yml` Example
 
-Create a `docker-compose.yml` file in the project root directory with the following configuration:
+The project already contains a `compose.yml` file; it is the same as the one below.
 
 ```yaml
 services:
