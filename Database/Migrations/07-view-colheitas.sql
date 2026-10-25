@@ -11,9 +11,9 @@ SELECT
     pl.produtividade_estimada,
     h.id                         AS colheita_id,
     h.data_colheita,
-    DATE_TRUNC('month', h.data_colheita)::date AS mes_referencia,
-    EXTRACT(YEAR FROM h.data_colheita)::int    AS ano_referencia,
-    h.quantidade_produzida
+    TRUNC(h.data_colheita, 'MM') AS mes_referencia,
+    EXTRACT(YEAR FROM h.data_colheita)    AS ano_referencia,
+    h.producao_total 
 FROM colheita h
 JOIN plantio pl     ON pl.id = h.plantio_id
 JOIN talhao t       ON t.id = pl.talhao_id
@@ -29,8 +29,7 @@ SELECT
     cultura,
     ano_referencia,
     mes_referencia,
-    COUNT(*)                     AS qtd_colheitas,
-    SUM(quantidade_produzida)    AS producao_total
+    COUNT(*)                     AS qtd_colheitas
 FROM vw_rel_colheitas
 GROUP BY user_id, propriedade_id, propriedade, cultura_id, cultura,
-         ano_referencia, mes_referencia
+         ano_referencia, mes_referencia;
