@@ -9,21 +9,6 @@ public class TalhaoController(TalhaoService talhaoService) : Controller
     private readonly TalhaoService _talhaoService = talhaoService;
 
     [HttpGet]
-    public IActionResult Index()
-    {
-        ViewData["Title"] = "Gestão de Talhões";
-
-        return View("~/Views/Shared/ManagementList.cshtml", new ManagementListViewModel
-        {
-            Title = "Gestão de Talhões",
-            Description = "Gerencie as subdivisões (talhões) das propriedades.",
-            SearchPlaceholder = "Pesquisar talhão...",
-            AddLabel = "Novo Talhão",
-            Columns = new[] { "ID", "Nome", "Área", "Propriedade", "Descrição", "Ações" }
-        });
-    }
-
-    [HttpGet]
     public IActionResult GetList()
     {
         var list = _talhaoService.ListAll();
