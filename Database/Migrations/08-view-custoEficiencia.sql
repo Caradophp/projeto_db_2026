@@ -14,7 +14,7 @@ SELECT
     pl.status,
     pl.custo_producao_estimado,
     COALESCE(h.producao_total, 0) AS producao_total,
-    -- NULL enquanto não houver colheita (evita divisão por zero e custo "zero")
+    
     ROUND(pl.custo_producao_estimado / NULLIF(h.producao_total, 0), 4) AS custo_por_unidade,
     (h.producao_total IS NOT NULL) AS tem_colheita
 FROM plantio pl
