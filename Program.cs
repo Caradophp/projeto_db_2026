@@ -27,6 +27,8 @@ try
     builder.Services.AddControllersWithViews();
 
     builder.Services.AddScoped<projeto.Controllers.ColheitaController>();
+    builder.Services.AddScoped<HomeService>();
+    builder.Services.AddScoped<HomeRepository>();
     builder.Services.AddScoped<CodeRepository>();
     builder.Services.AddScoped<UtilRepository>();
     builder.Services.AddScoped<EmailService>();
