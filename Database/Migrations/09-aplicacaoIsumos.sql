@@ -10,8 +10,8 @@ SELECT
     i.tipo,
     i.unidade_medida,
     a.data_aplicacao,
-    DATE_TRUNC('month', a.data_aplicacao)::date AS mes_referencia,
-    a.quantidade                 AS quantidade_aplicada
+    TRUNC(a.data_aplicacao, 'MM') AS mes_referencia,
+    a.quantidade                 AS quantidade_aplicada 
 FROM aplicacao_insumo a
 JOIN insumo i       ON i.id = a.insumo_id
 JOIN talhao t       ON t.id = a.talhao_id

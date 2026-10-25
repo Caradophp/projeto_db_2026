@@ -102,7 +102,7 @@ public class MigrationExecutor(
                     logger.LogInformation(
                         "Migration completed: {Migration}", migration);
                 }
-            } catch (OracleException)
+            } catch (OracleException e)
             {
                 Parametro parametro = new()
                 {
@@ -113,14 +113,11 @@ public class MigrationExecutor(
 
                 if (migrate.Count == 0)
                 {
-                    commandInsert.Parameters.Add(new OracleParameter("ScriptName", migration));
-                    commandInsert.Parameters.Add(new OracleParameter("Done", OracleDbType.Int32)
-                    {
-                        Value = 0
-                    });
+                    string insertSql = "INSERT INTO migrations (script_name, done, error_reason) VALUES ('" + migration + "', " + 0 + ", '" + e.Message + "')";
+                    
+                    using var customCommand = new OracleCommand(insertSql, connection);
 
-                    // connection.Open();
-                    commandInsert.ExecuteNonQuery();
+                    customCommand.ExecuteNonQuery();;
                 }
             }
         }
