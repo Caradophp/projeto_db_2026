@@ -62,51 +62,62 @@ public class MigrationExecutor(
                     Chave = "ScriptName",
                     Valor = migration
                 };
-                List<object[]> migrate =_utilRepository.ListBy("migrations", "t.script_name = :ScriptName AND t.done = TRUE", [parametro]);
+                List<object[]> migrate =_utilRepository.ListBy("migrations", "t.script_name = :ScriptName AND t.done = 1", [parametro]);
 
-                if (migrate.Count != 0)
+                if (migrate.Count == 0)
                 {
-                    return;
-                }
+                    var sql = File.ReadAllText(migration);
 
-                var sql = File.ReadAllText(migration);
+                    if (sql.Contains("FUNCTION") || sql.Contains("function"))
+                    {
+                        sql = sql.Trim();
 
-                foreach (var statement in sql.Split(';'))
-                {
-                    var trimmedSql = statement.Trim();
-
-                    if (string.IsNullOrWhiteSpace(trimmedSql))
-                        continue;
-
-                        using var command = new OracleCommand(
-                            trimmedSql, connection);
-
+                        using var command = new OracleCommand(sql, connection);
                         command.ExecuteNonQuery();
+
+                    } else
+                    {
+                        foreach (var statement in sql.Split(';'))
+                        {
+                            var trimmedSql = statement.Trim();
+
+                            if (string.IsNullOrWhiteSpace(trimmedSql))
+                                continue;
+
+                                using var command = new OracleCommand(
+                                    trimmedSql, connection);
+
+                                command.ExecuteNonQuery();
+                        }
+                    }
+
+                    // Resolve erro ao rodar projeto
+                    // TODO: Encontrar forma de remover concatenação
+                    string insertSql = "INSERT INTO migrations (script_name, done) VALUES ('" + migration + "', " + 1 + ")";
+                    
+                    using var customCommand = new OracleCommand(insertSql, connection);
+
+                    customCommand.ExecuteNonQuery();
+
+                    logger.LogInformation(
+                        "Migration completed: {Migration}", migration);
                 }
-
-                commandInsert.Parameters.Add(new OracleParameter("ScriptName", migration));
-
-                // connection.Open();
-                commandInsert.ExecuteNonQuery();
-
-                logger.LogInformation(
-                    "Migration completed: {Migration}", migration);
-            } catch (OracleException)
+            } catch (OracleException e)
             {
                 Parametro parametro = new()
                 {
                     Chave = "ScriptName",
                     Valor = migration
                 };
-                List<object[]> migrate =_utilRepository.ListBy("migrations", "t.script_name = :ScriptName AND t.done = FALSE", [parametro]);
+                List<object[]> migrate =_utilRepository.ListBy("migrations", "t.script_name = :ScriptName AND t.done = 0", [parametro]);
 
                 if (migrate.Count == 0)
                 {
-                    commandInsert.Parameters.Add(new OracleParameter("ScriptName", migration));
-                    commandInsert.Parameters.Add(new OracleParameter("Done", false));
+                    string insertSql = "INSERT INTO migrations (script_name, done, error_reason) VALUES ('" + migration + "', " + 0 + ", '" + e.Message + "')";
+                    
+                    using var customCommand = new OracleCommand(insertSql, connection);
 
-                    // connection.Open();
-                    commandInsert.ExecuteNonQuery();
+                    customCommand.ExecuteNonQuery();;
                 }
             }
         }
