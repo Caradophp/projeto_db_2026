@@ -17,7 +17,7 @@ $(document).ready(() => {
                 console.log("Sessão ativa e operante");
             },
             error: () => {
-                if (location.href.split('/')[3] != 'login' && location.href.split('/')[3] != 'user') {
+                if (location.href.split('/')[3] != 'login' && location.href.split('/')[3] != 'user' && !location.href.split('/')[3].startsWith('login')) {
                     localStorage.removeItem("token");
                     location.href = '/login';
                 }
