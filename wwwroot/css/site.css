@@ -842,3 +842,172 @@ body {
 .sidebar-footer span {
     color: rgba(255, 255, 255, 0.65);
 }
+
+/* =========================
+   FOOTER CULTIVA#
+   ========================= */
+
+.cultiva-footer {
+    min-height: 92px;
+    padding: 20px 32px;
+
+    display: grid;
+    grid-template-columns: minmax(220px, 1fr) auto minmax(220px, 1fr);
+    align-items: center;
+    gap: 28px;
+
+    border-top: 1px solid #e4ebe5;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ffffff 0%,
+            #f8faf7 50%,
+            #ffffff 100%
+        );
+
+    color: #68766d;
+}
+
+
+/* MARCA */
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.footer-brand-icon {
+    width: 40px;
+    height: 40px;
+    flex: 0 0 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 12px;
+
+    color: #39774d;
+    background: #e9f4ea;
+
+    font-size: 1rem;
+}
+
+.footer-brand-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-brand-text strong {
+    color: #183e30;
+
+    font-size: 1rem;
+    font-weight: 800;
+}
+
+.footer-brand-text strong span {
+    color: #59a45e;
+}
+
+.footer-brand-text small {
+    margin-top: 2px;
+
+    color: #89948d;
+
+    font-size: 0.7rem;
+}
+
+
+/* CENTRO */
+
+.footer-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    white-space: nowrap;
+
+    color: #7b8980;
+
+    font-size: 0.72rem;
+}
+
+.footer-center span:not(.footer-dot) {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.footer-center i {
+    color: #559363;
+    font-size: 0.7rem;
+}
+
+.footer-dot {
+    width: 4px;
+    height: 4px;
+
+    border-radius: 50%;
+
+    background: #c7d4c9;
+}
+
+
+/* DIREITA */
+
+.footer-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.footer-right span {
+    color: #42594d;
+
+    font-size: 0.76rem;
+    font-weight: 600;
+}
+
+.footer-right small {
+    margin-top: 2px;
+
+    color: #9aa39d;
+
+    font-size: 0.67rem;
+}
+
+
+/* RESPONSIVO */
+
+@media (max-width: 1050px) {
+    .cultiva-footer {
+        grid-template-columns: 1fr auto;
+    }
+
+    .footer-center {
+        display: none;
+    }
+}
+
+@media (max-width: 650px) {
+    .cultiva-footer {
+        min-height: auto;
+
+        grid-template-columns: 1fr;
+
+        padding: 18px 20px;
+
+        gap: 14px;
+    }
+
+    .footer-right {
+        align-items: flex-start;
+
+        padding-top: 12px;
+
+        border-top: 1px solid #edf1ed;
+    }
+}
