@@ -50,14 +50,55 @@ function renderRegisterTable(data) {
         'USERS'
     ];
 
-    const tableLabels = {
-        'APLICACAO_INSUMO': 'Aplicações de insumos',
-        'COLHEITA': 'Colheitas',
-        'CULTURA': 'Culturas',
-        'INSUMO': 'Insumos',
-        'PLANTIO': 'Plantios',
-        'PROPRIEDADE': 'Propriedades',
-        'TALHAO': 'Talhões'
+    const tableInfo = {
+        'APLICACAO_INSUMO': {
+            label: 'Aplicações de insumos',
+            description: 'Operações registradas',
+            icon: 'fa-solid fa-tractor',
+            className: 'register-blue'
+        },
+
+        'COLHEITA': {
+            label: 'Colheitas',
+            description: 'Colheitas cadastradas',
+            icon: 'fa-solid fa-wheat-awn',
+            className: 'register-yellow'
+        },
+
+        'CULTURA': {
+            label: 'Culturas',
+            description: 'Culturas disponíveis',
+            icon: 'fa-solid fa-leaf',
+            className: 'register-green'
+        },
+
+        'INSUMO': {
+            label: 'Insumos',
+            description: 'Insumos cadastrados',
+            icon: 'fa-solid fa-flask',
+            className: 'register-blue'
+        },
+
+        'PLANTIO': {
+            label: 'Plantios',
+            description: 'Plantios registrados',
+            icon: 'fa-solid fa-seedling',
+            className: 'register-green'
+        },
+
+        'PROPRIEDADE': {
+            label: 'Propriedades',
+            description: 'Propriedades cadastradas',
+            icon: 'fa-solid fa-house-chimney',
+            className: 'register-green'
+        },
+
+        'TALHAO': {
+            label: 'Talhões',
+            description: 'Talhões cadastrados',
+            icon: 'fa-solid fa-table-cells-large',
+            className: 'register-yellow'
+        }
     };
 
     const visibleData = data.filter(item => {
@@ -81,13 +122,36 @@ function renderRegisterTable(data) {
 
     visibleData.forEach(item => {
         const tableName = String(item.name || '').toUpperCase();
-        const label = tableLabels[tableName] || tableName;
+
+        const info = tableInfo[tableName] || {
+            label: tableName,
+            description: 'Registros cadastrados',
+            icon: 'fa-solid fa-database',
+            className: 'register-green'
+        };
+
         const rowsNumber = item.rowsNumber ?? 0;
 
         html += `
-            <tr>
-                <td>${label}</td>
-                <td>${rowsNumber}</td>
+            <tr class="register-row">
+                <td>
+                    <div class="register-category">
+                        <div class="register-icon ${info.className}">
+                            <i class="${info.icon}"></i>
+                        </div>
+
+                        <div class="register-info">
+                            <strong>${info.label}</strong>
+                            <span>${info.description}</span>
+                        </div>
+                    </div>
+                </td>
+
+                <td class="register-count-cell">
+                    <span class="register-count">
+                        ${rowsNumber}
+                    </span>
+                </td>
             </tr>
         `;
     });

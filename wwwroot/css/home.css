@@ -818,3 +818,192 @@
         font-size: 1.7rem;
     }
 }
+/* =========================
+   TABELA DE REGISTROS V2
+   ========================= */
+
+.table-wrapper {
+    overflow: hidden;
+    margin-top: 18px;
+
+    border: 1px solid #edf0ed;
+    border-radius: 14px;
+
+    background: #ffffff;
+}
+
+.dashboard-table {
+    width: 100%;
+    margin: 0;
+
+    border-collapse: collapse;
+}
+
+.dashboard-table thead {
+    background: #f5f7f4;
+}
+
+.dashboard-table thead th {
+    padding: 13px 16px;
+
+    border: 0;
+
+    color: #6c786f;
+
+    font-size: 0.76rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+}
+
+.dashboard-table thead th:last-child {
+    width: 180px;
+    text-align: center;
+}
+
+.dashboard-table tbody tr {
+    transition:
+        background 0.18s ease,
+        transform 0.18s ease;
+}
+
+.dashboard-table tbody tr:not(:last-child) {
+    border-bottom: 1px solid #eef1ee;
+}
+
+.dashboard-table tbody tr:hover {
+    background: #f9fbf8;
+}
+
+.dashboard-table tbody td {
+    padding: 12px 16px;
+
+    border: 0;
+
+    vertical-align: middle;
+}
+
+
+/* categoria */
+
+.register-category {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.register-icon {
+    width: 38px;
+    height: 38px;
+    flex: 0 0 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    font-size: 0.85rem;
+}
+
+
+/* cores */
+
+.register-green {
+    color: #3e7c50;
+    background: #eaf5eb;
+}
+
+.register-yellow {
+    color: #9b741c;
+    background: #fff4df;
+}
+
+.register-blue {
+    color: #36717f;
+    background: #e9f4f6;
+}
+
+
+/* nome + descrição */
+
+.register-info {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.register-info strong {
+    color: #29483b;
+
+    font-size: 0.86rem;
+    font-weight: 600;
+}
+
+.register-info span {
+    color: #939c96;
+
+    font-size: 0.72rem;
+}
+
+
+/* quantidade */
+
+.register-count-cell {
+    text-align: center;
+}
+
+.register-count {
+    min-width: 38px;
+    height: 30px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0 11px;
+
+    border: 1px solid #dce8de;
+    border-radius: 999px;
+
+    color: #376b48;
+    background: #f0f7f1;
+
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+
+/* vazio / erro */
+
+.dashboard-empty {
+    padding: 32px !important;
+
+    text-align: center;
+
+    color: #8a958e !important;
+}
+
+
+/* mobile */
+
+@media (max-width: 650px) {
+    .dashboard-table thead th:last-child {
+        width: 90px;
+    }
+
+    .dashboard-table tbody td {
+        padding: 10px 12px;
+    }
+
+    .register-icon {
+        width: 34px;
+        height: 34px;
+        flex-basis: 34px;
+    }
+
+    .register-info span {
+        display: none;
+    }
+}
