@@ -600,3 +600,221 @@
     bottom: -10px;
     font-size: 4.5rem;
 }
+
+/* =========================
+   CARDS DE INDICADORES V2
+   ========================= */
+
+.stats-grid .stat-card {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+
+    min-height: 132px;
+    padding: 20px;
+
+    display: grid;
+    grid-template-columns: 52px minmax(0, 1fr) 30px;
+    align-items: center;
+    gap: 15px;
+
+    border: 1px solid #e2e8e2;
+    border-radius: 18px;
+
+    background: #ffffff;
+    color: #173d30;
+    text-decoration: none;
+
+    box-shadow: 0 5px 18px rgba(21, 57, 46, 0.035);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.stats-grid .stat-card:hover {
+    color: #173d30;
+    text-decoration: none;
+
+    transform: translateY(-3px);
+
+    border-color: #d3dfd5;
+
+    box-shadow: 0 12px 28px rgba(21, 57, 46, 0.09);
+}
+
+.stat-icon-circle {
+    position: relative;
+    z-index: 2;
+
+    width: 52px;
+    height: 52px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    font-size: 1.05rem;
+}
+
+.stat-content {
+    position: relative;
+    z-index: 2;
+
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.stats-grid .stat-label {
+    margin-bottom: 2px;
+
+    color: #42574e;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.stats-grid .stat-value {
+    display: block;
+
+    margin: 0;
+
+    color: #15392e;
+
+    font-size: 2rem;
+    font-weight: 800;
+    line-height: 1.15;
+}
+
+.stat-description {
+    margin-top: 2px;
+
+    color: #8a948e;
+
+    font-size: 0.75rem;
+    font-weight: 400;
+}
+
+.stat-arrow {
+    position: relative;
+    z-index: 2;
+
+    width: 28px;
+    height: 28px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    justify-self: end;
+
+    border: 2px solid #e0ebe2;
+    border-radius: 50%;
+
+    color: #65906d;
+
+    font-size: 0.65rem;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+}
+
+.stat-card:hover .stat-arrow {
+    transform: translateX(2px);
+    background: rgba(255, 255, 255, 0.75);
+}
+
+
+/* detalhe suave no fundo */
+
+.stat-decoration {
+    position: absolute;
+    z-index: 0;
+
+    width: 170px;
+    height: 80px;
+
+    right: -30px;
+    bottom: -42px;
+
+    border-radius: 50% 50% 0 0;
+
+    transform: rotate(-8deg);
+
+    opacity: 0.65;
+}
+
+
+/* verde */
+
+.stat-card-green .stat-icon-circle {
+    color: #438052;
+    background: #e9f4ea;
+}
+
+.stat-card-green .stat-decoration {
+    background: #e1f1e3;
+}
+
+
+/* amarelo */
+
+.stat-card-yellow .stat-icon-circle {
+    color: #a47b1c;
+    background: #fff4df;
+}
+
+.stat-card-yellow .stat-decoration {
+    background: #fff0d4;
+}
+
+.stat-card-yellow .stat-arrow {
+    color: #a47b1c;
+    border-color: #f2e5c8;
+}
+
+
+/* azul */
+
+.stat-card-blue .stat-icon-circle {
+    color: #377482;
+    background: #e9f4f5;
+}
+
+.stat-card-blue .stat-decoration {
+    background: #dff0f1;
+}
+
+.stat-card-blue .stat-arrow {
+    color: #377482;
+    border-color: #d9e9eb;
+}
+
+
+/* responsividade */
+
+@media (max-width: 650px) {
+    .stats-grid .stat-card {
+        min-height: 118px;
+        padding: 17px;
+
+        grid-template-columns: 46px minmax(0, 1fr) 28px;
+        gap: 12px;
+    }
+
+    .stat-icon-circle {
+        width: 46px;
+        height: 46px;
+    }
+
+    .stats-grid .stat-value {
+        font-size: 1.7rem;
+    }
+}
