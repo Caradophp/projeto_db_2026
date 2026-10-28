@@ -3,89 +3,231 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - projeto</title>
+
+    <title>@ViewData["Title"] - Cultiva#</title>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/projeto.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css">
-    @* <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css"> *@
-</head>
-<body>
-    <header itemid="header">
-        <nav class="navbar navbar-expand-xl navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-            <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Cultiva<span class="brand-mark">#</span></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Início</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Gestao" asp-action="Propriedades">Propriedades</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Gestao" asp-action="Talhoes">Talhões</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Gestao" asp-action="Culturas">Culturas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Colheita" asp-action="Index">Colheitas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Gestao" asp-action="Insumos">Insumos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Gestao" asp-action="Plantios">Plantios</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Gestao" asp-action="Aplicacoes">Aplicações</a>
-                        </li>
-                    </ul>
-                    <section>
-                        <div class="dropdown dropstart">
-                            <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                               <i class="fa fa-user"></i>
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li><a class="dropdown-item" href="#" id="logout"><i class="fa-solid fa-door-open"></i>Sair</a></li>
-                            </ul>
-                        </div>
-                    </section>
 
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.css">
+</head>
+
+<body class="app-body">
+
+    <div class="app-shell">
+
+        <!-- SIDEBAR -->
+        <aside class="app-sidebar" id="appSidebar">
+
+            <div class="sidebar-brand">
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="sidebar-brand-link">
+
+                    <span class="brand-icon">
+                        <i class="fa-solid fa-leaf"></i>
+                    </span>
+
+                    <span class="brand-name">
+                        Cultiva<span>#</span>
+                    </span>
+                </a>
+
+                <button class="sidebar-close"
+                        id="sidebarClose"
+                        type="button"
+                        aria-label="Fechar menu">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <nav class="sidebar-navigation">
+
+                <a class="sidebar-link"
+                   asp-controller="Home"
+                   asp-action="Index"
+                   data-controller="Home">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Início</span>
+                </a>
+
+                <a class="sidebar-link"
+                   asp-controller="Gestao"
+                   asp-action="Propriedades"
+                   data-action="Propriedades">
+                    <i class="fa-solid fa-house-chimney"></i>
+                    <span>Propriedades</span>
+                </a>
+
+                <a class="sidebar-link"
+                   asp-controller="Gestao"
+                   asp-action="Talhoes"
+                   data-action="Talhoes">
+                    <i class="fa-solid fa-table-cells-large"></i>
+                    <span>Talhões</span>
+                </a>
+
+                <a class="sidebar-link"
+                   asp-controller="Gestao"
+                   asp-action="Culturas"
+                   data-action="Culturas">
+                    <i class="fa-solid fa-leaf"></i>
+                    <span>Culturas</span>
+                </a>
+
+                <a class="sidebar-link"
+                   asp-controller="Colheita"
+                   asp-action="Index"
+                   data-controller="Colheita">
+                    <i class="fa-solid fa-wheat-awn"></i>
+                    <span>Colheitas</span>
+                </a>
+
+                <a class="sidebar-link"
+                   asp-controller="Gestao"
+                   asp-action="Insumos"
+                   data-action="Insumos">
+                    <i class="fa-solid fa-flask"></i>
+                    <span>Insumos</span>
+                </a>
+
+                <a class="sidebar-link"
+                   asp-controller="Gestao"
+                   asp-action="Plantios"
+                   data-action="Plantios">
+                    <i class="fa-solid fa-seedling"></i>
+                    <span>Plantios</span>
+                </a>
+
+                <a class="sidebar-link"
+                   asp-controller="Gestao"
+                   asp-action="Aplicacoes"
+                   data-action="Aplicacoes">
+                    <i class="fa-solid fa-tractor"></i>
+                    <span>Aplicações</span>
+                </a>
+
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="sidebar-footer-icon">
+                    <i class="fa-solid fa-seedling"></i>
+                </div>
+
+                <div>
+                    <strong>Cultiva#</strong>
+                    <span>Gestão inteligente</span>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container-fluid">
-        <div class="modal fade dialog" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-body content">
-                        
+
+        </aside>
+
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- ÁREA PRINCIPAL -->
+        <div class="app-main">
+
+            <!-- TOPBAR -->
+            <header class="app-topbar">
+
+                <div class="topbar-left">
+
+                    <button class="mobile-menu-button"
+                            id="mobileMenuButton"
+                            type="button"
+                            aria-label="Abrir menu">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+
+                    <div class="topbar-search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                        <input type="text"
+                               id="globalSearch"
+                               placeholder="Buscar no sistema..."
+                               autocomplete="off" />
+                    </div>
+
+                </div>
+
+                <div class="topbar-actions">
+
+                    <div class="dropdown">
+
+                        <button class="user-menu"
+                                type="button"
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false">
+
+                            <span class="user-avatar">
+                                <i class="fa-solid fa-user"></i>
+                            </span>
+
+                            <span class="user-info">
+                                <strong>Usuário</strong>
+                                <small>Cultiva#</small>
+                            </span>
+
+                            <i class="fa-solid fa-chevron-down user-chevron"></i>
+                        </button>
+
+                        <ul class="dropdown-menu dropdown-menu-end user-dropdown">
+                            <li>
+                                <a class="dropdown-item"
+                                   href="#"
+                                   id="logout">
+                                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                                    Sair
+                                </a>
+                            </li>
+                        </ul>
+
+                    </div>
+
+                </div>
+
+            </header>
+
+            <!-- CONTEÚDO -->
+            <div class="app-content">
+
+                <div class="modal fade dialog" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body content"></div>
+                        </div>
                     </div>
                 </div>
+
+                <main role="main">
+                    @RenderBody()
+                </main>
+
             </div>
+
+            <footer class="app-footer">
+                <span>© 2026 - Cultiva#</span>
+
+                <span class="footer-message">
+                    <i class="fa-solid fa-leaf"></i>
+                    Tecnologia a favor do campo
+                </span>
+            </footer>
+
         </div>
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+
     </div>
 
-    <footer class="border-top footer text-muted" itemid="footer">
-        <div class="container">
-            &copy; 2026 - Cultiva#
-        </div>
-    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/utils.js" asp-append-version="true"></script>
     <script src="~/js/home.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>
