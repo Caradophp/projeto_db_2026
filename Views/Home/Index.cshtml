@@ -115,21 +115,118 @@
             </div>
         </article>
 
-        <!-- EQUIPE - temporário, será substituído pelo Acesso Rápido -->
-        <aside class="dashboard-panel">
-            <div class="dashboard-panel-header">
-                <h3>Equipe Cultiva#</h3>
-                <p>Desenvolvimento do projeto.</p>
+        <div class="dashboard-side-column">
+
+    <!-- ACESSO RÁPIDO -->
+    <aside class="dashboard-panel quick-access-panel">
+        <div class="dashboard-panel-header panel-title-with-icon">
+            <div class="panel-title-icon">
+                <i class="fa-solid fa-bolt"></i>
             </div>
 
-            <div class="team-list">
-                <div class="team-member">Eloisa Jahring</div>
-                <div class="team-member">Migual Batista de Souza Borges</div>
-                <div class="team-member">Luciano Friebe Feigl</div>
-                <div class="team-member">Rhaique Ribeth Moreira</div>
-                <div class="team-member">Yasmim Marques Jardim</div>
+            <div>
+                <h3>Acesso rápido</h3>
+                <p>Acesse as principais funcionalidades do sistema.</p>
             </div>
-        </aside>
+        </div>
+
+        <div class="quick-access-grid">
+
+            <a asp-controller="Gestao"
+               asp-action="Propriedades"
+               class="quick-access-item quick-green">
+                <span class="quick-access-icon">
+                    <i class="fa-solid fa-house-chimney"></i>
+                </span>
+                <span>Nova Propriedade</span>
+                <i class="fa-solid fa-chevron-right quick-access-arrow"></i>
+            </a>
+
+            <a asp-controller="Gestao"
+               asp-action="Talhoes"
+               class="quick-access-item quick-yellow">
+                <span class="quick-access-icon">
+                    <i class="fa-solid fa-table-cells-large"></i>
+                </span>
+                <span>Novo Talhão</span>
+                <i class="fa-solid fa-chevron-right quick-access-arrow"></i>
+            </a>
+
+            <a asp-controller="Gestao"
+               asp-action="Culturas"
+               class="quick-access-item quick-green">
+                <span class="quick-access-icon">
+                    <i class="fa-solid fa-leaf"></i>
+                </span>
+                <span>Nova Cultura</span>
+                <i class="fa-solid fa-chevron-right quick-access-arrow"></i>
+            </a>
+
+            <a asp-controller="Gestao"
+               asp-action="Plantios"
+               class="quick-access-item quick-blue">
+                <span class="quick-access-icon">
+                    <i class="fa-solid fa-seedling"></i>
+                </span>
+                <span>Novo Plantio</span>
+                <i class="fa-solid fa-chevron-right quick-access-arrow"></i>
+            </a>
+
+            <a asp-controller="Colheita"
+               asp-action="Index"
+               class="quick-access-item quick-yellow">
+                <span class="quick-access-icon">
+                    <i class="fa-solid fa-wheat-awn"></i>
+                </span>
+                <span>Registrar Colheita</span>
+                <i class="fa-solid fa-chevron-right quick-access-arrow"></i>
+            </a>
+
+            <a asp-controller="Gestao"
+               asp-action="Insumos"
+               class="quick-access-item quick-blue">
+                <span class="quick-access-icon">
+                    <i class="fa-solid fa-flask"></i>
+                </span>
+                <span>Novo Insumo</span>
+                <i class="fa-solid fa-chevron-right quick-access-arrow"></i>
+            </a>
+
+            <a asp-controller="Gestao"
+               asp-action="Aplicacoes"
+               class="quick-access-item quick-blue quick-access-wide">
+                <span class="quick-access-icon">
+                    <i class="fa-solid fa-tractor"></i>
+                </span>
+                <span>Registrar Aplicação</span>
+                <i class="fa-solid fa-chevron-right quick-access-arrow"></i>
+            </a>
+
+        </div>
+    </aside>
+
+    <!-- SOBRE -->
+    <aside class="dashboard-panel about-panel">
+        <div class="about-icon">
+            <i class="fa-solid fa-circle-info"></i>
+        </div>
+
+        <div class="about-content">
+            <h3>Sobre o sistema</h3>
+
+            <p>
+                O Cultiva# é um sistema de gestão agrícola desenvolvido para
+                auxiliar no controle das propriedades, talhões, culturas e
+                operações, facilitando o acompanhamento da produção.
+            </p>
+        </div>
+
+        <div class="about-decoration">
+            <i class="fa-solid fa-seedling"></i>
+        </div>
+    </aside>
+
+</div>
 
     </section>
 
