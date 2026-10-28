@@ -722,3 +722,123 @@ body {
     padding: 16px 20px;
   }
 }
+/* =========================
+   SIDEBAR - PAISAGEM AGRÍCOLA
+   ========================= */
+
+.app-sidebar {
+    overflow: hidden;
+}
+
+/* imagem na parte inferior */
+.app-sidebar::before {
+    content: "";
+
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 330px;
+
+    background-image:
+        linear-gradient(
+            to bottom,
+            #15392e 0%,
+            rgba(21, 57, 46, 0.96) 8%,
+            rgba(21, 57, 46, 0.55) 28%,
+            rgba(21, 57, 46, 0.12) 55%,
+            rgba(10, 37, 29, 0.25) 100%
+        ),
+        url('/img/sidebar-farm.png');
+
+    background-size: cover;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+
+    pointer-events: none;
+
+    z-index: 0;
+}
+
+/* garante que menu e logo fiquem acima da imagem */
+.sidebar-brand,
+.sidebar-navigation,
+.sidebar-footer {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* =========================
+   MENU ATIVO
+   ========================= */
+
+.sidebar-link.active {
+    position: relative;
+
+    color: #ffffff;
+
+    background: rgba(255, 255, 255, 0.12);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.04),
+        0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.sidebar-link.active::before {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    top: 50%;
+
+    width: 4px;
+    height: 24px;
+
+    border-radius: 0 6px 6px 0;
+
+    background: #7bd77f;
+
+    transform: translateY(-50%);
+}
+
+.sidebar-link.active i {
+    color: #a7e3aa;
+}
+
+
+/* =========================
+   CARD INFERIOR
+   ========================= */
+
+.sidebar-footer {
+    margin: auto 14px 18px;
+
+    padding: 14px;
+
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 15px;
+
+    background: rgba(16, 52, 41, 0.82);
+
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.13);
+
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+.sidebar-footer-icon {
+    background: rgba(255, 255, 255, 0.09);
+}
+
+.sidebar-footer strong {
+    color: #ffffff;
+}
+
+.sidebar-footer span {
+    color: rgba(255, 255, 255, 0.65);
+}
