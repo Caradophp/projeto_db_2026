@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using projeto.Models;
 using projeto.Security;
+using projeto.Service;
 
 namespace projeto.Controllers;
 
@@ -11,10 +12,13 @@ public class HomeController : Controller
 
     private readonly Jwt _jwt;
 
-    public HomeController(ILogger<HomeController> logger, Jwt jwt)
+    private readonly HomeService _homeService;
+
+    public HomeController(ILogger<HomeController> logger, Jwt jwt, HomeService homeService)
     {
         _jwt = jwt;
         _logger = logger;
+        _homeService = homeService;
     }
 
     public IActionResult Index()
@@ -46,5 +50,11 @@ public class HomeController : Controller
         {
             HttpContext.Response.StatusCode = 401;
         }
+    }
+
+    [HttpGet]
+    public IActionResult GetRegisterNumbersPerTable()
+    {
+        return Json(_homeService.GetRegisterNumbersPerTable());
     }
 }

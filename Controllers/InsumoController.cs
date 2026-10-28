@@ -9,21 +9,6 @@ public class InsumoController(InsumoService insumoService) : Controller
     private readonly InsumoService _insumoService = insumoService;
 
     [HttpGet]
-    public IActionResult Index()
-    {
-        ViewData["Title"] = "Gestão de Insumos";
-
-        return View("~/Views/Shared/ManagementList.cshtml", new ManagementListViewModel
-        {
-            Title = "Gestão de Insumos",
-            Description = "Gerencie os insumos utilizados na lavoura.",
-            SearchPlaceholder = "Pesquisar insumo...",
-            AddLabel = "Novo Insumo",
-            Columns = new[] { "ID", "Nome", "Tipo", "Unidade", "Estoque", "Ações" }
-        });
-    }
-
-    [HttpGet]
     public IActionResult GetList()
     {
         var list = _insumoService.ListAll();

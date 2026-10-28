@@ -1,7 +1,10 @@
 $(document).ready(() => {
     $.ajaxSetup({
         beforeSend: function (xhr) {
-            xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("token"));
+            xhr.setRequestHeader(
+                "Authorization",
+                "Bearer " + localStorage.getItem("token")
+            );
         }
     });
 
@@ -20,13 +23,16 @@ $(document).ready(() => {
                 const currentPage =
                     location.href.split('/')[3]?.toLowerCase() ?? '';
 
-                if (currentPage !== 'login' && currentPage !== 'user') {
+                if (
+                    currentPage !== 'user' &&
+                    !currentPage.startsWith('login')
+                ) {
                     localStorage.removeItem("token");
                     location.href = '/login';
                 }
             }
         });
-    }, 1000)
+    }, 1000);
 });
 
 function showDialog(html) {
