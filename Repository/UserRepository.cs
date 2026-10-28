@@ -7,10 +7,13 @@ using Microsoft.Extensions.Logging;
 
 namespace projeto.Repository;
 
-public class UserRepository(IConfiguration configuration, EncryptionService encryptionService, ILogger<UserRepository> logger)
+public class UserRepository(IConfiguration configuration, EncryptionService encryptionService, ILogger<UserRepository> logger, AuditoriaRepository auditoriaRepository, UtilRepository utilRepository)
 {
     private readonly string _connectionString = configuration.GetConnectionString("OracleDb")
         ?? throw new InvalidOperationException("A string de conexão 'OracleDb' não foi configurada.");
+
+    private readonly AuditoriaRepository _auditoriaRepository = auditoriaRepository;
+    private readonly UtilRepository _utilRepository = utilRepository;
 
     public bool CreateUser(User user)
     {
@@ -27,6 +30,14 @@ public class UserRepository(IConfiguration configuration, EncryptionService encr
 
             connection.Open();
             int rowsAffected = command.ExecuteNonQuery();
+
+
+            Decimal userId = (Decimal) _utilRepository.ListBy("users", "t.email = :Email", [new Util.Parametro(){
+                Chave = "Email",
+                Valor = user.Email
+            }])[0][0];
+            _auditoriaRepository.RegisterAudit("Cadastrou-se no sistema", ((int)userId));
+
             return rowsAffected > 0;
         }
     }
@@ -56,6 +67,7 @@ public class UserRepository(IConfiguration configuration, EncryptionService encr
 
             if (encryptionService.VerifyPassword(password, user.Password))
             {
+                _auditoriaRepository.RegisterAudit("Logou no sistema", user.Id);
                 return user;
             }
 
@@ -127,5 +139,6 @@ public class UserRepository(IConfiguration configuration, EncryptionService encr
             connection.Open();
         }
         command.ExecuteNonQuery();
+        _auditoriaRepository.RegisterAudit("Alterou senha", userExists.Id);
     }
 }
