@@ -15,12 +15,10 @@ public class GestaoController : Controller
     return View("~/Views/Talhao/Index.cshtml");
 }
 
-    public IActionResult Culturas() => List(
-        "Culturas",
-        "Consulte as culturas utilizadas nos plantios.",
-        "cultura",
-        "Nova cultura",
-        "Nome", "Descrição");
+    public IActionResult Culturas()
+{
+    return View("~/Views/Cultura/Index.cshtml");
+}
 
     public IActionResult Insumos() => List(
         "Insumos",
