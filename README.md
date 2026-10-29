@@ -10,9 +10,9 @@
 
 ## Creating an Oracle Database Instance Using Docker
 
-### `docker-compose.yml` Example
+### `compose.yml` Example
 
-Create a `docker-compose.yml` file in the project root directory with the following configuration:
+The project already contains a `compose.yml` file; it is the same as the one below.
 
 ```yaml
 services:
@@ -85,6 +85,11 @@ Replace the placeholders with your actual configuration values.
 
 Keep your `.env` file private and do not commit it to version control. Add `.env` to your `.gitignore` file to prevent accidentally exposing credentials and secrets.
 
+## Before run the project
+
+Before you go to next steps, you should get the `00-create-migrations-table.sql` SQL script and execute it manually in your database
+The file is at directory `Database/`
+
 ## Running the Project
 
 ### 1. Start the Oracle Database
@@ -142,7 +147,9 @@ http://localhost:8081/login
 
 ### Exemplo de `docker-compose.yml`
 
-Crie um arquivo `docker-compose.yml` no diretório raiz do projeto com a seguinte configuração:
+### Exemplo de `compose.yml`
+
+O projeto já contém arquivo `compose.yml`, ele é o mesmo mostrado abaixo.
 
 ```yaml
 services:
@@ -214,6 +221,11 @@ Substitua os valores de exemplo pelas suas configurações reais.
 **Importante:** Os nomes das variáveis de ambiente devem corresponder aos nomes esperados pela aplicação. Em particular, verifique se `API_SECRECT_KEY` é o nome correto ou se deveria ser `API_SECRET_KEY`.
 
 Mantenha o arquivo `.env` privado e não o envie para o repositório. Adicione `.env` ao arquivo `.gitignore` para evitar a exposição acidental de credenciais e informações sensíveis.
+
+## ANtes de executar o projeto
+
+Antes de prosseguir para as próximas etapas, você deve obter o script SQL `00-create-migrations-table` e executá-lo manualmente em seu banco de dados.
+O arquivo encontra-se no diretório `Database/`.
 
 ## Executando o Projeto
 

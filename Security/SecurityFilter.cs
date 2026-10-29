@@ -11,7 +11,8 @@ public class SecurityFilter(Jwt jwt) : IAsyncActionFilter
     private readonly HashSet<string> _publicPaths = new()
     {
         "/login",
-        "/Home/CheckToken"
+        "/Home/CheckToken",
+        "/reports/viewer"
     };
 
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)

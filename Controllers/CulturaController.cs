@@ -9,21 +9,6 @@ public class CulturaController(CulturaService culturaService) : Controller
     private readonly CulturaService _culturaService = culturaService;
 
     [HttpGet]
-    public IActionResult Index()
-    {
-        ViewData["Title"] = "Gestão de Culturas";
-
-        return View("~/Views/Shared/ManagementList.cshtml", new ManagementListViewModel
-        {
-            Title = "Gestão de Culturas",
-            Description = "Gerencie as culturas agrícolas disponíveis.",
-            SearchPlaceholder = "Pesquisar cultura...",
-            AddLabel = "Nova Cultura",
-            Columns = new[] { "ID", "Nome", "Descrição", "Ações" }
-        });
-    }
-
-    [HttpGet]
     public IActionResult GetList()
     {
         var list = _culturaService.ListAll();

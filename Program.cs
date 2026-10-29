@@ -27,9 +27,20 @@ try
     builder.Services.AddControllersWithViews();
 
     builder.Services.AddScoped<projeto.Controllers.ColheitaController>();
+    builder.Services.AddScoped<AuditoriaRepository>();
+    builder.Services.AddScoped<HomeService>();
+    builder.Services.AddScoped<HomeRepository>();
     builder.Services.AddScoped<CodeRepository>();
     builder.Services.AddScoped<UtilRepository>();
     builder.Services.AddScoped<EmailService>();
+    builder.Services.AddScoped<InsumoService>();
+    builder.Services.AddScoped<PropriedadeService>();
+    builder.Services.AddScoped<TalhaoService>();
+    builder.Services.AddScoped<CulturaService>();
+    builder.Services.AddScoped<InsumoRepository>();
+    builder.Services.AddScoped<CulturaRepository>();
+    builder.Services.AddScoped<TalhaoRepository>();
+    builder.Services.AddScoped<PropriedadeRepository>();
     builder.Services.AddScoped<UserRepository>();
     builder.Services.AddScoped<UserService>();
     builder.Services.AddScoped<Jwt>();
