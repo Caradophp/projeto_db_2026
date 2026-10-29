@@ -16,7 +16,7 @@ public class UserRepository(IConfiguration configuration, EncryptionService encr
     {
         string hashedPassword = encryptionService.HashPassword(user.Password);
 
-        string sql = "INSERT INTO users (name, email, password) VALUES (:Name, :Email, :Password);";
+        string sql = "INSERT INTO users (name, email, password) VALUES (:Name, :Email, :Password)";
 
         using (var connection = new OracleConnection(_connectionString))
         {
