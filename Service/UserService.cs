@@ -1,5 +1,6 @@
 using System.Security.Cryptography;
 using projeto.Models;
+using projeto.Models.Enums;
 using projeto.Repository;
 
 namespace projeto.Service;
@@ -55,25 +56,28 @@ public class UserService(
     }
 
     public bool CheckUserLogin(string email, string password)
+{
+    User? user = _userRepository.CheckUserLogin(email, password);
+
+    if (user != null)
     {
-        User? user = _userRepository.CheckUserLogin(email, password);
-
-            if (user.Status.Equals(UserStatusEnum.Blocked))
-            {
-                throw new Exception("Usuário Bloqueado");
-            }
-
-            if (user.Status.Equals(UserStatusEnum.Inactive))
-            {
-                throw new Exception("Usuário detativado");
-            }
-
-            return true;
-        } else
+        if (user.Status.Equals(UserStatusEnum.Blocked))
         {
-            throw new KeyNotFoundException("E-mail ou senha inválido");
+            throw new Exception("Usuário bloqueado");
         }
+
+        if (user.Status.Equals(UserStatusEnum.Inactive))
+        {
+            throw new Exception("Usuário desativado");
+        }
+
+        return true;
     }
+    else
+    {
+        throw new KeyNotFoundException("E-mail ou senha inválido");
+    }
+}
 
     public void SendEmailForRetrivePassword(string email)
     {
