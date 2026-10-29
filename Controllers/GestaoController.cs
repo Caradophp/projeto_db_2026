@@ -5,12 +5,10 @@ namespace projeto.Controllers;
 
 public class GestaoController : Controller
 {
-    public IActionResult Propriedades() => List(
-        "Propriedades",
-        "Gerencie as propriedades rurais e suas áreas totais.",
-        "propriedade",
-        "Nova propriedade",
-        "Nome", "Área total (ha)", "Responsável");
+   public IActionResult Propriedades()
+{
+    return View("~/Views/Propriedade/Index.cshtml");
+}
 
     public IActionResult Talhoes() => List(
         "Talhões",
