@@ -10,12 +10,10 @@ public class GestaoController : Controller
     return View("~/Views/Propriedade/Index.cshtml");
 }
 
-    public IActionResult Talhoes() => List(
-        "Talhões",
-        "Organize os talhões vinculados às suas propriedades.",
-        "talhão",
-        "Novo talhão",
-        "Nome", "Propriedade", "Área (ha)", "Descrição");
+    public IActionResult Talhoes()
+{
+    return View("~/Views/Talhao/Index.cshtml");
+}
 
     public IActionResult Culturas() => List(
         "Culturas",
