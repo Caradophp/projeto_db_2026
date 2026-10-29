@@ -20,12 +20,10 @@ public class GestaoController : Controller
     return View("~/Views/Cultura/Index.cshtml");
 }
 
-    public IActionResult Insumos() => List(
-        "Insumos",
-        "Acompanhe os insumos disponíveis e seus níveis de estoque.",
-        "insumo",
-        "Novo insumo",
-        "Nome", "Tipo", "Unidade de medida", "Estoque");
+    public IActionResult Insumos()
+{
+    return View("~/Views/Insumo/Index.cshtml");
+}
 
     public IActionResult Plantios() => List(
         "Plantios",

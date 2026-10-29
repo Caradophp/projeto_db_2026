@@ -7,96 +7,156 @@ namespace projeto.Repository;
 public class InsumoRepository(IConfiguration configuration)
 {
     private readonly string _connectionString = configuration.GetConnectionString("OracleDb")
-        ?? throw new InvalidOperationException("A string de conexão 'OracleDb' não foi configurada.");
+        ?? throw new InvalidOperationException(
+            "A string de conexão 'OracleDb' não foi configurada.");
 
     public IEnumerable<Insumo> GetAll()
     {
         var insumos = new List<Insumo>();
-        string sql = "SELECT ID, NOME, TIPO, UNIDADEMEDIDA, ESTOQUE FROM INSUMOS";
+
+        const string sql = """
+            SELECT ID, NOME, TIPO, UNIDADE_MEDIDA, ESTOQUE
+            FROM INSUMO
+            ORDER BY NOME
+            """;
 
         using var connection = new OracleConnection(_connectionString);
         using var command = new OracleCommand(sql, connection);
 
         connection.Open();
+
         using var reader = command.ExecuteReader();
+
         while (reader.Read())
         {
             insumos.Add(new Insumo
             {
-                Id = reader.GetInt32(0),
-                Nome = reader.GetString(1),
-                Tipo = reader.IsDBNull(2) ? null : reader.GetString(2),
-                UnidadeMedida = reader.GetString(3),
-                Estoque = reader.GetDecimal(4)
+                Id = Convert.ToInt32(reader["ID"]),
+                Nome = reader["NOME"].ToString() ?? string.Empty,
+                Tipo = reader["TIPO"] == DBNull.Value
+                    ? null
+                    : reader["TIPO"].ToString(),
+                UnidadeMedida = reader["UNIDADE_MEDIDA"].ToString()
+                    ?? string.Empty,
+                Estoque = reader["ESTOQUE"] == DBNull.Value
+                    ? 0
+                    : Convert.ToDecimal(reader["ESTOQUE"])
             });
         }
+
         return insumos;
     }
 
     public Insumo? GetById(int id)
     {
-        string sql = "SELECT ID, NOME, TIPO, UNIDADEMEDIDA, ESTOQUE FROM INSUMOS WHERE ID = :Id";
+        const string sql = """
+            SELECT ID, NOME, TIPO, UNIDADE_MEDIDA, ESTOQUE
+            FROM INSUMO
+            WHERE ID = :pId
+            """;
 
         using var connection = new OracleConnection(_connectionString);
         using var command = new OracleCommand(sql, connection);
-        command.Parameters.Add(new OracleParameter("Id", id));
+
+        command.Parameters.Add(new OracleParameter("pId", id));
 
         connection.Open();
+
         using var reader = command.ExecuteReader();
-        if (reader.Read())
+
+        if (!reader.Read())
         {
-            return new Insumo
-            {
-                Id = reader.GetInt32(0),
-                Nome = reader.GetString(1),
-                Tipo = reader.IsDBNull(2) ? null : reader.GetString(2),
-                UnidadeMedida = reader.GetString(3),
-                Estoque = reader.GetDecimal(4)
-            };
+            return null;
         }
-        return null;
+
+        return new Insumo
+        {
+            Id = Convert.ToInt32(reader["ID"]),
+            Nome = reader["NOME"].ToString() ?? string.Empty,
+            Tipo = reader["TIPO"] == DBNull.Value
+                ? null
+                : reader["TIPO"].ToString(),
+            UnidadeMedida = reader["UNIDADE_MEDIDA"].ToString()
+                ?? string.Empty,
+            Estoque = reader["ESTOQUE"] == DBNull.Value
+                ? 0
+                : Convert.ToDecimal(reader["ESTOQUE"])
+        };
     }
 
     public bool Create(Insumo insumo)
     {
-        string sql = "INSERT INTO INSUMOS (NOME, TIPO, UNIDADEMEDIDA, ESTOQUE) VALUES (:Nome, :Tipo, :Unidade, :Estoque)";
+        const string sql = """
+            INSERT INTO INSUMO
+                (NOME, TIPO, UNIDADE_MEDIDA, ESTOQUE)
+            VALUES
+                (:pNome, :pTipo, :pUnidadeMedida, :pEstoque)
+            """;
 
         using var connection = new OracleConnection(_connectionString);
         using var command = new OracleCommand(sql, connection);
-        command.Parameters.Add(new OracleParameter("Nome", insumo.Nome));
-        command.Parameters.Add(new OracleParameter("Tipo", (object?)insumo.Tipo ?? DBNull.Value));
-        command.Parameters.Add(new OracleParameter("Unidade", insumo.UnidadeMedida));
-        command.Parameters.Add(new OracleParameter("Estoque", insumo.Estoque));
+
+        command.Parameters.Add(new OracleParameter("pNome", insumo.Nome));
+        command.Parameters.Add(new OracleParameter(
+            "pTipo",
+            (object?)insumo.Tipo ?? DBNull.Value));
+        command.Parameters.Add(new OracleParameter(
+            "pUnidadeMedida",
+            insumo.UnidadeMedida));
+        command.Parameters.Add(new OracleParameter(
+            "pEstoque",
+            insumo.Estoque));
 
         connection.Open();
+
         return command.ExecuteNonQuery() > 0;
     }
 
     public bool Update(Insumo insumo)
     {
-        string sql = "UPDATE INSUMOS SET NOME = :Nome, TIPO = :Tipo, UNIDADEMEDIDA = :Unidade, ESTOQUE = :Estoque WHERE ID = :Id";
+        const string sql = """
+            UPDATE INSUMO
+            SET NOME = :pNome,
+                TIPO = :pTipo,
+                UNIDADE_MEDIDA = :pUnidadeMedida,
+                ESTOQUE = :pEstoque
+            WHERE ID = :pId
+            """;
 
         using var connection = new OracleConnection(_connectionString);
         using var command = new OracleCommand(sql, connection);
-        command.Parameters.Add(new OracleParameter("Nome", insumo.Nome));
-        command.Parameters.Add(new OracleParameter("Tipo", (object?)insumo.Tipo ?? DBNull.Value));
-        command.Parameters.Add(new OracleParameter("Unidade", insumo.UnidadeMedida));
-        command.Parameters.Add(new OracleParameter("Estoque", insumo.Estoque));
-        command.Parameters.Add(new OracleParameter("Id", insumo.Id));
+
+        command.Parameters.Add(new OracleParameter("pNome", insumo.Nome));
+        command.Parameters.Add(new OracleParameter(
+            "pTipo",
+            (object?)insumo.Tipo ?? DBNull.Value));
+        command.Parameters.Add(new OracleParameter(
+            "pUnidadeMedida",
+            insumo.UnidadeMedida));
+        command.Parameters.Add(new OracleParameter(
+            "pEstoque",
+            insumo.Estoque));
+        command.Parameters.Add(new OracleParameter("pId", insumo.Id));
 
         connection.Open();
+
         return command.ExecuteNonQuery() > 0;
     }
 
     public bool Delete(int id)
     {
-        string sql = "DELETE FROM INSUMOS WHERE ID = :Id";
+        const string sql = """
+            DELETE FROM INSUMO
+            WHERE ID = :pId
+            """;
 
         using var connection = new OracleConnection(_connectionString);
         using var command = new OracleCommand(sql, connection);
-        command.Parameters.Add(new OracleParameter("Id", id));
+
+        command.Parameters.Add(new OracleParameter("pId", id));
 
         connection.Open();
+
         return command.ExecuteNonQuery() > 0;
     }
 }

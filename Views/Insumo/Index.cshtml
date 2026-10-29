@@ -1,47 +1,259 @@
 @{
     Layout = "_Layout";
-    ViewData["Title"] = "Gestão de Insumos";
+    ViewData["Title"] = "Insumos";
 }
 
-<div id="insumo-management">
-    @* The ManagementList is rendered by the controller action Index *@
+<link rel="stylesheet" href="~/css/insumo.css" asp-append-version="true" />
 
-    @* Modal for Add/Edit *@
-    <div class="modal fade" id="insumoModal" tabindex="-1" aria-labelledby="insumoModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="insumoModalLabel">Novo Insumo</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<main class="insumo-page">
+
+    <section class="insumo-hero">
+        <div class="insumo-hero-main">
+            <div class="insumo-hero-icon">
+                <i class="fa-solid fa-flask"></i>
+            </div>
+
+            <div class="insumo-hero-text">
+                <span>GESTÃO DA LAVOURA</span>
+                <h1>Insumos</h1>
+                <p>Controle os insumos utilizados na produção e acompanhe os níveis de estoque.</p>
+            </div>
+        </div>
+
+        <div class="insumo-hero-decoration">
+            <i class="fa-solid fa-wheat-awn"></i>
+        </div>
+    </section>
+
+    <section class="insumo-stats">
+
+        <article class="insumo-stat-card">
+            <span class="insumo-stat-icon green">
+                <i class="fa-solid fa-boxes-stacked"></i>
+            </span>
+            <div>
+                <span>Total de insumos</span>
+                <strong id="insumoTotal">0</strong>
+                <small>Cadastrados no sistema</small>
+            </div>
+        </article>
+
+        <article class="insumo-stat-card">
+            <span class="insumo-stat-icon blue">
+                <i class="fa-solid fa-layer-group"></i>
+            </span>
+            <div>
+                <span>Tipos cadastrados</span>
+                <strong id="insumoTypes">0</strong>
+                <small>Categorias diferentes</small>
+            </div>
+        </article>
+
+        <article class="insumo-stat-card">
+            <span class="insumo-stat-icon amber">
+                <i class="fa-solid fa-scale-balanced"></i>
+            </span>
+            <div>
+                <span>Estoque total</span>
+                <strong id="insumoStock">0</strong>
+                <small>Soma dos estoques registrados</small>
+            </div>
+        </article>
+
+    </section>
+
+    <section class="insumo-panel">
+
+        <header class="insumo-panel-header">
+            <div>
+                <h2>Insumos cadastrados</h2>
+                <p>Visualize e gerencie os produtos disponíveis para uso na lavoura.</p>
+            </div>
+
+            <div class="insumo-panel-tools">
+
+                <div class="insumo-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input
+                        type="text"
+                        id="insumoSearch"
+                        placeholder="Buscar por nome, tipo ou unidade..."
+                        autocomplete="off" />
                 </div>
-                <div class="modal-body">
-                    <form id="insumoForm">
-                        <input type="hidden" id="insumoId" name="Id" value="0">
-                        <div class="mb-3">
-                            <label for="insumoNome" class="form-label">Nome</label>
-                            <input type="text" class="form-control" id="insumoNome" name="Nome" required>
+
+                <button
+                    type="button"
+                    class="insumo-add-button"
+                    id="btnNovoInsumo">
+                    <i class="fa-solid fa-plus"></i>
+                    Novo insumo
+                </button>
+
+            </div>
+        </header>
+
+        <div class="insumo-table-wrapper">
+            <table class="insumo-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Insumo</th>
+                        <th>Tipo</th>
+                        <th>Unidade de medida</th>
+                        <th>Estoque</th>
+                        <th class="insumo-actions-heading">Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody id="insumoTableBody">
+                    <tr>
+                        <td colspan="6">
+                            <div class="insumo-loading">
+                                <span class="insumo-loading-icon">
+                                    <i class="fa-solid fa-flask"></i>
+                                </span>
+                                <span>Carregando insumos...</span>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <footer class="insumo-table-footer">
+            <span id="insumoResultsText">Nenhum insumo cadastrado</span>
+        </footer>
+
+    </section>
+
+    <div class="modal fade"
+         id="insumoModal"
+         tabindex="-1"
+         aria-labelledby="insumoModalLabel"
+         aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content insumo-modal">
+
+                <div class="modal-header insumo-modal-header">
+
+                    <div class="insumo-modal-title">
+                        <span class="insumo-modal-icon">
+                            <i class="fa-solid fa-flask"></i>
+                        </span>
+
+                        <div>
+                            <h5 id="insumoModalLabel">Novo insumo</h5>
+                            <p>Cadastre ou atualize um insumo utilizado na produção.</p>
                         </div>
-                        <div class="mb-3">
-                            <label for="insumoTipo" class="form-label">Tipo</label>
-                            <input type="text" class="form-control" id="insumoTipo" name="Tipo">
-                        </div>
-                        <div class="mb-3">
-                            <label for="insumoUnidade" class="form-label">Unidade de Medida</label>
-                            <input type="text" class="form-control" id="insumoUnidade" name="UnidadeMedida" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="insumoEstoque" class="form-label">Estoque</label>
-                            <input type="number" step="0.01" class="form-control" id="insumoEstoque" name="Estoque" required>
-                        </div>
-                        <div class="text-end">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-primary">Salvar</button>
-                        </div>
-                    </form>
+                    </div>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Fechar">
+                    </button>
+
                 </div>
+
+                <form id="insumoForm">
+
+                    <div class="modal-body insumo-modal-body">
+
+                        <input type="hidden" id="insumoId" value="0" />
+
+                        <div class="insumo-modal-grid">
+
+                            <div class="insumo-form-group">
+                                <label for="insNome">
+                                    Nome do insumo <span>*</span>
+                                </label>
+
+                                <div class="insumo-input">
+                                    <i class="fa-solid fa-box"></i>
+                                    <input
+                                        type="text"
+                                        id="insNome"
+                                        maxlength="100"
+                                        placeholder="Ex.: Fertilizante NPK"
+                                        required />
+                                </div>
+                            </div>
+
+                            <div class="insumo-form-group">
+                                <label for="insTipo">Tipo</label>
+
+                                <div class="insumo-input">
+                                    <i class="fa-solid fa-tag"></i>
+                                    <input
+                                        type="text"
+                                        id="insTipo"
+                                        maxlength="50"
+                                        placeholder="Ex.: Fertilizante" />
+                                </div>
+                            </div>
+
+                            <div class="insumo-form-group">
+                                <label for="insUnidade">
+                                    Unidade de medida <span>*</span>
+                                </label>
+
+                                <div class="insumo-input">
+                                    <i class="fa-solid fa-ruler"></i>
+                                    <input
+                                        type="text"
+                                        id="insUnidade"
+                                        maxlength="20"
+                                        placeholder="Ex.: kg"
+                                        required />
+                                </div>
+                            </div>
+
+                            <div class="insumo-form-group">
+                                <label for="insEstoque">
+                                    Estoque <span>*</span>
+                                </label>
+
+                                <div class="insumo-input">
+                                    <i class="fa-solid fa-boxes-stacked"></i>
+                                    <input
+                                        type="number"
+                                        id="insEstoque"
+                                        min="0"
+                                        step="0.01"
+                                        placeholder="0,00"
+                                        required />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="insumo-modal-footer">
+
+                        <button
+                            type="button"
+                            class="insumo-button-secondary"
+                            data-bs-dismiss="modal">
+                            Cancelar
+                        </button>
+
+                        <button
+                            type="submit"
+                            class="insumo-button-primary">
+                            <i class="fa-solid fa-check"></i>
+                            Salvar insumo
+                        </button>
+
+                    </div>
+
+                </form>
+
             </div>
         </div>
     </div>
-</div>
 
-<script src="~/js/insumo.js"></script>
+</main>
+
+<script src="~/js/insumo.js" asp-append-version="true"></script>
