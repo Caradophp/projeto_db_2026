@@ -9,7 +9,10 @@ SELECT
     COALESCE(SUM(t.area), 0)               AS area_talhoes,
     p.area_total - COALESCE(SUM(t.area), 0) AS area_livre,
     ROUND(COALESCE(SUM(t.area), 0) / NULLIF(p.area_total, 0) * 100, 2) AS pct_utilizacao, 
-    (COALESCE(SUM(t.area), 0) > p.area_total) AS area_inconsistente
+    CASE
+        WHEN COALESCE(SUM(t.area), 0) > p.area_total THEN 1
+        ELSE 0
+    END AS area_inconsistente
 FROM propriedade p
 JOIN users u         ON u.id = p.user_id
 LEFT JOIN talhao t   ON t.propriedade_id = p.id
