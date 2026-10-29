@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Relatórios agrícolas</title>
+    <style>
+        :root {
+            color-scheme: light;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: #23382d;
+            background: #f3f6f2;
+        }
+
+        body { margin: 0; }
+        main { max-width: 1440px; margin: 2.25rem auto 3rem; padding: 0 1.25rem; }
+        .report-page-heading { margin-bottom: 1.75rem; }
+        .report-page-heading h1 { margin: 0; color: #203c31; font-size: 1.8rem; font-weight: 700; }
+        .report-page-description { margin: .5rem 0 0; color: #68756e; }
+        .panel, .report { margin-bottom: 1rem; padding: 1.2rem; border: 1px solid #dce4dc; border-radius: 8px; background: white; }
+        .filters { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: .9rem; align-items: end; }
+        label { display: block; margin-bottom: .35rem; font-size: .9rem; font-weight: 600; }
+        select, input, button { box-sizing: border-box; width: 100%; min-height: 2.5rem; padding: .5rem .65rem; border: 1px solid #cbd6cc; border-radius: 5px; background: white; font: inherit; }
+        button { cursor: pointer; border-color: #285844; background: #285844; color: white; font-weight: 600; }
+        button.secondary { background: white; color: #285844; }
+        .actions { display: flex; flex-wrap: wrap; gap: .6rem; }
+        .actions button { width: auto; }
+        .report-heading { display: flex; flex-wrap: wrap; align-items: start; justify-content: space-between; gap: 1rem; }
+        .report-heading h2 { margin: 0; }
+        .report-heading p { max-width: 780px; color: #5d6e63; line-height: 1.5; }
+        #status { min-height: 1.4rem; color: #934323; }
+        .table-wrap { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: .65rem; border-bottom: 1px solid #e3e9e3; text-align: left; vertical-align: top; }
+        th { background: #f5f8f5; white-space: nowrap; }
+        .chart { display: grid; gap: .55rem; margin: 1rem 0 1.5rem; }
+        .bar-row { display: grid; grid-template-columns: minmax(100px, 220px) 1fr minmax(55px, auto); gap: .65rem; align-items: center; }
+        .bar-label { overflow-wrap: anywhere; }
+        .bar-track { height: 1rem; border-radius: 8px; background: #e7eee8; }
+        .bar { height: 100%; min-width: 2px; border-radius: inherit; background: #4a8b61; }
+        .bar-value { text-align: right; white-space: nowrap; }
+        [hidden] { display: none !important; }
+
+        @media print {
+            body, :root { background: white; }
+            main { max-width: none; margin: 0; padding: 0; }
+            .filters-panel, .actions, #status { display: none !important; }
+            .panel, .report { border: 0; padding: 0; }
+            .table-wrap { overflow: visible; }
+            th, td { padding: .35rem; font-size: 9pt; }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <header class="report-page-heading">
+            <h1>Relatórios Agrícolas</h1>
+            <p class="report-page-description">Consulte e gere relatórios sobre propriedades, plantios, colheitas, insumos e custos da produção.</p>
+        </header>
+        <section class="panel filters-panel" aria-label="Filtros do relatório">
+            <form id="filters" class="filters">
+                <div>
+                    <label for="report">Relatório</label>
+                    <select id="report" required></select>
+                </div>
+                <div data-filter="property">
+                    <label for="property">Propriedade</label>
+                    <select id="property"><option value="">Todas</option></select>
+                </div>
+                <div data-filter="culture">
+                    <label for="culture">Cultura</label>
+                    <select id="culture"><option value="">Todas</option></select>
+                </div>
+                <div data-filter="talhao">
+                    <label for="talhao">Talhão</label>
+                    <select id="talhao"><option value="">Todos</option></select>
+                </div>
+                <div data-filter="period">
+                    <label for="startDate">Data inicial</label>
+                    <input id="startDate" type="date">
+                </div>
+                <div data-filter="period">
+                    <label for="endDate">Data final</label>
+                    <input id="endDate" type="date">
+                </div>
+                <div><button type="submit">Gerar relatório</button></div>
+            </form>
+        </section>
+
+        <p id="status" role="status" aria-live="polite"></p>
+
+        <section class="report" id="report-content" hidden>
+            <div class="report-heading">
+                <div>
+                    <h2 id="report-title"></h2>
+                    <p id="report-description"></p>
+                </div>
+                <div class="actions">
+                    <button class="secondary" id="download" type="button">Baixar CSV (Excel)</button>
+                    <button class="secondary" id="print" type="button">Imprimir / Salvar em PDF</button>
+                </div>
+            </div>
+            <div id="chart" class="chart" aria-label="Gráfico do relatório"></div>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr id="table-head"></tr></thead>
+                    <tbody id="table-body"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const statusElement = document.getElementById('status');
+        const reportSelect = document.getElementById('report');
+        const reportContent = document.getElementById('report-content');
+        let currentResult = null;
+
+        function authHeaders() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error('Sessão não encontrada. Entre no sistema e abra novamente /Reports.');
+            }
+            return {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}`
+            };
+        }
+
+        async function getJson(url) {
+            const response = await fetch(url, { headers: authHeaders() });
+            if (!response.ok) {
+                if (response.status === 401) {
+                    throw new Error('Sessão inválida ou expirada. Entre novamente no sistema.');
+                }
+                const detail = await response.text();
+                throw new Error(detail || `Falha ao consultar o servidor (${response.status}).`);
+            }
+            return response.json();
+        }
+
+        function addOptions(select, options, emptyLabel) {
+            select.replaceChildren(new Option(emptyLabel, ''));
+            options.forEach(item => select.add(new Option(item.name, item.id)));
+        }
+
+        function updateVisibleFilters() {
+            const report = window.reportCatalog.find(item => item.id === reportSelect.value);
+            document.querySelectorAll('[data-filter]').forEach(element => {
+                const isVisible = report.filters.includes(element.dataset.filter);
+                element.hidden = !isVisible;
+                if (!isVisible) {
+                    element.querySelector('select, input').value = '';
+                }
+            });
+        }
+
+        function formatValue(value, format) {
+            if (value === null || value === undefined || value === '') return '—';
+            if (format === 'date') {
+                return new Date(value).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+            }
+            if (format === 'number' || format === 'percent' || format === 'currency') {
+                const number = Number(value);
+                if (!Number.isFinite(number)) return String(value);
+                return new Intl.NumberFormat('pt-BR', {
+                    maximumFractionDigits: 2,
+                    ...(format === 'currency' ? { style: 'currency', currency: 'BRL' } : {})
+                }).format(number) + (format === 'percent' ? '%' : '');
+            }
+            return String(value);
+        }
+
+        function renderChart(result) {
+            const container = document.getElementById('chart');
+            container.replaceChildren();
+            if (!result.chart || !result.rows.length) return;
+
+            const groups = new Map();
+            const seen = new Set();
+            result.rows.forEach(row => {
+                const label = row[result.chart.labelKey] ?? 'Sem informação';
+                const period = result.chart.periodKey ? row[result.chart.periodKey] : null;
+                const uniqueValue = result.chart.uniqueKey ? row[result.chart.uniqueKey] : null;
+                const groupKey = JSON.stringify([label, period]);
+                const uniqueKey = JSON.stringify([label, period, uniqueValue]);
+                if (result.chart.uniqueKey && seen.has(uniqueKey)) return;
+                seen.add(uniqueKey);
+
+                const current = groups.get(groupKey);
+                const value = result.chart.valueKey ? Number(row[result.chart.valueKey] ?? 0) : 1;
+                groups.set(groupKey, (current ?? 0) + value);
+            });
+
+            const values = [...groups.entries()].map(([key, value]) => {
+                const [label, period] = JSON.parse(key);
+                const formattedPeriod = period
+                    ? new Date(period).toLocaleDateString('pt-BR', {
+                        month: 'short',
+                        year: 'numeric',
+                        timeZone: 'UTC'
+                    })
+                    : '';
+                return [`${label}${formattedPeriod ? ` / ${formattedPeriod}` : ''}`, value];
+            }).slice(0, 20);
+            const max = Math.max(...values.map(([, value]) => value), 0);
+            values.forEach(([label, value]) => {
+                const row = document.createElement('div');
+                row.className = 'bar-row';
+                const labelElement = document.createElement('span');
+                labelElement.className = 'bar-label';
+                labelElement.textContent = label;
+                const track = document.createElement('div');
+                track.className = 'bar-track';
+                const bar = document.createElement('div');
+                bar.className = 'bar';
+                bar.style.width = `${max > 0 ? Math.max(value / max * 100, 1) : 0}%`;
+                track.appendChild(bar);
+                const valueElement = document.createElement('span');
+                valueElement.className = 'bar-value';
+                valueElement.textContent = new Intl.NumberFormat('pt-BR', {
+                    maximumFractionDigits: 2
+                }).format(value);
+                row.append(labelElement, track, valueElement);
+                container.appendChild(row);
+            });
+        }
+
+        function renderReport(result) {
+            currentResult = result;
+            document.getElementById('report-title').textContent = result.title;
+            document.getElementById('report-description').textContent = result.description;
+
+            const tableHead = document.getElementById('table-head');
+            tableHead.replaceChildren();
+            result.columns.forEach(column => {
+                const cell = document.createElement('th');
+                cell.scope = 'col';
+                cell.textContent = column.label;
+                tableHead.appendChild(cell);
+            });
+
+            const tableBody = document.getElementById('table-body');
+            tableBody.replaceChildren();
+            if (!result.rows.length) {
+                const row = document.createElement('tr');
+                const cell = document.createElement('td');
+                cell.colSpan = result.columns.length;
+                cell.textContent = 'Nenhum registro encontrado para os filtros selecionados.';
+                row.appendChild(cell);
+                tableBody.appendChild(row);
+            } else {
+                result.rows.forEach(data => {
+                    const row = document.createElement('tr');
+                    result.columns.forEach(column => {
+                        const cell = document.createElement('td');
+                        cell.textContent = formatValue(data[column.key], column.format);
+                        row.appendChild(cell);
+                    });
+                    tableBody.appendChild(row);
+                });
+            }
+
+            renderChart(result);
+            reportContent.hidden = false;
+        }
+
+        async function loadReport(event) {
+            event?.preventDefault();
+            statusElement.textContent = 'Carregando relatório...';
+            reportContent.hidden = true;
+
+            const parameters = new URLSearchParams();
+            const report = window.reportCatalog.find(item => item.id === reportSelect.value);
+            const filterMap = [
+                ['propertyId', 'property', 'property'],
+                ['cultureId', 'culture', 'culture'],
+                ['talhaoId', 'talhao', 'talhao'],
+                ['startDate', 'startDate', 'period'],
+                ['endDate', 'endDate', 'period']
+            ];
+            filterMap.forEach(([parameter, id, filter]) => {
+                if (!report.filters.includes(filter)) return;
+                const value = document.getElementById(id).value;
+                if (value) parameters.set(parameter, value);
+            });
+
+            try {
+                const query = parameters.toString();
+                const result = await getJson(
+                    `/Reports/data/${encodeURIComponent(reportSelect.value)}${query ? `?${query}` : ''}`);
+                renderReport(result);
+                statusElement.textContent = `${result.rows.length} registro(s) encontrado(s).`;
+            } catch (error) {
+                statusElement.textContent = error.message;
+            }
+        }
+
+        function downloadCsv() {
+            if (!currentResult) return;
+            const escapeCsv = value => `"${String(value ?? '').replaceAll('"', '""')}"`;
+            const lines = [
+                currentResult.columns.map(column => escapeCsv(column.label)).join(';'),
+                ...currentResult.rows.map(row => currentResult.columns
+                    .map(column => escapeCsv(row[column.key]))
+                    .join(';'))
+            ];
+            const blob = new Blob(['\uFEFF' + lines.join('\r\n')], {
+                type: 'text/csv;charset=utf-8'
+            });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${currentResult.id}.csv`;
+            link.click();
+            setTimeout(() => URL.revokeObjectURL(link.href), 0);
+        }
+
+        async function initialize() {
+            try {
+                const options = await getJson('/Reports/filters');
+                window.reportCatalog = options.reports;
+                options.reports.forEach(report => {
+                    reportSelect.add(new Option(report.title, report.id));
+                });
+                addOptions(document.getElementById('property'), options.properties, 'Todas');
+                addOptions(document.getElementById('culture'), options.cultures, 'Todas');
+                addOptions(document.getElementById('talhao'), options.talhoes, 'Todos');
+                reportSelect.addEventListener('change', updateVisibleFilters);
+                document.getElementById('filters').addEventListener('submit', loadReport);
+                document.getElementById('download').addEventListener('click', downloadCsv);
+                document.getElementById('print').addEventListener('click', () => window.print());
+                updateVisibleFilters();
+                await loadReport();
+            } catch (error) {
+                statusElement.textContent = error.message;
+            }
+        }
+
+        initialize();
+    </script>
+</body>
+</html>
