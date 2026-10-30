@@ -9,25 +9,13 @@ public class ColheitaController(ColheitaService colheitaService) : Controller
     private readonly ColheitaService _colheitaService = colheitaService;
 
     [HttpGet]
-    public IActionResult Index()
-    {
-        ViewData["Title"] = "Colheitas";
+   [HttpGet]
+public IActionResult Index()
+{
+    ViewData["Title"] = "Colheitas";
 
-        return View("~/Views/Shared/ManagementList.cshtml", new ManagementListViewModel
-        {
-            Title = "Colheitas",
-            Description = "Acompanhe os resultados e registros das colheitas.",
-            SearchPlaceholder = "Pesquisar colheita...",
-            AddLabel = "Nova colheita",
-            Columns = new[]
-            {
-                "Plantio",
-                "Data da colheita",
-                "Produção total",
-                "Observações"
-            }
-        });
-    }
+    return View("~/Views/Colheita/Index.cshtml");
+}
 
     [HttpGet]
     public IActionResult GetList()

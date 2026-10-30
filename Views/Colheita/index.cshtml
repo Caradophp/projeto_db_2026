@@ -2,25 +2,303 @@
     ViewData["Title"] = "Colheitas";
 }
 
-<div>
-    <section class="border border-1 border-dark d-flex">
-        <div class="input-group m-1">
-            <input type="text" class="form-control" placeholder="Pesquisar...">
-            <button type="button" class="btn btn-info text-white"><i class="fa fa-search"></i></button>
+<link rel="stylesheet" href="~/css/colheita.css" asp-append-version="true" />
+
+<div class="colheita-page">
+
+    <section class="colheita-hero">
+        <div>
+            <span class="colheita-eyebrow">
+                <i class="fa-solid fa-wheat-awn"></i>
+                GESTÃO DA PRODUÇÃO
+            </span>
+
+            <h1>Colheitas</h1>
+
+            <p>
+                Registre e acompanhe os resultados das colheitas realizadas
+                na sua produção.
+            </p>
         </div>
-        <button type="button" class="btn btn-primary m-1 ml-0 d-flex align-items-center"><i class="fa-solid fa-circle-plus pr-1"></i>Novo</button>
+
+        <div class="colheita-hero-icon">
+            <i class="fa-solid fa-wheat-awn"></i>
+        </div>
     </section>
-    <section>
-        <table class="table">
-            <thead>
-                <th>Nome</th>
-                <th>Data</th>
-                <th>Mês</th>
-                <th>Safra</th>
-            </thead>
-            <tbody>
-                
-            </tbody>
-        </table>
+
+
+    <section class="colheita-stats">
+
+        <article class="stat-card">
+            <div class="stat-icon stat-green">
+                <i class="fa-solid fa-wheat-awn"></i>
+            </div>
+
+            <div>
+                <span>Total de colheitas</span>
+                <strong id="totalColheitas">0</strong>
+                <small>registros realizados</small>
+            </div>
+        </article>
+
+
+        <article class="stat-card">
+            <div class="stat-icon stat-yellow">
+                <i class="fa-solid fa-weight-hanging"></i>
+            </div>
+
+            <div>
+                <span>Produção total</span>
+                <strong id="producaoTotal">0</strong>
+                <small>produção registrada</small>
+            </div>
+        </article>
+
+
+        <article class="stat-card">
+            <div class="stat-icon stat-blue">
+                <i class="fa-solid fa-seedling"></i>
+            </div>
+
+            <div>
+                <span>Plantios colhidos</span>
+                <strong id="plantiosColhidos">0</strong>
+                <small>plantios diferentes</small>
+            </div>
+        </article>
+
+
+        <article class="stat-card">
+            <div class="stat-icon stat-orange">
+                <i class="fa-solid fa-calendar-check"></i>
+            </div>
+
+            <div>
+                <span>Última colheita</span>
+                <strong id="ultimaColheita">—</strong>
+                <small>registro mais recente</small>
+            </div>
+        </article>
+
     </section>
+
+
+    <section class="colheita-panel">
+
+        <div class="panel-header">
+
+            <div class="panel-heading">
+                <h2>Registros de colheitas</h2>
+                <p>Consulte, cadastre e gerencie as colheitas.</p>
+            </div>
+
+
+            <div class="panel-actions">
+
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input
+                        id="searchColheita"
+                        type="text"
+                        placeholder="Pesquisar colheita..."
+                        autocomplete="off" />
+                </div>
+
+
+                <button
+                    class="btn-new-colheita"
+                    id="btnNovaColheita"
+                    type="button">
+
+                    <i class="fa-solid fa-plus"></i>
+                    Nova colheita
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-responsive">
+
+            <table class="colheita-table">
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Plantio</th>
+                        <th>Data da colheita</th>
+                        <th>Produção total</th>
+                        <th>Observações</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody id="colheitaTableBody">
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <div class="empty-state" id="emptyState">
+
+            <div class="empty-icon">
+                <i class="fa-solid fa-wheat-awn"></i>
+            </div>
+
+            <h3>Nenhuma colheita encontrada</h3>
+
+            <p>
+                Os registros de colheitas aparecerão aqui.
+            </p>
+
+        </div>
+
+    </section>
+
 </div>
+
+
+<div class="colheita-modal-overlay" id="colheitaModal">
+
+    <div class="colheita-modal">
+
+        <div class="modal-header">
+
+            <div>
+                <span class="modal-eyebrow">
+                    REGISTRO DE PRODUÇÃO
+                </span>
+
+                <h2 id="modalTitle">
+                    Nova colheita
+                </h2>
+            </div>
+
+
+            <button
+                type="button"
+                class="modal-close"
+                id="btnCloseModal">
+
+                <i class="fa-solid fa-xmark"></i>
+
+            </button>
+
+        </div>
+
+
+        <form id="colheitaForm">
+
+            <input
+                type="hidden"
+                id="colheitaId" />
+
+
+            <div class="form-grid">
+
+                <div class="form-group form-full">
+
+                    <label for="plantioInput">
+                        Plantio
+                    </label>
+
+                    <select
+                        id="plantioInput"
+                        required>
+
+                        <option value="">
+                            Selecione o plantio
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="dataColheitaInput">
+                        Data da colheita
+                    </label>
+
+                    <input
+                        type="date"
+                        id="dataColheitaInput"
+                        required />
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="producaoTotalInput">
+                        Produção total
+                    </label>
+
+                    <input
+                        type="number"
+                        id="producaoTotalInput"
+                        min="0"
+                        step="0.01"
+                        placeholder="Ex.: 1500,50"
+                        required />
+
+                </div>
+
+
+                <div class="form-group form-full">
+
+                    <label for="observacoesInput">
+                        Observações
+                    </label>
+
+                    <textarea
+                        id="observacoesInput"
+                        maxlength="500"
+                        rows="4"
+                        placeholder="Informações adicionais sobre a colheita..."></textarea>
+
+                    <span class="character-count">
+                        Máximo de 500 caracteres
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="modal-actions">
+
+                <button
+                    type="button"
+                    class="btn-cancel"
+                    id="btnCancelModal">
+
+                    Cancelar
+
+                </button>
+
+
+                <button
+                    type="submit"
+                    class="btn-save">
+
+                    <i class="fa-solid fa-check"></i>
+                    Salvar colheita
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<script src="~/js/colheita.js" asp-append-version="true"></script>

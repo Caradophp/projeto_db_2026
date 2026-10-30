@@ -1,0 +1,642 @@
+.colheita-page {
+    padding: 26px 30px 40px;
+    background: #f5f8f6;
+    min-height: calc(100vh - 70px);
+}
+
+/* =========================
+   HERO
+========================= */
+
+.colheita-hero {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 190px;
+    padding: 34px 38px;
+    border-radius: 22px;
+    background: linear-gradient(135deg, #174f38, #28734f);
+    color: #fff;
+    box-shadow: 0 12px 30px rgba(24, 79, 56, .16);
+}
+
+.colheita-hero::after {
+    content: "";
+    position: absolute;
+    width: 260px;
+    height: 260px;
+    right: -60px;
+    bottom: -150px;
+    border: 35px solid rgba(255, 255, 255, .07);
+    border-radius: 50%;
+}
+
+.colheita-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    color: #d7ecdf;
+}
+
+.colheita-hero h1 {
+    margin: 0 0 8px;
+    font-size: 34px;
+    font-weight: 700;
+}
+
+.colheita-hero p {
+    max-width: 620px;
+    margin: 0;
+    color: #dcebe3;
+    font-size: 15px;
+}
+
+.colheita-hero-icon {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 92px;
+    height: 92px;
+    flex-shrink: 0;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, .12);
+    font-size: 40px;
+    color: #fff;
+}
+
+/* =========================
+   INDICADORES
+========================= */
+
+.colheita-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin: 20px 0;
+}
+
+.stat-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 112px;
+    padding: 18px;
+    background: #fff;
+    border: 1px solid #e5ece8;
+    border-radius: 17px;
+    box-shadow: 0 5px 16px rgba(31, 70, 52, .05);
+}
+
+.stat-icon {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    font-size: 18px;
+}
+
+.stat-green {
+    color: #24704b;
+    background: #e4f3e9;
+}
+
+.stat-yellow {
+    color: #a8780b;
+    background: #fff2cf;
+}
+
+.stat-blue {
+    color: #337ba1;
+    background: #e1f1f8;
+}
+
+.stat-orange {
+    color: #b6672d;
+    background: #fbe9dc;
+}
+
+.stat-card span {
+    display: block;
+    margin-bottom: 3px;
+    color: #708078;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.stat-card strong {
+    display: block;
+    color: #173d2e;
+    font-size: 23px;
+    line-height: 1.1;
+}
+
+.stat-card small {
+    color: #94a199;
+    font-size: 11px;
+}
+
+/* =========================
+   PAINEL
+========================= */
+
+.colheita-panel {
+    background: #fff;
+    border: 1px solid #e4ebe7;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 5px 18px rgba(30, 66, 49, .05);
+}
+
+/*
+   Título, pesquisa e botão ficam
+   na MESMA LINHA, igual a Culturas.
+*/
+.panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 24px 26px;
+}
+
+.panel-heading {
+    flex: 1;
+    min-width: 240px;
+}
+
+.panel-header h2 {
+    margin: 0 0 5px;
+    color: #173d2e;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.panel-header p {
+    margin: 0;
+    color: #7b8982;
+    font-size: 13px;
+}
+
+.panel-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    flex-shrink: 0;
+    margin-left: auto;
+}
+
+.search-box {
+    width: 330px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px;
+    border: 1px solid #dfe7e2;
+    border-radius: 11px;
+    background: #fafcfb;
+    box-sizing: border-box;
+}
+
+.search-box i {
+    flex-shrink: 0;
+    color: #71837a;
+    font-size: 14px;
+}
+
+.search-box input {
+    flex: 1;
+    min-width: 0;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #294538;
+    font-size: 13px;
+}
+
+.search-box input::placeholder {
+    color: #93a099;
+}
+
+.btn-new-colheita {
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    flex-shrink: 0;
+    padding: 0 18px;
+    border: 0;
+    border-radius: 11px;
+    background: #216645;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+.btn-new-colheita:hover {
+    background: #174e36;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 12px rgba(33, 102, 69, .15);
+}
+
+/* =========================
+   TABELA
+========================= */
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.colheita-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.colheita-table th {
+    padding: 13px 18px;
+    background: #f7faf8;
+    border-top: 1px solid #edf1ef;
+    border-bottom: 1px solid #e5ebe7;
+    color: #64776d;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+}
+
+.colheita-table td {
+    padding: 15px 18px;
+    border-bottom: 1px solid #edf1ef;
+    color: #354c41;
+    font-size: 13px;
+    vertical-align: middle;
+}
+
+.colheita-table tbody tr:hover {
+    background: #fafcfb;
+}
+
+.plantio-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 9px;
+    border-radius: 8px;
+    background: #e8f3ec;
+    color: #236444;
+    font-weight: 600;
+}
+
+.production-value {
+    color: #1f6745;
+    font-weight: 700;
+}
+
+.observation-text {
+    display: block;
+    max-width: 320px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #697a71;
+}
+
+/* =========================
+   AÇÕES
+========================= */
+
+.action-buttons {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.action-btn {
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 9px;
+    cursor: pointer;
+    transition: transform .2s ease;
+}
+
+.action-edit {
+    background: #e3f2e8;
+    color: #26714c;
+}
+
+.action-delete {
+    background: #fce8e8;
+    color: #c74d4d;
+}
+
+.action-btn:hover {
+    transform: translateY(-1px);
+}
+
+/* =========================
+   ESTADO VAZIO
+========================= */
+
+.empty-state {
+    display: none;
+    padding: 52px 20px 58px;
+    text-align: center;
+}
+
+.empty-state.show {
+    display: block;
+}
+
+.empty-icon {
+    width: 52px;
+    height: 52px;
+    margin: 0 auto 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    background: #edf5f0;
+    color: #56806a;
+    font-size: 20px;
+}
+
+.empty-state h3 {
+    margin: 0 0 5px;
+    color: #244536;
+    font-size: 15px;
+}
+
+.empty-state p {
+    margin: 0;
+    color: #829087;
+    font-size: 13px;
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.colheita-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(13, 35, 26, .48);
+    backdrop-filter: blur(3px);
+}
+
+.colheita-modal-overlay.show {
+    display: flex;
+}
+
+.colheita-modal {
+    width: min(610px, 100%);
+    max-height: 90vh;
+    overflow-y: auto;
+    background: #fff;
+    border-radius: 19px;
+    box-shadow: 0 24px 70px rgba(0, 0, 0, .22);
+}
+
+.modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 23px 25px 18px;
+    border-bottom: 1px solid #edf1ef;
+}
+
+.modal-eyebrow {
+    display: block;
+    margin-bottom: 4px;
+    color: #6f8178;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.modal-header h2 {
+    margin: 0;
+    color: #173d2e;
+    font-size: 21px;
+}
+
+.modal-close {
+    width: 34px;
+    height: 34px;
+    border: 0;
+    border-radius: 9px;
+    background: #f3f6f4;
+    color: #63746b;
+    cursor: pointer;
+}
+
+#colheitaForm {
+    padding: 22px 25px 25px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 17px;
+}
+
+.form-full {
+    grid-column: 1 / -1;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.form-group label {
+    color: #385347;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 11px 12px;
+    border: 1px solid #dce5e0;
+    border-radius: 9px;
+    outline: 0;
+    background: #fff;
+    color: #294438;
+    font-size: 13px;
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #4d8d6b;
+    box-shadow: 0 0 0 3px rgba(55, 126, 84, .09);
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+.character-count {
+    color: #929e98;
+    text-align: right;
+    font-size: 10px;
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid #edf1ef;
+}
+
+.btn-cancel,
+.btn-save {
+    padding: 10px 16px;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-cancel {
+    border: 1px solid #dce4df;
+    background: #fff;
+    color: #617169;
+}
+
+.btn-save {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    border: 0;
+    background: #216645;
+    color: #fff;
+}
+
+.btn-save:hover {
+    background: #174e36;
+}
+
+/* =========================
+   RESPONSIVIDADE
+========================= */
+
+@media (max-width: 1100px) {
+    .colheita-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .panel-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .panel-actions {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .search-box {
+        flex: 1;
+        width: auto;
+    }
+}
+
+@media (max-width: 700px) {
+    .colheita-page {
+        padding: 18px 14px 30px;
+    }
+
+    .colheita-hero {
+        min-height: auto;
+        padding: 27px 24px;
+    }
+
+    .colheita-hero h1 {
+        font-size: 29px;
+    }
+
+    .colheita-hero-icon {
+        display: none;
+    }
+
+    .colheita-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .panel-header {
+        padding: 20px;
+    }
+
+    .panel-actions {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .search-box {
+        width: 100%;
+        flex: none;
+    }
+
+    .btn-new-colheita {
+        width: 100%;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-full {
+        grid-column: auto;
+    }
+
+    .modal-actions {
+        flex-direction: column-reverse;
+    }
+
+    .btn-cancel,
+    .btn-save {
+        width: 100%;
+        justify-content: center;
+    }
+}
