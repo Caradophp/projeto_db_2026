@@ -493,9 +493,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 error
             );
 
-            alert(
-                'Não foi possível carregar os talhões e culturas.'
-            );
+            await CultivaAlert.error(
+    'Não foi possível carregar os talhões e culturas.',
+    'Erro ao carregar'
+);
         }
     }
 
@@ -508,7 +509,10 @@ document.addEventListener('DOMContentLoaded', function () {
             );
 
             if (!item) {
-                alert('Plantio não encontrado.');
+                await CultivaAlert.warning(
+    'Plantio não encontrado.',
+    'Atenção'
+);
                 return;
             }
 
@@ -550,9 +554,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 error
             );
 
-            alert(
-                'Não foi possível carregar os dados para edição.'
-            );
+            await CultivaAlert.error(
+    'Não foi possível carregar os dados para edição.',
+    'Erro ao carregar'
+);
         }
     }
 
@@ -592,17 +597,26 @@ document.addEventListener('DOMContentLoaded', function () {
             .trim();
 
         if (!talhaoId) {
-            alert('Selecione um talhão.');
+            await CultivaAlert.warning(
+    'Selecione um talhão.',
+    'Campo obrigatório'
+);
             return;
         }
 
         if (!culturaId) {
-            alert('Selecione uma cultura.');
+           await CultivaAlert.warning(
+    'Selecione uma cultura.',
+    'Campo obrigatório'
+);
             return;
         }
 
         if (!dataPlantio) {
-            alert('Informe a data do plantio.');
+           await CultivaAlert.warning(
+    'Informe a data do plantio.',
+    'Campo obrigatório'
+);
             return;
         }
 
@@ -610,9 +624,10 @@ document.addEventListener('DOMContentLoaded', function () {
             dataPrevistaColheita &&
             dataPrevistaColheita < dataPlantio
         ) {
-            alert(
-                'A colheita prevista não pode ser anterior à data do plantio.'
-            );
+            await CultivaAlert.warning(
+    'A colheita prevista não pode ser anterior à data do plantio.',
+    'Data inválida'
+);
             return;
         }
 
@@ -656,10 +671,11 @@ document.addEventListener('DOMContentLoaded', function () {
             const result = await response.json();
 
             if (!result.success) {
-                alert(
-                    result.message ||
-                    'Não foi possível salvar o plantio.'
-                );
+               await CultivaAlert.error(
+    result.message ||
+    'Não foi possível salvar o plantio.',
+    'Erro ao salvar'
+);
                 return;
             }
 
@@ -670,9 +686,10 @@ document.addEventListener('DOMContentLoaded', function () {
         } catch (error) {
             console.error('Erro ao salvar plantio:', error);
 
-            alert(
-                'Não foi possível salvar o plantio. Tente novamente.'
-            );
+           await CultivaAlert.error(
+    'Não foi possível salvar o plantio. Tente novamente.',
+    'Erro ao salvar'
+);
         }
     }
 
@@ -685,9 +702,10 @@ document.addEventListener('DOMContentLoaded', function () {
             ? `${getTalhaoNome(item.talhaoId)} - ${getCulturaNome(item.culturaId)}`
             : 'este plantio';
 
-        const confirmed = confirm(
-            `Deseja realmente excluir "${description}"?`
-        );
+        const confirmed = await CultivaAlert.delete(
+    'Excluir plantio?',
+    `Deseja realmente excluir "${description}"?`
+);
 
         if (!confirmed) {
             return;
@@ -711,10 +729,11 @@ document.addEventListener('DOMContentLoaded', function () {
             const result = await response.json();
 
             if (!result.success) {
-                alert(
-                    result.message ||
-                    'Não foi possível excluir o plantio.'
-                );
+               await CultivaAlert.error(
+    result.message ||
+    'Não foi possível excluir o plantio.',
+    'Erro ao excluir'
+);
                 return;
             }
 
@@ -723,9 +742,10 @@ document.addEventListener('DOMContentLoaded', function () {
         } catch (error) {
             console.error('Erro ao excluir plantio:', error);
 
-            alert(
-                'Não foi possível excluir o plantio.'
-            );
+            await CultivaAlert.error(
+    'Não foi possível excluir o plantio.',
+    'Erro ao excluir'
+);
         }
     }
 

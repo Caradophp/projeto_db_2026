@@ -294,13 +294,16 @@ document.addEventListener('DOMContentLoaded', function () {
         culturaModal.show();
     }
 
-    function openEditModal(id) {
+   async function openEditModal(id) {
         const item = culturas.find(
             cultura => Number(cultura.id) === Number(id)
         );
 
         if (!item) {
-            alert('Cultura não encontrada.');
+            await CultivaAlert.warning(
+    'Cultura não encontrada.',
+    'Atenção'
+);
             return;
         }
 
@@ -333,7 +336,10 @@ document.addEventListener('DOMContentLoaded', function () {
             .trim();
 
         if (!nome) {
-            alert('Informe o nome da cultura.');
+            await CultivaAlert.warning(
+    'Informe o nome da cultura.',
+    'Campo obrigatório'
+);
             return;
         }
 
@@ -363,10 +369,11 @@ document.addEventListener('DOMContentLoaded', function () {
             const result = await response.json();
 
             if (!result.success) {
-                alert(
-                    result.message ||
-                    'Não foi possível salvar a cultura.'
-                );
+                await CultivaAlert.error(
+    result.message ||
+    'Não foi possível salvar a cultura.',
+    'Erro ao salvar'
+);
                 return;
             }
 
@@ -377,9 +384,10 @@ document.addEventListener('DOMContentLoaded', function () {
         } catch (error) {
             console.error('Erro ao salvar cultura:', error);
 
-            alert(
-                'Não foi possível salvar a cultura. Tente novamente.'
-            );
+            await CultivaAlert.error(
+    'Não foi possível salvar a cultura. Tente novamente.',
+    'Erro ao salvar'
+);
         }
     }
 
@@ -390,10 +398,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const nome = item?.nome || 'esta cultura';
 
-        const confirmed = confirm(
-            `Deseja realmente excluir "${nome}"?`
-        );
-
+        const confirmed = await CultivaAlert.delete(
+    'Excluir cultura?',
+    `Deseja realmente excluir "${nome}"?`
+);
         if (!confirmed) {
             return;
         }
@@ -416,10 +424,11 @@ document.addEventListener('DOMContentLoaded', function () {
             const result = await response.json();
 
             if (!result.success) {
-                alert(
-                    result.message ||
-                    'Não foi possível excluir a cultura.'
-                );
+                await CultivaAlert.error(
+    result.message ||
+    'Não foi possível excluir a cultura.',
+    'Erro ao excluir'
+);
                 return;
             }
 
@@ -428,9 +437,10 @@ document.addEventListener('DOMContentLoaded', function () {
         } catch (error) {
             console.error('Erro ao excluir cultura:', error);
 
-            alert(
-                'Não foi possível excluir a cultura.'
-            );
+            await CultivaAlert.error(
+    'Não foi possível excluir a cultura.',
+    'Erro ao excluir'
+);
         }
     }
 

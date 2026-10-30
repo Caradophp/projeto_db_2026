@@ -382,9 +382,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 error
             );
 
-            alert(
-                'Não foi possível carregar as propriedades.'
-            );
+            await CultivaAlert.error(
+    'Não foi possível carregar as propriedades.',
+    'Erro ao carregar'
+);
         }
     }
 
@@ -397,7 +398,10 @@ document.addEventListener('DOMContentLoaded', function () {
             );
 
             if (!item) {
-                alert('Talhão não encontrado.');
+                await CultivaAlert.warning(
+    'Talhão não encontrado.',
+    'Atenção'
+);
                 return;
             }
 
@@ -421,9 +425,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 error
             );
 
-            alert(
-                'Não foi possível carregar os dados para edição.'
-            );
+            await CultivaAlert.error(
+    'Não foi possível carregar os dados para edição.',
+    'Erro ao carregar'
+);
         }
     }
 
@@ -453,17 +458,26 @@ document.addEventListener('DOMContentLoaded', function () {
             .trim();
 
         if (!nome) {
-            alert('Informe o nome do talhão.');
+            await CultivaAlert.warning(
+    'Informe o nome do talhão.',
+    'Campo obrigatório'
+);
             return;
         }
 
         if (!area || area <= 0) {
-            alert('Informe uma área maior que zero.');
+            await CultivaAlert.warning(
+    'Informe uma área maior que zero.',
+    'Área inválida'
+);
             return;
         }
 
         if (!propriedadeId) {
-            alert('Selecione uma propriedade.');
+            await CultivaAlert.warning(
+    'Selecione uma propriedade.',
+    'Campo obrigatório'
+);
             return;
         }
 
@@ -495,7 +509,10 @@ document.addEventListener('DOMContentLoaded', function () {
             const result = await response.json();
 
             if (!result.success) {
-                alert(result.message || 'Não foi possível salvar.');
+               await CultivaAlert.error(
+    result.message || 'Não foi possível salvar.',
+    'Erro ao salvar'
+);
                 return;
             }
 
@@ -506,9 +523,10 @@ document.addEventListener('DOMContentLoaded', function () {
         } catch (error) {
             console.error('Erro ao salvar talhão:', error);
 
-            alert(
-                'Não foi possível salvar o talhão. Tente novamente.'
-            );
+           await CultivaAlert.error(
+    'Não foi possível salvar o talhão. Tente novamente.',
+    'Erro ao salvar'
+);
         }
     }
 
@@ -519,9 +537,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const nome = item?.nome || 'este talhão';
 
-        const confirmed = confirm(
-            `Deseja realmente excluir "${nome}"?`
-        );
+        const confirmed = await CultivaAlert.delete(
+    'Excluir talhão?',
+    `Deseja realmente excluir "${nome}"?`
+);
 
         if (!confirmed) {
             return;
@@ -545,7 +564,10 @@ document.addEventListener('DOMContentLoaded', function () {
             const result = await response.json();
 
             if (!result.success) {
-                alert(result.message || 'Não foi possível excluir.');
+                await CultivaAlert.error(
+    result.message || 'Não foi possível excluir.',
+    'Erro ao excluir'
+);
                 return;
             }
 
@@ -554,9 +576,10 @@ document.addEventListener('DOMContentLoaded', function () {
         } catch (error) {
             console.error('Erro ao excluir talhão:', error);
 
-            alert(
-                'Não foi possível excluir o talhão.'
-            );
+            await CultivaAlert.error(
+    'Não foi possível excluir o talhão.',
+    'Erro ao excluir'
+);
         }
     }
 

@@ -322,7 +322,10 @@ async function salvarColheita(event) {
         const result = await response.json();
 
         if (!result.success) {
-            alert(result.message || 'Não foi possível salvar a colheita.');
+            await CultivaAlert.error(
+    result.message || 'Não foi possível salvar a colheita.',
+    'Erro ao salvar'
+);
             return;
         }
 
@@ -331,14 +334,19 @@ async function salvarColheita(event) {
 
     } catch (error) {
         console.error(error);
-        alert('Erro ao salvar a colheita.');
+        await CultivaAlert.error(
+    'Erro ao salvar a colheita.',
+    'Erro ao salvar'
+);
     }
 }
 
 async function excluirColheita(id) {
-    const confirmar =
-        confirm('Deseja realmente excluir esta colheita?');
-
+   const confirmar =
+    await CultivaAlert.delete(
+        'Excluir colheita?',
+        'Deseja realmente excluir esta colheita?'
+    );
     if (!confirmar) {
         return;
     }
@@ -353,7 +361,10 @@ async function excluirColheita(id) {
         const result = await response.json();
 
         if (!result.success) {
-            alert(result.message || 'Não foi possível excluir a colheita.');
+           await CultivaAlert.error(
+    result.message || 'Não foi possível excluir a colheita.',
+    'Erro ao excluir'
+);
             return;
         }
 
@@ -361,7 +372,10 @@ async function excluirColheita(id) {
 
     } catch (error) {
         console.error(error);
-        alert('Erro ao excluir a colheita.');
+       await CultivaAlert.error(
+    'Erro ao excluir a colheita.',
+    'Erro ao excluir'
+);
     }
 }
 

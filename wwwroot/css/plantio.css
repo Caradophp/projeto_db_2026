@@ -1,9 +1,16 @@
 ﻿.plantio-page {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 22px;
+
     width: 100%;
-    padding-bottom: 24px;
+    min-height: calc(100vh - 70px);
+
+    padding: 26px 30px 40px;
+
+    background: #f5f8f6;
+
+    box-sizing: border-box;
 }
 
 /* =========================
@@ -777,8 +784,9 @@
 
 @media (max-width: 700px) {
     .plantio-page {
-        gap: 16px;
-    }
+    gap: 16px;
+    padding: 18px 14px 30px;
+}
 
     .plantio-hero {
         min-height: 150px;

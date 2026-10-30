@@ -1,11 +1,17 @@
 ﻿.insumo-page {
     display: flex;
     flex-direction: column;
-    gap: 24px;
-    width: 100%;
-    padding-bottom: 24px;
-}
+    gap: 22px;
 
+    width: 100%;
+    min-height: calc(100vh - 70px);
+
+    padding: 26px 30px 40px;
+
+    background: #f5f8f6;
+
+    box-sizing: border-box;
+}
 /* =========================
    HERO
 ========================= */
@@ -778,8 +784,9 @@
 
 @media (max-width: 700px) {
     .insumo-page {
-        gap: 16px;
-    }
+    gap: 16px;
+    padding: 18px 14px 30px;
+}
 
     .insumo-hero {
         min-height: 150px;
@@ -856,54 +863,76 @@
 }
 
 /* Ações da tabela */
-.insumo-actions {
+.insumo-page {
     display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 8px;
-}
+    flex-direction: column;
+    gap: 22px;
 
-.insumo-action {
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    border: 1px solid transparent;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    font-size: 14px;
-}
+    width: 100%;
+    min-height: calc(100vh - 70px);
 
+    padding: 26px 30px 40px;
+
+    background: #f5f8f6;
+
+    box-sizing: border-box;
+}.insumo-action i {
+    pointer-events: none;
+}
 /* Editar */
-.insumo-action.edit {
-    color: #256f46;
-    background: #edf7f1;
-    border-color: #d8ebdf;
+button.insumo-action.edit {
+    color: #256f46 !important;
+    background-color: #edf7f1 !important;
+    border: 1px solid #d8ebdf !important;
 }
 
-.insumo-action.edit:hover {
-    background: #256f46;
-    color: #fff;
-    border-color: #256f46;
+button.insumo-action.edit:hover {
+    color: #ffffff !important;
+    background-color: #256f46 !important;
+    border-color: #256f46 !important;
     transform: translateY(-1px);
 }
 
 /* Excluir */
-.insumo-action.delete {
-    color: #b54747;
-    background: #fff1f1;
-    border-color: #f1d7d7;
+button.insumo-action.delete {
+    color: #b54747 !important;
+    background-color: #fff1f1 !important;
+    border: 1px solid #f1d7d7 !important;
 }
 
-.insumo-action.delete:hover {
-    background: #b54747;
-    color: #fff;
-    border-color: #b54747;
+button.insumo-action.delete:hover {
+    color: #ffffff !important;
+    background-color: #b54747 !important;
+    border-color: #b54747 !important;
     transform: translateY(-1px);
 }
 
-.insumo-action i {
+button.insumo-action i {
+    font-size: 13px;
+    color: inherit !important;
     pointer-events: none;
+}
+
+.insumo-action {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid transparent;
+    border-radius: 10px !important;
+
+    font-size: 13px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        background .2s ease,
+        color .2s ease,
+        border-color .2s ease,
+        transform .2s ease;
 }
