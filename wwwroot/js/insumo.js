@@ -330,12 +330,18 @@ document.addEventListener('DOMContentLoaded', () => {
             !unidadeMedida ||
             Number.isNaN(estoque)
         ) {
-            alert('Preencha os campos obrigatórios.');
+            await CultivaAlert.warning(
+    'Preencha os campos obrigatórios.',
+    'Campos obrigatórios'
+);
             return;
         }
 
         if (estoque < 0) {
-            alert('O estoque não pode ser negativo.');
+           await CultivaAlert.warning(
+    'O estoque não pode ser negativo.',
+    'Estoque inválido'
+);
             return;
         }
 
@@ -366,10 +372,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const result = await response.json();
 
             if (!result.success) {
-                alert(
-                    result.message ||
-                    'Não foi possível salvar o insumo.'
-                );
+                await CultivaAlert.error(
+    result.message ||
+    'Não foi possível salvar o insumo.',
+    'Erro ao salvar'
+);
 
                 return;
             }
@@ -384,7 +391,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 error
             );
 
-            alert('Erro ao salvar o insumo.');
+            await CultivaAlert.error(
+    'Erro ao salvar o insumo.',
+    'Erro ao salvar'
+);
         }
     }
 
@@ -395,9 +405,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!item) return;
 
-        const confirmar = confirm(
-            `Deseja excluir o insumo "${item.nome}"?`
-        );
+        const confirmar = await CultivaAlert.delete(
+    'Excluir insumo?',
+    `Deseja excluir o insumo "${item.nome}"?`
+);
 
         if (!confirmar) return;
 
@@ -417,10 +428,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const result = await response.json();
 
             if (!result.success) {
-                alert(
-                    result.message ||
-                    'Não foi possível excluir o insumo.'
-                );
+                await CultivaAlert.error(
+    result.message ||
+    'Não foi possível excluir o insumo.',
+    'Erro ao excluir'
+);
 
                 return;
             }
@@ -433,7 +445,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 error
             );
 
-            alert('Erro ao excluir o insumo.');
+            await CultivaAlert.error(
+    'Erro ao excluir o insumo.',
+    'Erro ao excluir'
+);
         }
     }
 

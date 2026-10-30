@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', function () {
 
     const modalElement = document.getElementById('propriedadeModal');
@@ -613,10 +614,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (!result.success) {
 
-                alert(
-                    'Erro: ' +
-                    result.message
-                );
+               await CultivaAlert.error(
+    'Erro: ' + result.message,
+    'Erro ao salvar'
+);
 
                 return;
             }
@@ -633,9 +634,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 error
             );
 
-            alert(
-                'Não foi possível salvar a propriedade.'
-            );
+            await CultivaAlert.error(
+    'Não foi possível salvar a propriedade.',
+    'Erro ao salvar'
+);
         }
     }
 
@@ -660,9 +662,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
         const confirmed =
-            confirm(
-                `Tem certeza que deseja excluir ${nome}?`
-            );
+    await CultivaAlert.delete(
+        'Excluir propriedade?',
+        `Tem certeza que deseja excluir ${nome}?`
+    );
 
 
         if (!confirmed) {
@@ -685,16 +688,15 @@ document.addEventListener('DOMContentLoaded', function () {
                 await response.json();
 
 
-            if (!result.success) {
+           if (!result.success) {
 
-                alert(
-                    'Erro: ' +
-                    result.message
-                );
+    await CultivaAlert.error(
+        result.message || 'Não foi possível excluir a propriedade.',
+        'Erro ao excluir'
+    );
 
-                return;
-            }
-
+    return;
+}
 
             await loadPropriedades();
 
@@ -705,9 +707,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 error
             );
 
-            alert(
-                'Não foi possível excluir a propriedade.'
-            );
+            await CultivaAlert.error(
+    'Não foi possível excluir a propriedade.',
+    'Erro ao excluir'
+);
         }
     }
 

@@ -364,13 +364,16 @@ document.addEventListener('DOMContentLoaded', () => {
         modal.show();
     }
 
-    function openEditModal(id) {
+   async function openEditModal(id) {
         const aplicacao = aplicacoes.find(
             item => Number(item.id) === Number(id)
         );
 
         if (!aplicacao) {
-            alert('Aplicação não encontrada.');
+            await CultivaAlert.warning(
+    'Aplicação não encontrada.',
+    'Atenção'
+);
             return;
         }
 
@@ -398,32 +401,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
 if (!quantidadeField) {
     console.error('Campo aplicacaoQuantidadeInput não encontrado.');
-    alert('Não foi possível localizar o campo de quantidade.');
+   await CultivaAlert.error(
+    'Não foi possível localizar o campo de quantidade.',
+    'Erro no formulário'
+);
     return;
 }
 
 const quantidade = Number(quantidadeField.value);
 
         if (!talhaoId) {
-            alert('Selecione um talhão.');
+            await CultivaAlert.warning(
+    'Selecione um talhão.',
+    'Campo obrigatório'
+);
             talhaoSelect.focus();
             return;
         }
 
         if (!insumoId) {
-            alert('Selecione um insumo.');
+            await CultivaAlert.warning(
+    'Selecione um insumo.',
+    'Campo obrigatório'
+);
             insumoSelect.focus();
             return;
         }
 
         if (!dataInput.value) {
-            alert('Informe a data da aplicação.');
+            await CultivaAlert.warning(
+    'Informe a data da aplicação.',
+    'Campo obrigatório'
+);
             dataInput.focus();
             return;
         }
 
         if (!Number.isFinite(quantidade) || quantidade <= 0) {
-            alert('A quantidade deve ser maior que zero.');
+            await CultivaAlert.warning(
+    'A quantidade deve ser maior que zero.',
+    'Quantidade inválida'
+);
             quantidadeField.focus();
             return;
         }
@@ -455,7 +473,10 @@ const quantidade = Number(quantidadeField.value);
             const result = await response.json();
 
             if (!result.success) {
-                alert(result.message || 'Não foi possível salvar a aplicação.');
+                await CultivaAlert.error(
+    result.message || 'Não foi possível salvar a aplicação.',
+    'Erro ao salvar'
+);
                 return;
             }
 
@@ -464,7 +485,10 @@ const quantidade = Number(quantidadeField.value);
             await loadAplicacoes();
         } catch (error) {
             console.error(error);
-            alert('Não foi possível salvar a aplicação.');
+            await CultivaAlert.error(
+    'Não foi possível salvar a aplicação.',
+    'Erro ao salvar'
+);
         }
     }
 
@@ -474,13 +498,17 @@ const quantidade = Number(quantidadeField.value);
         );
 
         if (!aplicacao) {
-            alert('Aplicação não encontrada.');
-            return;
-        }
+    await CultivaAlert.warning(
+        'Aplicação não encontrada.',
+        'Atenção'
+    );
+    return;
+}
 
-        const confirmed = confirm(
-            `Deseja realmente excluir a aplicação do insumo "${getInsumoNome(aplicacao.insumoId)}"?`
-        );
+        const confirmed = await CultivaAlert.delete(
+    'Excluir aplicação?',
+    `Deseja realmente excluir a aplicação do insumo "${getInsumoNome(aplicacao.insumoId)}"?`
+);
 
         if (!confirmed) {
             return;
@@ -502,14 +530,20 @@ const quantidade = Number(quantidadeField.value);
             const result = await response.json();
 
             if (!result.success) {
-                alert(result.message || 'Não foi possível excluir a aplicação.');
+                await CultivaAlert.error(
+    result.message || 'Não foi possível excluir a aplicação.',
+    'Erro ao excluir'
+);
                 return;
             }
 
             await loadAplicacoes();
         } catch (error) {
             console.error(error);
-            alert('Não foi possível excluir a aplicação.');
+            await CultivaAlert.error(
+    'Não foi possível excluir a aplicação.',
+    'Erro ao excluir'
+);
         }
     }
 
