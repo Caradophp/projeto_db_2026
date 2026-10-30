@@ -147,6 +147,7 @@ align-items: start;
 .table-wrapper {
     width: 100%;
     overflow-x: auto;
+    overflow-y: scroll;
 }
 
 .dashboard-table {
