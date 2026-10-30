@@ -25,13 +25,10 @@ public class GestaoController : Controller
     return View("~/Views/Insumo/Index.cshtml");
 }
 
-    public IActionResult Plantios() => List(
-        "Plantios",
-        "Acompanhe culturas, datas e situação dos plantios.",
-        "plantio",
-        "Novo plantio",
-        "Talhão", "Cultura", "Data de plantio", "Colheita prevista", "Produtividade estimada", "Status");
-
+   public IActionResult Plantios()
+{
+    return View("~/Views/Plantio/Index.cshtml");
+}
     public IActionResult Aplicacoes() => List(
         "Aplicação de Insumos",
         "Consulte as aplicações realizadas em cada talhão.",

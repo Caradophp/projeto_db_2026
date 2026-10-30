@@ -7,112 +7,230 @@ namespace projeto.Repository;
 public class PlantioRepository(IConfiguration configuration)
 {
     private readonly string _connectionString = configuration.GetConnectionString("OracleDb")
-        ?? throw new InvalidOperationException("A string de conexão 'OracleDb' não foi configurada.");
+        ?? throw new InvalidOperationException(
+            "A string de conexão 'OracleDb' não foi configurada.");
 
     public IEnumerable<Plantio> GetAll()
     {
         var lista = new List<Plantio>();
-        string sql = "SELECT ID, TALHAOID, CULTURAID, DATAPLANTIO, DATAPREVISTACOLHEITA, PRODUTIVIDADEESTIMADA, CUSTOPRODUCAO, STATUS, OBSERVACOES FROM PLANTIOS";
+
+        const string sql = """
+            SELECT ID,
+                   TALHAO_ID,
+                   CULTURA_ID,
+                   DATA_PLANTIO,
+                   DATA_PREVISTA_COLHEITA,
+                   PRODUTIVIDADE_ESTIMADA,
+                   CUSTO_PRODUCAO,
+                   STATUS,
+                   OBSERVACOES
+            FROM PLANTIO
+            ORDER BY DATA_PLANTIO DESC, ID DESC
+            """;
 
         using var connection = new OracleConnection(_connectionString);
         using var command = new OracleCommand(sql, connection);
 
         connection.Open();
+
         using var reader = command.ExecuteReader();
+
         while (reader.Read())
         {
-            lista.Add(new Plantio
-            {
-                Id = reader.GetInt32(0),
-                TalhaoId = reader.GetInt32(1),
-                CulturaId = reader.GetInt32(2),
-                DataPlantio = reader.GetDateTime(3),
-                DataPrevistaColheita = reader.IsDBNull(4) ? null : reader.GetDateTime(4),
-                ProdutividadeEstimada = reader.IsDBNull(5) ? null : reader.GetDecimal(5),
-                CustoProducao = reader.IsDBNull(6) ? null : reader.GetDecimal(6),
-                Status = reader.GetString(7),
-                Observacoes = reader.IsDBNull(8) ? null : reader.GetString(8)
-            });
+            lista.Add(MapPlantio(reader));
         }
+
         return lista;
     }
 
     public Plantio? GetById(int id)
     {
-        string sql = "SELECT ID, TALHAOID, CULTURAID, DATAPLANTIO, DATAPREVISTACOLHEITA, PRODUTIVIDADEESTIMADA, CUSTOPRODUCAO, STATUS, OBSERVACOES FROM PLANTIOS WHERE ID = :Id";
+        const string sql = """
+            SELECT ID,
+                   TALHAO_ID,
+                   CULTURA_ID,
+                   DATA_PLANTIO,
+                   DATA_PREVISTA_COLHEITA,
+                   PRODUTIVIDADE_ESTIMADA,
+                   CUSTO_PRODUCAO,
+                   STATUS,
+                   OBSERVACOES
+            FROM PLANTIO
+            WHERE ID = :pId
+            """;
 
         using var connection = new OracleConnection(_connectionString);
         using var command = new OracleCommand(sql, connection);
-        command.Parameters.Add(new OracleParameter("Id", id));
+
+        command.Parameters.Add(new OracleParameter("pId", id));
 
         connection.Open();
+
         using var reader = command.ExecuteReader();
-        if (reader.Read())
-        {
-            return new Plantio
-            {
-                Id = reader.GetInt32(0),
-                TalhaoId = reader.GetInt32(1),
-                CulturaId = reader.GetInt32(2),
-                DataPlantio = reader.GetDateTime(3),
-                DataPrevistaColheita = reader.IsDBNull(4) ? null : reader.GetDateTime(4),
-                ProdutividadeEstimada = reader.IsDBNull(5) ? null : reader.GetDecimal(5),
-                CustoProducao = reader.IsDBNull(6) ? null : reader.GetDecimal(6),
-                Status = reader.GetString(7),
-                Observacoes = reader.IsDBNull(8) ? null : reader.GetString(8)
-            };
-        }
-        return null;
+
+        return reader.Read()
+            ? MapPlantio(reader)
+            : null;
     }
 
     public bool Create(Plantio plantio)
     {
-        string sql = "INSERT INTO PLANTIOS (TALHAOID, CULTURAID, DATAPLANTIO, DATAPREVISTACOLHEITA, PRODUTIVIDADEESTIMADA, CUSTOPRODUCAO, STATUS, OBSERVACOES) VALUES (:TalhaoId, :CulturaId, :DataPlantio, :DataPrevistaColheita, :ProdutividadeEstimada, :CustoProducao, :Status, :Observacoes)";
+        const string sql = """
+            INSERT INTO PLANTIO (
+                TALHAO_ID,
+                CULTURA_ID,
+                DATA_PLANTIO,
+                DATA_PREVISTA_COLHEITA,
+                PRODUTIVIDADE_ESTIMADA,
+                CUSTO_PRODUCAO,
+                STATUS,
+                OBSERVACOES
+            )
+            VALUES (
+                :pTalhaoId,
+                :pCulturaId,
+                :pDataPlantio,
+                :pDataPrevistaColheita,
+                :pProdutividadeEstimada,
+                :pCustoProducao,
+                :pStatus,
+                :pObservacoes
+            )
+            """;
 
         using var connection = new OracleConnection(_connectionString);
         using var command = new OracleCommand(sql, connection);
-        command.Parameters.Add(new OracleParameter("TalhaoId", plantio.TalhaoId));
-        command.Parameters.Add(new OracleParameter("CulturaId", plantio.CulturaId));
-        command.Parameters.Add(new OracleParameter("DataPlantio", plantio.DataPlantio));
-        command.Parameters.Add(new OracleParameter("DataPrevistaColheita", (object?)plantio.DataPrevistaColheita ?? DBNull.Value));
-        command.Parameters.Add(new OracleParameter("ProdutividadeEstimada", (object?)plantio.ProdutividadeEstimada ?? DBNull.Value));
-        command.Parameters.Add(new OracleParameter("CustoProducao", (object?)plantio.CustoProducao ?? DBNull.Value));
-        command.Parameters.Add(new OracleParameter("Status", plantio.Status));
-        command.Parameters.Add(new OracleParameter("Observacoes", (object?)plantio.Observacoes ?? DBNull.Value));
+
+        AddParameters(command, plantio, includeId: false);
 
         connection.Open();
+
         return command.ExecuteNonQuery() > 0;
     }
 
     public bool Update(Plantio plantio)
     {
-        string sql = "UPDATE PLANTIOS SET TALHAOID = :TalhaoId, CULTURAID = :CulturaId, DATAPLANTIO = :DataPlantio, DATAPREVISTACOLHEITA = :DataPrevistaColheita, PRODUTIVIDADEESTIMADA = :ProdutividadeEstimada, CUSTOPRODUCAO = :CustoProducao, STATUS = :Status, OBSERVACOES = :Observacoes WHERE ID = :Id";
+        const string sql = """
+            UPDATE PLANTIO
+               SET TALHAO_ID = :pTalhaoId,
+                   CULTURA_ID = :pCulturaId,
+                   DATA_PLANTIO = :pDataPlantio,
+                   DATA_PREVISTA_COLHEITA = :pDataPrevistaColheita,
+                   PRODUTIVIDADE_ESTIMADA = :pProdutividadeEstimada,
+                   CUSTO_PRODUCAO = :pCustoProducao,
+                   STATUS = :pStatus,
+                   OBSERVACOES = :pObservacoes
+             WHERE ID = :pId
+            """;
 
         using var connection = new OracleConnection(_connectionString);
         using var command = new OracleCommand(sql, connection);
-        command.Parameters.Add(new OracleParameter("TalhaoId", plantio.TalhaoId));
-        command.Parameters.Add(new OracleParameter("CulturaId", plantio.CulturaId));
-        command.Parameters.Add(new OracleParameter("DataPlantio", plantio.DataPlantio));
-        command.Parameters.Add(new OracleParameter("DataPrevistaColheita", (object?)plantio.DataPrevistaColheita ?? DBNull.Value));
-        command.Parameters.Add(new OracleParameter("ProdutividadeEstimada", (object?)plantio.ProdutividadeEstimada ?? DBNull.Value));
-        command.Parameters.Add(new OracleParameter("CustoProducao", (object?)plantio.CustoProducao ?? DBNull.Value));
-        command.Parameters.Add(new OracleParameter("Status", plantio.Status));
-        command.Parameters.Add(new OracleParameter("Observacoes", (object?)plantio.Observacoes ?? DBNull.Value));
-        command.Parameters.Add(new OracleParameter("Id", plantio.Id));
+
+        AddParameters(command, plantio, includeId: true);
 
         connection.Open();
+
         return command.ExecuteNonQuery() > 0;
     }
 
     public bool Delete(int id)
     {
-        string sql = "DELETE FROM PLANTIOS WHERE ID = :Id";
+        const string sql = """
+            DELETE FROM PLANTIO
+            WHERE ID = :pId
+            """;
 
         using var connection = new OracleConnection(_connectionString);
         using var command = new OracleCommand(sql, connection);
-        command.Parameters.Add(new OracleParameter("Id", id));
+
+        command.Parameters.Add(new OracleParameter("pId", id));
 
         connection.Open();
+
         return command.ExecuteNonQuery() > 0;
+    }
+
+    private static Plantio MapPlantio(OracleDataReader reader)
+    {
+        return new Plantio
+        {
+            Id = Convert.ToInt32(reader["ID"]),
+            TalhaoId = Convert.ToInt32(reader["TALHAO_ID"]),
+            CulturaId = Convert.ToInt32(reader["CULTURA_ID"]),
+            DataPlantio = Convert.ToDateTime(reader["DATA_PLANTIO"]),
+
+            DataPrevistaColheita =
+                reader["DATA_PREVISTA_COLHEITA"] == DBNull.Value
+                    ? null
+                    : Convert.ToDateTime(reader["DATA_PREVISTA_COLHEITA"]),
+
+            ProdutividadeEstimada =
+                reader["PRODUTIVIDADE_ESTIMADA"] == DBNull.Value
+                    ? null
+                    : Convert.ToDecimal(reader["PRODUTIVIDADE_ESTIMADA"]),
+
+            CustoProducao =
+                reader["CUSTO_PRODUCAO"] == DBNull.Value
+                    ? null
+                    : Convert.ToDecimal(reader["CUSTO_PRODUCAO"]),
+
+            Status =
+                reader["STATUS"] == DBNull.Value
+                    ? "Em andamento"
+                    : reader["STATUS"].ToString() ?? "Em andamento",
+
+            Observacoes =
+                reader["OBSERVACOES"] == DBNull.Value
+                    ? null
+                    : reader["OBSERVACOES"].ToString()
+        };
+    }
+
+    private static void AddParameters(
+        OracleCommand command,
+        Plantio plantio,
+        bool includeId)
+    {
+        command.Parameters.Add(
+            new OracleParameter("pTalhaoId", plantio.TalhaoId));
+
+        command.Parameters.Add(
+            new OracleParameter("pCulturaId", plantio.CulturaId));
+
+        command.Parameters.Add(
+            new OracleParameter("pDataPlantio", plantio.DataPlantio));
+
+        command.Parameters.Add(
+            new OracleParameter(
+                "pDataPrevistaColheita",
+                (object?)plantio.DataPrevistaColheita ?? DBNull.Value));
+
+        command.Parameters.Add(
+            new OracleParameter(
+                "pProdutividadeEstimada",
+                (object?)plantio.ProdutividadeEstimada ?? DBNull.Value));
+
+        command.Parameters.Add(
+            new OracleParameter(
+                "pCustoProducao",
+                (object?)plantio.CustoProducao ?? DBNull.Value));
+
+        command.Parameters.Add(
+            new OracleParameter(
+                "pStatus",
+                string.IsNullOrWhiteSpace(plantio.Status)
+                    ? "Em andamento"
+                    : plantio.Status));
+
+        command.Parameters.Add(
+            new OracleParameter(
+                "pObservacoes",
+                (object?)plantio.Observacoes ?? DBNull.Value));
+
+        if (includeId)
+        {
+            command.Parameters.Add(
+                new OracleParameter("pId", plantio.Id));
+        }
     }
 }

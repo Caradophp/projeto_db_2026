@@ -37,7 +37,9 @@ try
     builder.Services.AddScoped<PropriedadeService>();
     builder.Services.AddScoped<TalhaoService>();
     builder.Services.AddScoped<CulturaService>();
-    builder.Services.AddScoped<InsumoRepository>();
+builder.Services.AddScoped<PlantioService>();
+builder.Services.AddScoped<PlantioRepository>();
+builder.Services.AddScoped<InsumoRepository>();
     builder.Services.AddScoped<CulturaRepository>();
     builder.Services.AddScoped<TalhaoRepository>();
     builder.Services.AddScoped<PropriedadeRepository>();
