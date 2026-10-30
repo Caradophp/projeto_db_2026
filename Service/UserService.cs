@@ -56,28 +56,28 @@ public class UserService(
     }
 
     public bool CheckUserLogin(string email, string password)
-{
-    User? user = _userRepository.CheckUserLogin(email, password);
-
-    if (user != null)
     {
-        if (user.Status.Equals(UserStatusEnum.Blocked))
-        {
-            throw new Exception("Usuário bloqueado");
-        }
+        User? user = _userRepository.CheckUserLogin(email, password);
 
-        if (user.Status.Equals(UserStatusEnum.Inactive))
+        if (user != null)
         {
-            throw new Exception("Usuário desativado");
-        }
+            if (user.Status.Equals(UserStatusEnum.Blocked))
+            {
+                throw new Exception("Usuário bloqueado");
+            }
 
-        return true;
+            if (user.Status.Equals(UserStatusEnum.Inactive))
+            {
+                throw new Exception("Usuário desativado");
+            }
+
+            return true;
+        }
+        else
+        {
+            throw new KeyNotFoundException("E-mail ou senha inválido");
+        }
     }
-    else
-    {
-        throw new KeyNotFoundException("E-mail ou senha inválido");
-    }
-}
 
     public void SendEmailForRetrivePassword(string email)
     {
