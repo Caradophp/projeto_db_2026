@@ -1,0 +1,909 @@
+﻿.insumo-page {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    padding-bottom: 24px;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.insumo-hero {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 180px;
+    padding: 34px 38px;
+    border-radius: 24px;
+    background:
+        linear-gradient(
+            120deg,
+            rgba(19, 78, 51, 0.98),
+            rgba(34, 111, 72, 0.94)
+        );
+    color: #fff;
+    box-shadow: 0 14px 35px rgba(20, 65, 45, 0.14);
+}
+
+.insumo-hero::before {
+    content: "";
+    position: absolute;
+    width: 260px;
+    height: 260px;
+    right: -70px;
+    top: -130px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.insumo-hero::after {
+    content: "";
+    position: absolute;
+    width: 190px;
+    height: 190px;
+    right: 100px;
+    bottom: -145px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.insumo-hero-main {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.insumo-hero-icon {
+    width: 72px;
+    height: 72px;
+    flex: 0 0 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(8px);
+    font-size: 28px;
+}
+
+.insumo-hero-text span {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+    color: #bfe5c9;
+}
+
+.insumo-hero-text h1 {
+    margin: 0 0 7px;
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: -0.7px;
+}
+
+.insumo-hero-text p {
+    max-width: 650px;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.insumo-hero-decoration {
+    position: relative;
+    z-index: 2;
+    margin-right: 30px;
+    font-size: 82px;
+    color: rgba(255, 255, 255, 0.10);
+    transform: rotate(-8deg);
+}
+
+/* =========================
+   INDICADORES
+========================= */
+
+.insumo-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(240px, 335px));
+    justify-content: center;
+    gap: 22px;
+    width: 100%;
+}
+.insumo-stat-card {
+    min-height: 130px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 22px;
+    background: #fff;
+    border: 1px solid #e9eee9;
+    border-radius: 19px;
+    box-shadow: 0 8px 25px rgba(33, 55, 42, 0.055);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.insumo-stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 13px 32px rgba(33, 55, 42, 0.09);
+}
+
+.insumo-stat-icon {
+    width: 52px;
+    height: 52px;
+    flex: 0 0 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    font-size: 19px;
+}
+
+.insumo-stat-icon.green {
+    background: #e9f6ed;
+    color: #237344;
+}
+
+.insumo-stat-icon.amber {
+    background: #fff4df;
+    color: #bc7912;
+}
+
+.insumo-stat-icon.blue {
+    background: #e9f2fb;
+    color: #3d719c;
+}
+
+.insumo-stat-card > div {
+    min-width: 0;
+}
+
+.insumo-stat-card span:not(.insumo-stat-icon) {
+    display: block;
+    margin-bottom: 3px;
+    color: #738078;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.insumo-stat-card strong {
+    display: block;
+    margin-bottom: 2px;
+    color: #1d3427;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.insumo-stat-card small {
+    color: #9aa49e;
+    font-size: 10px;
+}
+
+/* =========================
+   PAINEL
+========================= */
+
+.insumo-panel {
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #e7ece8;
+    border-radius: 21px;
+    box-shadow: 0 10px 30px rgba(30, 53, 39, 0.055);
+}
+
+.insumo-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    padding: 24px 26px;
+    border-bottom: 1px solid #edf0ed;
+}
+
+.insumo-panel-header h2 {
+    margin: 0 0 5px;
+    color: #1d3427;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.insumo-panel-header p {
+    margin: 0;
+    color: #89948d;
+    font-size: 12px;
+}
+
+.insumo-panel-tools {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.insumo-search {
+    width: 300px;
+    height: 43px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px;
+    border: 1px solid #dfe6e1;
+    border-radius: 12px;
+    background: #fafcfb;
+    transition: all 0.2s ease;
+}
+
+.insumo-search:focus-within {
+    border-color: #76ad89;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(46, 125, 76, 0.08);
+}
+
+.insumo-search i {
+    color: #94a098;
+    font-size: 13px;
+}
+
+.insumo-search input {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #304339;
+    font-size: 12px;
+}
+
+.insumo-search input::placeholder {
+    color: #a3aca6;
+}
+
+.insumo-add-button,
+.insumo-empty-button,
+.insumo-button-primary,
+.insumo-retry-button {
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+}
+
+.insumo-add-button {
+    height: 43px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 18px;
+    border-radius: 12px;
+    background: #246b43;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    box-shadow: 0 6px 15px rgba(36, 107, 67, 0.17);
+    transition: all 0.2s ease;
+}
+
+.insumo-add-button:hover {
+    background: #1d5937;
+    transform: translateY(-1px);
+}
+
+/* =========================
+   TABELA
+========================= */
+
+.insumo-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.insumo-table {
+    width: 100%;
+    min-width: 850px;
+    border-collapse: collapse;
+}
+
+.insumo-table thead {
+    background: #f7f9f7;
+}
+
+.insumo-table th {
+    padding: 13px 20px;
+    border-bottom: 1px solid #e8ece9;
+    color: #7e8982;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-align: left;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.insumo-table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid #eef1ef;
+    color: #48574e;
+    font-size: 12px;
+    vertical-align: middle;
+}
+
+.insumo-table tbody tr {
+    transition: background 0.18s ease;
+}
+
+.insumo-table tbody tr:hover {
+    background: #fbfcfb;
+}
+
+.insumo-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.insumo-id {
+    color: #8a958e;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.insumo-name-cell {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.insumo-row-icon {
+    width: 37px;
+    height: 37px;
+    flex: 0 0 37px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 11px;
+    background: #eaf5ed;
+    color: #34764e;
+}
+
+.insumo-name-cell strong {
+    display: block;
+    margin-bottom: 2px;
+    color: #243c2e;
+    font-size: 12px;
+    font-weight: 750;
+}
+
+.insumo-name-cell small {
+    color: #9aa49e;
+    font-size: 10px;
+}
+
+.insumo-area {
+    color: #2c6743;
+    font-size: 12px;
+}
+
+.insumo-property-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    max-width: 210px;
+    padding: 7px 10px;
+    border-radius: 9px;
+    background: #eef6f0;
+    color: #39714e;
+    font-size: 11px;
+    font-weight: 650;
+}
+
+.insumo-property-badge i {
+    font-size: 10px;
+}
+
+.insumo-description {
+    max-width: 250px;
+    color: #68756d !important;
+}
+
+.insumo-muted {
+    color: #a0aaa4;
+    font-style: italic;
+}
+
+.insumo-actions-heading {
+    text-align: right !important;
+}
+
+.insumo-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 7px;
+}
+
+.insumo-action-button {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid;
+    border-radius: 9px;
+    background: transparent;
+    cursor: pointer;
+    font-size: 11px;
+    transition: all 0.18s ease;
+}
+
+.insumo-action-button.edit {
+    border-color: #d7e7dc;
+    color: #397552;
+    background: #f7fbf8;
+}
+
+.insumo-action-button.edit:hover {
+    background: #e7f4eb;
+    border-color: #bcd9c6;
+}
+
+.insumo-action-button.delete {
+    border-color: #f0dddd;
+    color: #b85c5c;
+    background: #fffafa;
+}
+
+.insumo-action-button.delete:hover {
+    background: #faeaea;
+    border-color: #e7c3c3;
+}
+
+.insumo-table-footer {
+    padding: 14px 25px;
+    border-top: 1px solid #edf0ed;
+    background: #fbfcfb;
+    color: #929d96;
+    font-size: 10px;
+}
+
+/* =========================
+   ESTADOS
+========================= */
+
+.insumo-loading,
+.insumo-empty,
+.insumo-error {
+    min-height: 260px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 35px;
+    text-align: center;
+}
+
+.insumo-loading {
+    gap: 12px;
+    color: #89968e;
+}
+
+.insumo-loading-icon,
+.insumo-empty-icon,
+.insumo-error-icon {
+    width: 62px;
+    height: 62px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 19px;
+    font-size: 24px;
+}
+
+.insumo-loading-icon,
+.insumo-empty-icon {
+    background: #eaf5ed;
+    color: #34774f;
+}
+
+.insumo-loading-icon {
+    animation: insumoPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes insumoPulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.06);
+        opacity: 0.75;
+    }
+}
+
+.insumo-empty {
+    gap: 7px;
+}
+
+.insumo-empty strong,
+.insumo-error strong {
+    margin-top: 6px;
+    color: #294032;
+    font-size: 15px;
+}
+
+.insumo-empty > span:not(.insumo-empty-icon),
+.insumo-error > span:not(.insumo-error-icon) {
+    color: #929d96;
+    font-size: 11px;
+}
+
+.insumo-empty-button,
+.insumo-retry-button {
+    margin-top: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 15px;
+    border-radius: 10px;
+    background: #eaf5ed;
+    color: #2d7049;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.insumo-empty-button:hover,
+.insumo-retry-button:hover {
+    background: #dcefe2;
+}
+
+.insumo-error {
+    gap: 7px;
+}
+
+.insumo-error-icon {
+    background: #fff0e7;
+    color: #c66b3d;
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.insumo-modal {
+    overflow: hidden;
+    border: 0;
+    border-radius: 20px;
+    box-shadow: 0 25px 70px rgba(22, 45, 31, 0.2);
+}
+
+.insumo-modal-header {
+    padding: 21px 24px;
+    border-bottom: 1px solid #edf0ed;
+}
+
+.insumo-modal-title {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.insumo-modal-icon {
+    width: 43px;
+    height: 43px;
+    flex: 0 0 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #e9f5ed;
+    color: #2f734b;
+}
+
+.insumo-modal-title h5 {
+    margin: 0 0 3px;
+    color: #22392b;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.insumo-modal-title p {
+    margin: 0;
+    color: #929c96;
+    font-size: 10px;
+}
+
+.insumo-modal-body {
+    padding: 25px;
+}
+
+.insumo-modal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.insumo-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.insumo-description-group {
+    grid-column: 1 / -1;
+}
+
+.insumo-form-group label {
+    color: #46584d;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.insumo-form-group label span {
+    color: #b85a5a;
+}
+
+.insumo-input {
+    min-height: 45px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 13px;
+    border: 1px solid #dfe6e1;
+    border-radius: 11px;
+    background: #fbfcfb;
+    transition: all 0.18s ease;
+}
+
+.insumo-input:focus-within,
+.insumo-textarea:focus-within {
+    border-color: #76ad89;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(46, 125, 76, 0.07);
+}
+
+.insumo-input > i {
+    width: 14px;
+    color: #91a097;
+    font-size: 11px;
+}
+
+.insumo-input input,
+.insumo-input select {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #35473c;
+    font-size: 12px;
+}
+
+.insumo-input select {
+    cursor: pointer;
+}
+
+.insumo-input-suffix {
+    color: #89958d !important;
+    font-size: 10px !important;
+}
+
+.insumo-textarea {
+    padding: 12px 13px;
+    border: 1px solid #dfe6e1;
+    border-radius: 11px;
+    background: #fbfcfb;
+    transition: all 0.18s ease;
+}
+
+.insumo-textarea textarea {
+    width: 100%;
+    min-height: 80px;
+    resize: vertical;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #35473c;
+    font-size: 12px;
+}
+
+.insumo-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 17px 24px;
+    border-top: 1px solid #edf0ed;
+    background: #fafbfa;
+}
+
+.insumo-button-secondary,
+.insumo-button-primary {
+    min-height: 40px;
+    padding: 0 17px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.insumo-button-secondary {
+    border: 1px solid #dfe5e1;
+    background: #fff;
+    color: #68766d;
+}
+
+.insumo-button-secondary:hover {
+    background: #f5f7f5;
+}
+
+.insumo-button-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    border: 0;
+    background: #246b43;
+    color: #fff;
+    box-shadow: 0 5px 14px rgba(36, 107, 67, 0.16);
+}
+
+.insumo-button-primary:hover {
+    background: #1d5937;
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media (max-width: 1150px) {
+    .insumo-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .insumo-panel-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .insumo-panel-tools {
+        width: 100%;
+    }
+
+    .insumo-search {
+        flex: 1;
+        width: auto;
+    }
+}
+
+@media (max-width: 700px) {
+    .insumo-page {
+        gap: 16px;
+    }
+
+    .insumo-hero {
+        min-height: 150px;
+        padding: 25px 20px;
+        border-radius: 18px;
+    }
+
+    .insumo-hero-icon {
+        width: 55px;
+        height: 55px;
+        flex-basis: 55px;
+        border-radius: 15px;
+        font-size: 21px;
+    }
+
+    .insumo-hero-main {
+        gap: 14px;
+    }
+
+    .insumo-hero-text h1 {
+        font-size: 26px;
+    }
+
+    .insumo-hero-text p {
+        font-size: 11px;
+    }
+
+    .insumo-hero-decoration {
+        display: none;
+    }
+
+    .insumo-stats {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .insumo-stat-card {
+        min-height: 105px;
+        padding: 18px;
+    }
+
+    .insumo-panel {
+        border-radius: 16px;
+    }
+
+    .insumo-panel-header {
+        padding: 20px;
+    }
+
+    .insumo-panel-tools {
+        flex-direction: column;
+    }
+
+    .insumo-search,
+    .insumo-add-button {
+        width: 100%;
+    }
+
+    .insumo-modal-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .insumo-description-group {
+        grid-column: auto;
+    }
+
+    .insumo-modal-body {
+        padding: 20px;
+    }
+
+    .insumo-modal-footer {
+        padding: 15px 20px;
+    }
+}
+
+/* Ações da tabela */
+.insumo-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.insumo-action {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+}
+
+/* Editar */
+.insumo-action.edit {
+    color: #256f46;
+    background: #edf7f1;
+    border-color: #d8ebdf;
+}
+
+.insumo-action.edit:hover {
+    background: #256f46;
+    color: #fff;
+    border-color: #256f46;
+    transform: translateY(-1px);
+}
+
+/* Excluir */
+.insumo-action.delete {
+    color: #b54747;
+    background: #fff1f1;
+    border-color: #f1d7d7;
+}
+
+.insumo-action.delete:hover {
+    background: #b54747;
+    color: #fff;
+    border-color: #b54747;
+    transform: translateY(-1px);
+}
+
+.insumo-action i {
+    pointer-events: none;
+}

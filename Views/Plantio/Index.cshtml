@@ -1,0 +1,447 @@
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Plantios";
+}
+
+<link rel="stylesheet" href="~/css/plantio.css" asp-append-version="true" />
+
+<main class="plantio-page">
+
+    <section class="plantio-hero">
+        <div class="plantio-hero-main">
+            <div class="plantio-hero-icon">
+                <i class="fa-solid fa-seedling"></i>
+            </div>
+
+            <div class="plantio-hero-text">
+                <span>GESTÃO DA LAVOURA</span>
+                <h1>Plantios</h1>
+                <p>Acompanhe os plantios, culturas, datas de colheita e produtividade da lavoura.</p>
+            </div>
+        </div>
+
+        <div class="plantio-hero-decoration">
+            <i class="fa-solid fa-wheat-awn"></i>
+        </div>
+    </section>
+
+
+    <section class="plantio-stats">
+
+        <article class="plantio-stat-card">
+            <span class="plantio-stat-icon green">
+                <i class="fa-solid fa-seedling"></i>
+            </span>
+
+            <div>
+                <span>Total de plantios</span>
+                <strong id="plantioTotal">0</strong>
+                <small>Cadastrados no sistema</small>
+            </div>
+        </article>
+
+
+        <article class="plantio-stat-card">
+            <span class="plantio-stat-icon green">
+                <i class="fa-solid fa-circle-check"></i>
+            </span>
+
+            <div>
+                <span>Em andamento</span>
+                <strong id="plantioAndamento">0</strong>
+                <small>Plantios em desenvolvimento</small>
+            </div>
+        </article>
+
+
+        <article class="plantio-stat-card">
+            <span class="plantio-stat-icon amber">
+                <i class="fa-solid fa-chart-line"></i>
+            </span>
+
+            <div>
+                <span>Produtividade estimada</span>
+                <strong id="plantioProdutividade">0,00</strong>
+                <small>Estimativa total cadastrada</small>
+            </div>
+        </article>
+
+
+        <article class="plantio-stat-card">
+            <span class="plantio-stat-icon blue">
+                <i class="fa-solid fa-leaf"></i>
+            </span>
+
+            <div>
+                <span>Culturas utilizadas</span>
+                <strong id="plantioCulturas">0</strong>
+                <small>Diferentes culturas plantadas</small>
+            </div>
+        </article>
+
+    </section>
+
+
+    <section class="plantio-panel">
+
+        <header class="plantio-panel-header">
+
+            <div>
+                <h2>Plantios cadastrados</h2>
+                <p>Visualize e gerencie os plantios realizados nos talhões.</p>
+            </div>
+
+            <div class="plantio-panel-tools">
+
+                <div class="plantio-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input
+                        type="text"
+                        id="plantioSearch"
+                        placeholder="Buscar por talhão, cultura ou status..."
+                        autocomplete="off" />
+                </div>
+
+                <button
+                    type="button"
+                    class="plantio-add-button"
+                    id="btnNovoPlantio">
+
+                    <i class="fa-solid fa-plus"></i>
+                    Novo plantio
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <div class="plantio-table-wrapper">
+
+            <table class="plantio-table">
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Talhão</th>
+                        <th>Cultura</th>
+                        <th>Data do plantio</th>
+                        <th>Colheita prevista</th>
+                        <th>Produtividade</th>
+                        <th>Status</th>
+                        <th class="plantio-actions-heading">Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody id="plantioTableBody">
+
+                    <tr>
+                        <td colspan="8">
+
+                            <div class="plantio-loading">
+
+                                <span class="plantio-loading-icon">
+                                    <i class="fa-solid fa-seedling"></i>
+                                </span>
+
+                                <span>Carregando plantios...</span>
+
+                            </div>
+
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <footer class="plantio-table-footer">
+            <span id="plantioResultsText">
+                Nenhum plantio cadastrado
+            </span>
+        </footer>
+
+    </section>
+
+
+    <div class="modal fade"
+         id="plantioModal"
+         tabindex="-1"
+         aria-labelledby="plantioModalLabel"
+         aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+
+            <div class="modal-content plantio-modal">
+
+                <div class="modal-header plantio-modal-header">
+
+                    <div class="plantio-modal-title">
+
+                        <span class="plantio-modal-icon">
+                            <i class="fa-solid fa-seedling"></i>
+                        </span>
+
+                        <div>
+                            <h5 id="plantioModalLabel">
+                                Novo plantio
+                            </h5>
+
+                            <p>
+                                Cadastre ou atualize as informações do plantio.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Fechar">
+                    </button>
+
+                </div>
+
+
+                <form id="plantioForm">
+
+                    <div class="modal-body plantio-modal-body">
+
+                        <input
+                            type="hidden"
+                            id="plantioId"
+                            value="0" />
+
+                        <div class="plantio-modal-grid">
+
+
+                            <div class="plantio-form-group">
+
+                                <label for="plantioTalhao">
+                                    Talhão
+                                    <span>*</span>
+                                </label>
+
+                                <div class="plantio-input">
+
+                                    <i class="fa-solid fa-layer-group"></i>
+
+                                    <select
+                                        id="plantioTalhao"
+                                        required>
+
+                                        <option value="">
+                                            Selecione um talhão...
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="plantio-form-group">
+
+                                <label for="plantioCultura">
+                                    Cultura
+                                    <span>*</span>
+                                </label>
+
+                                <div class="plantio-input">
+
+                                    <i class="fa-solid fa-leaf"></i>
+
+                                    <select
+                                        id="plantioCultura"
+                                        required>
+
+                                        <option value="">
+                                            Selecione uma cultura...
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="plantio-form-group">
+
+                                <label for="plantioData">
+                                    Data do plantio
+                                    <span>*</span>
+                                </label>
+
+                                <div class="plantio-input">
+
+                                    <i class="fa-solid fa-calendar-days"></i>
+
+                                    <input
+                                        type="date"
+                                        id="plantioData"
+                                        required />
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="plantio-form-group">
+
+                                <label for="plantioColheita">
+                                    Colheita prevista
+                                </label>
+
+                                <div class="plantio-input">
+
+                                    <i class="fa-solid fa-calendar-check"></i>
+
+                                    <input
+                                        type="date"
+                                        id="plantioColheita" />
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="plantio-form-group">
+
+                                <label for="plantioProd">
+                                    Produtividade estimada
+                                </label>
+
+                                <div class="plantio-input">
+
+                                    <i class="fa-solid fa-chart-line"></i>
+
+                                    <input
+                                        type="number"
+                                        id="plantioProd"
+                                        step="0.01"
+                                        min="0"
+                                        placeholder="0,00" />
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="plantio-form-group">
+
+                                <label for="plantioCusto">
+                                    Custo de produção
+                                </label>
+
+                                <div class="plantio-input">
+
+                                    <i class="fa-solid fa-dollar-sign"></i>
+
+                                    <input
+                                        type="number"
+                                        id="plantioCusto"
+                                        step="0.01"
+                                        min="0"
+                                        placeholder="0,00" />
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="plantio-form-group">
+
+                                <label for="plantioStatus">
+                                    Status
+                                </label>
+
+                                <div class="plantio-input">
+
+                                    <i class="fa-solid fa-circle-info"></i>
+
+                                    <select id="plantioStatus">
+
+                                        <option value="Em andamento">
+                                            Em andamento
+                                        </option>
+
+                                        <option value="Planejado">
+                                            Planejado
+                                        </option>
+
+                                        <option value="Concluído">
+                                            Concluído
+                                        </option>
+
+                                        <option value="Cancelado">
+                                            Cancelado
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="plantio-form-group plantio-description-group">
+
+                                <label for="plantioObservacoes">
+                                    Observações
+                                </label>
+
+                                <div class="plantio-textarea">
+
+                                    <textarea
+                                        id="plantioObservacoes"
+                                        rows="3"
+                                        maxlength="500"
+                                        placeholder="Informações adicionais sobre o plantio..."></textarea>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="plantio-modal-footer">
+
+                        <button
+                            type="button"
+                            class="plantio-button-secondary"
+                            data-bs-dismiss="modal">
+
+                            Cancelar
+                        </button>
+
+                        <button
+                            type="submit"
+                            class="plantio-button-primary">
+
+                            <i class="fa-solid fa-check"></i>
+                            Salvar plantio
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<script src="~/js/plantio.js" asp-append-version="true"></script>

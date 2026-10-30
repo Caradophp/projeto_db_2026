@@ -1,43 +1,262 @@
 @{
     Layout = "_Layout";
-    ViewData["Title"] = "Gestão de Propriedades";
+    ViewData["Title"] = "Propriedades";
 }
 
-<div id="propriedade-management">
-    @* The ManagementList is rendered by the controller action Index *@
+<link rel="stylesheet" href="~/css/propriedade.css" asp-append-version="true" />
 
-    @* Modal for Add/Edit *@
-    <div class="modal fade" id="propriedadeModal" tabindex="-1" aria-labelledby="propriedadeModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="propriedadeModalLabel">Nova Propriedade</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<main class="property-page">
+
+    <!-- HERO -->
+    <section class="property-hero">
+        <div class="property-hero-main">
+            <div class="property-hero-icon">
+                <i class="fa-solid fa-house-chimney"></i>
+            </div>
+
+            <div class="property-hero-text">
+                <span>GESTÃO DA LAVOURA</span>
+                <h1>Propriedades</h1>
+                <p>Gerencie as propriedades rurais cadastradas no sistema.</p>
+            </div>
+        </div>
+
+        <div class="property-hero-decoration">
+            <i class="fa-solid fa-leaf leaf-one"></i>
+            <i class="fa-solid fa-leaf leaf-two"></i>
+        </div>
+    </section>
+
+    <!-- INDICADORES -->
+    <section class="property-stats">
+        <article class="property-stat-card">
+            <span class="property-stat-icon green">
+                <i class="fa-solid fa-house-chimney"></i>
+            </span>
+
+            <div>
+                <span>Total de propriedades</span>
+                <strong id="propertyTotal">0</strong>
+                <small>Cadastradas no sistema</small>
+            </div>
+        </article>
+
+        <article class="property-stat-card">
+            <span class="property-stat-icon green">
+                <i class="fa-solid fa-ruler-combined"></i>
+            </span>
+
+            <div>
+                <span>Área total</span>
+                <strong id="propertyTotalArea">0,00 ha</strong>
+                <small>Somando todas as propriedades</small>
+            </div>
+        </article>
+
+        <article class="property-stat-card">
+            <span class="property-stat-icon green">
+                <i class="fa-solid fa-seedling"></i>
+            </span>
+
+            <div>
+                <span>Média por propriedade</span>
+                <strong id="propertyAverageArea">0,00 ha</strong>
+                <small>Área média cadastrada</small>
+            </div>
+        </article>
+
+        <article class="property-stat-card">
+            <span class="property-stat-icon blue">
+                <i class="fa-solid fa-users"></i>
+            </span>
+
+            <div>
+                <span>Usuários vinculados</span>
+                <strong id="propertyUsers">0</strong>
+                <small>Usuários com propriedades</small>
+            </div>
+        </article>
+    </section>
+
+    <!-- LISTAGEM -->
+    <section class="property-panel">
+
+        <header class="property-panel-header">
+            <div>
+                <h2>Propriedades cadastradas</h2>
+                <p>Visualize e gerencie os registros disponíveis.</p>
+            </div>
+
+            <div class="property-panel-tools">
+                <div class="property-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input
+                        type="text"
+                        id="propertySearch"
+                        placeholder="Buscar por nome, ID ou usuário..."
+                        autocomplete="off" />
                 </div>
-                <div class="modal-body">
-                    <form id="propriedadeForm">
-                        <input type="hidden" id="propriedadeId" name="Id" value="0">
-                        <div class="mb-3">
-                            <label for="propNome" class="form-label">Nome da Propriedade</label>
-                            <input type="text" class="form-control" id="propNome" name="Nome" required>
+
+                <button
+                    type="button"
+                    class="property-add-button"
+                    id="btnNovaPropriedade">
+                    <i class="fa-solid fa-plus"></i>
+                    Nova propriedade
+                </button>
+            </div>
+        </header>
+
+        <div class="property-table-wrapper">
+            <table class="property-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Propriedade</th>
+                        <th>Área total (ha)</th>
+                        <th>Usuário</th>
+                        <th class="property-actions-heading">Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody id="propertyTableBody">
+                    <tr>
+                        <td colspan="5">
+                            <div class="property-loading">
+                                <span class="property-loading-icon">
+                                    <i class="fa-solid fa-seedling"></i>
+                                </span>
+                                <span>Carregando propriedades...</span>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <footer class="property-table-footer">
+            <span id="propertyResultsText">
+                Nenhuma propriedade cadastrada
+            </span>
+        </footer>
+
+    </section>
+
+    <!-- MODAL -->
+    <div class="modal fade"
+         id="propriedadeModal"
+         tabindex="-1"
+         aria-labelledby="propriedadeModalLabel"
+         aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content property-modal">
+
+                <div class="modal-header property-modal-header">
+                    <div class="property-modal-title">
+                        <span class="property-modal-icon">
+                            <i class="fa-solid fa-house-chimney"></i>
+                        </span>
+
+                        <div>
+                            <h5 id="propriedadeModalLabel">
+                                Nova propriedade
+                            </h5>
+                            <p>Cadastre ou atualize uma propriedade rural.</p>
                         </div>
-                        <div class="mb-3">
-                            <label for="propArea" class="form-label">Área Total (ha)</label>
-                            <input type="number" step="0.01" class="form-control" id="propArea" name="AreaTotal" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="propUser" class="form-label">ID do Usuário</label>
-                            <input type="number" class="form-control" id="propUser" name="UserId" required>
-                        </div>
-                        <div class="text-end">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-primary">Salvar</button>
-                        </div>
-                    </form>
+                    </div>
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Fechar">
+                    </button>
                 </div>
+
+                <form id="propriedadeForm">
+                    <div class="modal-body property-modal-body">
+
+                        <input type="hidden"
+                               id="propriedadeId"
+                               value="0" />
+
+                        <div class="property-modal-grid">
+
+                            <div class="property-form-group">
+                                <label for="propNome">
+                                    Nome da propriedade
+                                    <span>*</span>
+                                </label>
+
+                                <div class="property-input">
+                                    <i class="fa-solid fa-house-chimney"></i>
+
+                                    <input type="text"
+                                           id="propNome"
+                                           placeholder="Ex.: Fazenda Boa Vista"
+                                           required />
+                                </div>
+                            </div>
+
+                            <div class="property-form-group">
+                                <label for="propArea">
+                                    Área total (ha)
+                                    <span>*</span>
+                                </label>
+
+                                <div class="property-input">
+                                    <i class="fa-solid fa-ruler-combined"></i>
+
+                                    <input type="number"
+                                           id="propArea"
+                                           step="0.01"
+                                           min="0"
+                                           placeholder="0,00"
+                                           required />
+
+                                    <span class="property-input-suffix">ha</span>
+                                </div>
+                            </div>
+
+                            <div class="property-form-group">
+                                <label for="propUser">
+                                    ID do usuário
+                                    <span>*</span>
+                                </label>
+
+                                <div class="property-input">
+                                    <i class="fa-solid fa-user"></i>
+
+                                    <input type="number"
+                                           id="propUser"
+                                           placeholder="Informe o ID"
+                                           required />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="property-modal-footer">
+                        <button type="button"
+                                class="property-button-secondary"
+                                data-bs-dismiss="modal">
+                            Cancelar
+                        </button>
+
+                        <button type="submit"
+                                class="property-button-primary">
+                            <i class="fa-solid fa-check"></i>
+                            Salvar propriedade
+                        </button>
+                    </div>
+                </form>
+
             </div>
         </div>
     </div>
-</div>
 
-<script src="~/js/propriedade.js"></script>
+</main>
+
+<script src="~/js/propriedade.js" asp-append-version="true"></script>

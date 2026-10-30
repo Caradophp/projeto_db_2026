@@ -5,41 +5,30 @@ namespace projeto.Controllers;
 
 public class GestaoController : Controller
 {
-    public IActionResult Propriedades() => List(
-        "Propriedades",
-        "Gerencie as propriedades rurais e suas áreas totais.",
-        "propriedade",
-        "Nova propriedade",
-        "Nome", "Área total (ha)", "Responsável");
+   public IActionResult Propriedades()
+{
+    return View("~/Views/Propriedade/Index.cshtml");
+}
 
-    public IActionResult Talhoes() => List(
-        "Talhões",
-        "Organize os talhões vinculados às suas propriedades.",
-        "talhão",
-        "Novo talhão",
-        "Nome", "Propriedade", "Área (ha)", "Descrição");
+    public IActionResult Talhoes()
+{
+    return View("~/Views/Talhao/Index.cshtml");
+}
 
-    public IActionResult Culturas() => List(
-        "Culturas",
-        "Consulte as culturas utilizadas nos plantios.",
-        "cultura",
-        "Nova cultura",
-        "Nome", "Descrição");
+    public IActionResult Culturas()
+{
+    return View("~/Views/Cultura/Index.cshtml");
+}
 
-    public IActionResult Insumos() => List(
-        "Insumos",
-        "Acompanhe os insumos disponíveis e seus níveis de estoque.",
-        "insumo",
-        "Novo insumo",
-        "Nome", "Tipo", "Unidade de medida", "Estoque");
+    public IActionResult Insumos()
+{
+    return View("~/Views/Insumo/Index.cshtml");
+}
 
-    public IActionResult Plantios() => List(
-        "Plantios",
-        "Acompanhe culturas, datas e situação dos plantios.",
-        "plantio",
-        "Novo plantio",
-        "Talhão", "Cultura", "Data de plantio", "Colheita prevista", "Produtividade estimada", "Status");
-
+   public IActionResult Plantios()
+{
+    return View("~/Views/Plantio/Index.cshtml");
+}
     public IActionResult Aplicacoes() => List(
         "Aplicação de Insumos",
         "Consulte as aplicações realizadas em cada talhão.",

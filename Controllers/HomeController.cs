@@ -38,19 +38,25 @@ public class HomeController : Controller
     }
 
     [HttpGet]
-    public void CheckToken(string token)
-    {
-        bool tokenIsValid = _jwt.ValidateJwtToken(token);
+public IActionResult CheckToken()
+{
+    var authorizationHeader = Request.Headers.Authorization.ToString();
 
-        if (tokenIsValid)
-        {
-            HttpContext.Response.StatusCode = 200;
-            HttpContext.Response.WriteAsJsonAsync("sucesso");
-        } else
-        {
-            HttpContext.Response.StatusCode = 401;
-        }
+    if (string.IsNullOrWhiteSpace(authorizationHeader) ||
+        !authorizationHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+    {
+        return Unauthorized();
     }
+
+    var token = authorizationHeader["Bearer ".Length..].Trim();
+
+    if (string.IsNullOrWhiteSpace(token) || !_jwt.ValidateJwtToken(token))
+    {
+        return Unauthorized();
+    }
+
+    return Ok(new { success = true });
+}
 
     [HttpGet]
     public IActionResult GetRegisterNumbersPerTable()

@@ -1,0 +1,855 @@
+.talhao-page {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    padding-bottom: 24px;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.talhao-hero {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 180px;
+    padding: 34px 38px;
+    border-radius: 24px;
+    background:
+        linear-gradient(
+            120deg,
+            rgba(19, 78, 51, 0.98),
+            rgba(34, 111, 72, 0.94)
+        );
+    color: #fff;
+    box-shadow: 0 14px 35px rgba(20, 65, 45, 0.14);
+}
+
+.talhao-hero::before {
+    content: "";
+    position: absolute;
+    width: 260px;
+    height: 260px;
+    right: -70px;
+    top: -130px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.talhao-hero::after {
+    content: "";
+    position: absolute;
+    width: 190px;
+    height: 190px;
+    right: 100px;
+    bottom: -145px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.talhao-hero-main {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.talhao-hero-icon {
+    width: 72px;
+    height: 72px;
+    flex: 0 0 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(8px);
+    font-size: 28px;
+}
+
+.talhao-hero-text span {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+    color: #bfe5c9;
+}
+
+.talhao-hero-text h1 {
+    margin: 0 0 7px;
+    font-size: 34px;
+    font-weight: 800;
+    letter-spacing: -0.7px;
+}
+
+.talhao-hero-text p {
+    max-width: 650px;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.talhao-hero-decoration {
+    position: relative;
+    z-index: 2;
+    margin-right: 30px;
+    font-size: 82px;
+    color: rgba(255, 255, 255, 0.10);
+    transform: rotate(-8deg);
+}
+
+/* =========================
+   INDICADORES
+========================= */
+
+.talhao-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.talhao-stat-card {
+    min-height: 130px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 22px;
+    background: #fff;
+    border: 1px solid #e9eee9;
+    border-radius: 19px;
+    box-shadow: 0 8px 25px rgba(33, 55, 42, 0.055);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.talhao-stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 13px 32px rgba(33, 55, 42, 0.09);
+}
+
+.talhao-stat-icon {
+    width: 52px;
+    height: 52px;
+    flex: 0 0 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    font-size: 19px;
+}
+
+.talhao-stat-icon.green {
+    background: #e9f6ed;
+    color: #237344;
+}
+
+.talhao-stat-icon.amber {
+    background: #fff4df;
+    color: #bc7912;
+}
+
+.talhao-stat-icon.blue {
+    background: #e9f2fb;
+    color: #3d719c;
+}
+
+.talhao-stat-card > div {
+    min-width: 0;
+}
+
+.talhao-stat-card span:not(.talhao-stat-icon) {
+    display: block;
+    margin-bottom: 3px;
+    color: #738078;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.talhao-stat-card strong {
+    display: block;
+    margin-bottom: 2px;
+    color: #1d3427;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.talhao-stat-card small {
+    color: #9aa49e;
+    font-size: 10px;
+}
+
+/* =========================
+   PAINEL
+========================= */
+
+.talhao-panel {
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #e7ece8;
+    border-radius: 21px;
+    box-shadow: 0 10px 30px rgba(30, 53, 39, 0.055);
+}
+
+.talhao-panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    padding: 24px 26px;
+    border-bottom: 1px solid #edf0ed;
+}
+
+.talhao-panel-header h2 {
+    margin: 0 0 5px;
+    color: #1d3427;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.talhao-panel-header p {
+    margin: 0;
+    color: #89948d;
+    font-size: 12px;
+}
+
+.talhao-panel-tools {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.talhao-search {
+    width: 300px;
+    height: 43px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px;
+    border: 1px solid #dfe6e1;
+    border-radius: 12px;
+    background: #fafcfb;
+    transition: all 0.2s ease;
+}
+
+.talhao-search:focus-within {
+    border-color: #76ad89;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(46, 125, 76, 0.08);
+}
+
+.talhao-search i {
+    color: #94a098;
+    font-size: 13px;
+}
+
+.talhao-search input {
+    width: 100%;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #304339;
+    font-size: 12px;
+}
+
+.talhao-search input::placeholder {
+    color: #a3aca6;
+}
+
+.talhao-add-button,
+.talhao-empty-button,
+.talhao-button-primary,
+.talhao-retry-button {
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+}
+
+.talhao-add-button {
+    height: 43px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 18px;
+    border-radius: 12px;
+    background: #246b43;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    box-shadow: 0 6px 15px rgba(36, 107, 67, 0.17);
+    transition: all 0.2s ease;
+}
+
+.talhao-add-button:hover {
+    background: #1d5937;
+    transform: translateY(-1px);
+}
+
+/* =========================
+   TABELA
+========================= */
+
+.talhao-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.talhao-table {
+    width: 100%;
+    min-width: 850px;
+    border-collapse: collapse;
+}
+
+.talhao-table thead {
+    background: #f7f9f7;
+}
+
+.talhao-table th {
+    padding: 13px 20px;
+    border-bottom: 1px solid #e8ece9;
+    color: #7e8982;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-align: left;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.talhao-table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid #eef1ef;
+    color: #48574e;
+    font-size: 12px;
+    vertical-align: middle;
+}
+
+.talhao-table tbody tr {
+    transition: background 0.18s ease;
+}
+
+.talhao-table tbody tr:hover {
+    background: #fbfcfb;
+}
+
+.talhao-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.talhao-id {
+    color: #8a958e;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.talhao-name-cell {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.talhao-row-icon {
+    width: 37px;
+    height: 37px;
+    flex: 0 0 37px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 11px;
+    background: #eaf5ed;
+    color: #34764e;
+}
+
+.talhao-name-cell strong {
+    display: block;
+    margin-bottom: 2px;
+    color: #243c2e;
+    font-size: 12px;
+    font-weight: 750;
+}
+
+.talhao-name-cell small {
+    color: #9aa49e;
+    font-size: 10px;
+}
+
+.talhao-area {
+    color: #2c6743;
+    font-size: 12px;
+}
+
+.talhao-property-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    max-width: 210px;
+    padding: 7px 10px;
+    border-radius: 9px;
+    background: #eef6f0;
+    color: #39714e;
+    font-size: 11px;
+    font-weight: 650;
+}
+
+.talhao-property-badge i {
+    font-size: 10px;
+}
+
+.talhao-description {
+    max-width: 250px;
+    color: #68756d !important;
+}
+
+.talhao-muted {
+    color: #a0aaa4;
+    font-style: italic;
+}
+
+.talhao-actions-heading {
+    text-align: right !important;
+}
+
+.talhao-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 7px;
+}
+
+.talhao-action-button {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid;
+    border-radius: 9px;
+    background: transparent;
+    cursor: pointer;
+    font-size: 11px;
+    transition: all 0.18s ease;
+}
+
+.talhao-action-button.edit {
+    border-color: #d7e7dc;
+    color: #397552;
+    background: #f7fbf8;
+}
+
+.talhao-action-button.edit:hover {
+    background: #e7f4eb;
+    border-color: #bcd9c6;
+}
+
+.talhao-action-button.delete {
+    border-color: #f0dddd;
+    color: #b85c5c;
+    background: #fffafa;
+}
+
+.talhao-action-button.delete:hover {
+    background: #faeaea;
+    border-color: #e7c3c3;
+}
+
+.talhao-table-footer {
+    padding: 14px 25px;
+    border-top: 1px solid #edf0ed;
+    background: #fbfcfb;
+    color: #929d96;
+    font-size: 10px;
+}
+
+/* =========================
+   ESTADOS
+========================= */
+
+.talhao-loading,
+.talhao-empty,
+.talhao-error {
+    min-height: 260px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 35px;
+    text-align: center;
+}
+
+.talhao-loading {
+    gap: 12px;
+    color: #89968e;
+}
+
+.talhao-loading-icon,
+.talhao-empty-icon,
+.talhao-error-icon {
+    width: 62px;
+    height: 62px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 19px;
+    font-size: 24px;
+}
+
+.talhao-loading-icon,
+.talhao-empty-icon {
+    background: #eaf5ed;
+    color: #34774f;
+}
+
+.talhao-loading-icon {
+    animation: talhaoPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes talhaoPulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.06);
+        opacity: 0.75;
+    }
+}
+
+.talhao-empty {
+    gap: 7px;
+}
+
+.talhao-empty strong,
+.talhao-error strong {
+    margin-top: 6px;
+    color: #294032;
+    font-size: 15px;
+}
+
+.talhao-empty > span:not(.talhao-empty-icon),
+.talhao-error > span:not(.talhao-error-icon) {
+    color: #929d96;
+    font-size: 11px;
+}
+
+.talhao-empty-button,
+.talhao-retry-button {
+    margin-top: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 15px;
+    border-radius: 10px;
+    background: #eaf5ed;
+    color: #2d7049;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.talhao-empty-button:hover,
+.talhao-retry-button:hover {
+    background: #dcefe2;
+}
+
+.talhao-error {
+    gap: 7px;
+}
+
+.talhao-error-icon {
+    background: #fff0e7;
+    color: #c66b3d;
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.talhao-modal {
+    overflow: hidden;
+    border: 0;
+    border-radius: 20px;
+    box-shadow: 0 25px 70px rgba(22, 45, 31, 0.2);
+}
+
+.talhao-modal-header {
+    padding: 21px 24px;
+    border-bottom: 1px solid #edf0ed;
+}
+
+.talhao-modal-title {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.talhao-modal-icon {
+    width: 43px;
+    height: 43px;
+    flex: 0 0 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #e9f5ed;
+    color: #2f734b;
+}
+
+.talhao-modal-title h5 {
+    margin: 0 0 3px;
+    color: #22392b;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.talhao-modal-title p {
+    margin: 0;
+    color: #929c96;
+    font-size: 10px;
+}
+
+.talhao-modal-body {
+    padding: 25px;
+}
+
+.talhao-modal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.talhao-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.talhao-description-group {
+    grid-column: 1 / -1;
+}
+
+.talhao-form-group label {
+    color: #46584d;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.talhao-form-group label span {
+    color: #b85a5a;
+}
+
+.talhao-input {
+    min-height: 45px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 13px;
+    border: 1px solid #dfe6e1;
+    border-radius: 11px;
+    background: #fbfcfb;
+    transition: all 0.18s ease;
+}
+
+.talhao-input:focus-within,
+.talhao-textarea:focus-within {
+    border-color: #76ad89;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(46, 125, 76, 0.07);
+}
+
+.talhao-input > i {
+    width: 14px;
+    color: #91a097;
+    font-size: 11px;
+}
+
+.talhao-input input,
+.talhao-input select {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #35473c;
+    font-size: 12px;
+}
+
+.talhao-input select {
+    cursor: pointer;
+}
+
+.talhao-input-suffix {
+    color: #89958d !important;
+    font-size: 10px !important;
+}
+
+.talhao-textarea {
+    padding: 12px 13px;
+    border: 1px solid #dfe6e1;
+    border-radius: 11px;
+    background: #fbfcfb;
+    transition: all 0.18s ease;
+}
+
+.talhao-textarea textarea {
+    width: 100%;
+    min-height: 80px;
+    resize: vertical;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: #35473c;
+    font-size: 12px;
+}
+
+.talhao-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 17px 24px;
+    border-top: 1px solid #edf0ed;
+    background: #fafbfa;
+}
+
+.talhao-button-secondary,
+.talhao-button-primary {
+    min-height: 40px;
+    padding: 0 17px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.talhao-button-secondary {
+    border: 1px solid #dfe5e1;
+    background: #fff;
+    color: #68766d;
+}
+
+.talhao-button-secondary:hover {
+    background: #f5f7f5;
+}
+
+.talhao-button-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    border: 0;
+    background: #246b43;
+    color: #fff;
+    box-shadow: 0 5px 14px rgba(36, 107, 67, 0.16);
+}
+
+.talhao-button-primary:hover {
+    background: #1d5937;
+}
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media (max-width: 1150px) {
+    .talhao-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .talhao-panel-header {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .talhao-panel-tools {
+        width: 100%;
+    }
+
+    .talhao-search {
+        flex: 1;
+        width: auto;
+    }
+}
+
+@media (max-width: 700px) {
+    .talhao-page {
+        gap: 16px;
+    }
+
+    .talhao-hero {
+        min-height: 150px;
+        padding: 25px 20px;
+        border-radius: 18px;
+    }
+
+    .talhao-hero-icon {
+        width: 55px;
+        height: 55px;
+        flex-basis: 55px;
+        border-radius: 15px;
+        font-size: 21px;
+    }
+
+    .talhao-hero-main {
+        gap: 14px;
+    }
+
+    .talhao-hero-text h1 {
+        font-size: 26px;
+    }
+
+    .talhao-hero-text p {
+        font-size: 11px;
+    }
+
+    .talhao-hero-decoration {
+        display: none;
+    }
+
+    .talhao-stats {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .talhao-stat-card {
+        min-height: 105px;
+        padding: 18px;
+    }
+
+    .talhao-panel {
+        border-radius: 16px;
+    }
+
+    .talhao-panel-header {
+        padding: 20px;
+    }
+
+    .talhao-panel-tools {
+        flex-direction: column;
+    }
+
+    .talhao-search,
+    .talhao-add-button {
+        width: 100%;
+    }
+
+    .talhao-modal-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .talhao-description-group {
+        grid-column: auto;
+    }
+
+    .talhao-modal-body {
+        padding: 20px;
+    }
+
+    .talhao-modal-footer {
+        padding: 15px 20px;
+    }
+}

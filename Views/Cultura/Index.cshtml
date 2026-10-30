@@ -1,39 +1,257 @@
 @{
     Layout = "_Layout";
-    ViewData["Title"] = "Gestão de Culturas";
+    ViewData["Title"] = "Culturas";
 }
 
-<div id="cultura-management">
-    @* The ManagementList is rendered by the controller action Index *@
+<link rel="stylesheet" href="~/css/cultura.css" asp-append-version="true" />
 
-    @* Modal for Add/Edit *@
-    <div class="modal fade" id="culturaModal" tabindex="-1" aria-labelledby="culturaModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="culturaModalLabel">Nova Cultura</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="culturaForm">
-                        <input type="hidden" id="culturaId" name="Id" value="0">
-                        <div class="mb-3">
-                            <label for="cultNome" class="form-label">Nome da Cultura</label>
-                            <input type="text" class="form-control" id="cultNome" name="Nome" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="cultDesc" class="form-label">Descrição</label>
-                            <textarea class="form-control" id="cultDesc" name="Descricao" rows="3"></textarea>
-                        </div>
-                        <div class="text-end">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-primary">Salvar</button>
-                        </div>
-                    </form>
-                </div>
+<main class="cultura-page">
+
+    <section class="cultura-hero">
+        <div class="cultura-hero-main">
+            <div class="cultura-hero-icon">
+                <i class="fa-solid fa-leaf"></i>
+            </div>
+
+            <div class="cultura-hero-text">
+                <span>GESTÃO DA LAVOURA</span>
+                <h1>Culturas</h1>
+                <p>Organize as culturas utilizadas nos plantios da propriedade.</p>
             </div>
         </div>
-    </div>
-</div>
 
-<script src="~/js/cultura.js"></script>
+        <div class="cultura-hero-decoration">
+            <i class="fa-solid fa-seedling"></i>
+        </div>
+    </section>
+
+    <section class="cultura-stats">
+
+        <article class="cultura-stat-card">
+            <span class="cultura-stat-icon green">
+                <i class="fa-solid fa-leaf"></i>
+            </span>
+
+            <div>
+                <span>Total de culturas</span>
+                <strong id="culturaTotal">0</strong>
+                <small>Cadastradas no sistema</small>
+            </div>
+        </article>
+
+        <article class="cultura-stat-card">
+            <span class="cultura-stat-icon green">
+                <i class="fa-solid fa-file-lines"></i>
+            </span>
+
+            <div>
+                <span>Com descrição</span>
+                <strong id="culturaWithDescription">0</strong>
+                <small>Registros detalhados</small>
+            </div>
+        </article>
+
+        <article class="cultura-stat-card">
+            <span class="cultura-stat-icon amber">
+                <i class="fa-solid fa-seedling"></i>
+            </span>
+
+            <div>
+                <span>Sem descrição</span>
+                <strong id="culturaWithoutDescription">0</strong>
+                <small>Podem ser complementadas</small>
+            </div>
+        </article>
+
+    </section>
+
+    <section class="cultura-panel">
+
+        <header class="cultura-panel-header">
+
+            <div>
+                <h2>Culturas cadastradas</h2>
+                <p>Visualize e gerencie as culturas disponíveis para os plantios.</p>
+            </div>
+
+            <div class="cultura-panel-tools">
+
+                <div class="cultura-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input
+                        type="text"
+                        id="culturaSearch"
+                        placeholder="Buscar por nome ou descrição..."
+                        autocomplete="off" />
+                </div>
+
+                <button
+                    type="button"
+                    class="cultura-add-button"
+                    id="btnNovaCultura">
+
+                    <i class="fa-solid fa-plus"></i>
+                    Nova cultura
+                </button>
+
+            </div>
+
+        </header>
+
+        <div class="cultura-table-wrapper">
+
+            <table class="cultura-table">
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Cultura</th>
+                        <th>Descrição</th>
+                        <th class="cultura-actions-heading">Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody id="culturaTableBody">
+                    <tr>
+                        <td colspan="4">
+                            <div class="cultura-loading">
+                                <span class="cultura-loading-icon">
+                                    <i class="fa-solid fa-seedling"></i>
+                                </span>
+
+                                <span>Carregando culturas...</span>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <footer class="cultura-table-footer">
+            <span id="culturaResultsText">
+                Nenhuma cultura cadastrada
+            </span>
+        </footer>
+
+    </section>
+
+    <div class="modal fade"
+         id="culturaModal"
+         tabindex="-1"
+         aria-labelledby="culturaModalLabel"
+         aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+
+            <div class="modal-content cultura-modal">
+
+                <div class="modal-header cultura-modal-header">
+
+                    <div class="cultura-modal-title">
+
+                        <span class="cultura-modal-icon">
+                            <i class="fa-solid fa-leaf"></i>
+                        </span>
+
+                        <div>
+                            <h5 id="culturaModalLabel">Nova cultura</h5>
+                            <p>Cadastre ou atualize uma cultura utilizada na lavoura.</p>
+                        </div>
+
+                    </div>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Fechar">
+                    </button>
+
+                </div>
+
+                <form id="culturaForm">
+
+                    <div class="modal-body cultura-modal-body">
+
+                        <input
+                            type="hidden"
+                            id="culturaId"
+                            value="0" />
+
+                        <div class="cultura-modal-grid">
+
+                            <div class="cultura-form-group">
+
+                                <label for="cultNome">
+                                    Nome da cultura
+                                    <span>*</span>
+                                </label>
+
+                                <div class="cultura-input">
+                                    <i class="fa-solid fa-leaf"></i>
+
+                                    <input
+                                        type="text"
+                                        id="cultNome"
+                                        maxlength="100"
+                                        placeholder="Ex.: Café"
+                                        required />
+                                </div>
+
+                            </div>
+
+                            <div class="cultura-form-group cultura-description-group">
+
+                                <label for="cultDesc">
+                                    Descrição
+                                </label>
+
+                                <div class="cultura-textarea">
+
+                                    <textarea
+                                        id="cultDesc"
+                                        rows="4"
+                                        maxlength="500"
+                                        placeholder="Informações adicionais sobre a cultura..."></textarea>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="cultura-modal-footer">
+
+                        <button
+                            type="button"
+                            class="cultura-button-secondary"
+                            data-bs-dismiss="modal">
+                            Cancelar
+                        </button>
+
+                        <button
+                            type="submit"
+                            class="cultura-button-primary">
+
+                            <i class="fa-solid fa-check"></i>
+                            Salvar cultura
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<script src="~/js/cultura.js" asp-append-version="true"></script>

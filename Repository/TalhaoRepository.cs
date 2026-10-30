@@ -12,13 +12,18 @@ public class TalhaoRepository(IConfiguration configuration)
     public IEnumerable<Talhao> GetAll()
     {
         var lista = new List<Talhao>();
-        string sql = "SELECT ID, NOME, AREA, PROPRIEDADEID, DESCRICAO FROM TALHOES";
+
+        string sql = @"
+            SELECT ID, NOME, AREA, PROPRIEDADE_ID, DESCRICAO
+            FROM TALHAO";
 
         using var connection = new OracleConnection(_connectionString);
         using var command = new OracleCommand(sql, connection);
 
         connection.Open();
+
         using var reader = command.ExecuteReader();
+
         while (reader.Read())
         {
             lista.Add(new Talhao
@@ -27,22 +32,31 @@ public class TalhaoRepository(IConfiguration configuration)
                 Nome = reader.GetString(1),
                 Area = reader.GetDecimal(2),
                 PropriedadeId = reader.GetInt32(3),
-                Descricao = reader.IsDBNull(4) ? null : reader.GetString(4)
+                Descricao = reader.IsDBNull(4)
+                    ? null
+                    : reader.GetString(4)
             });
         }
+
         return lista;
     }
 
     public Talhao? GetById(int id)
     {
-        string sql = "SELECT ID, NOME, AREA, PROPRIEDADEID, DESCRICAO FROM TALHOES WHERE ID = :Id";
+        string sql = @"
+            SELECT ID, NOME, AREA, PROPRIEDADE_ID, DESCRICAO
+            FROM TALHAO
+            WHERE ID = :Id";
 
         using var connection = new OracleConnection(_connectionString);
         using var command = new OracleCommand(sql, connection);
+
         command.Parameters.Add(new OracleParameter("Id", id));
 
         connection.Open();
+
         using var reader = command.ExecuteReader();
+
         if (reader.Read())
         {
             return new Talhao
@@ -51,52 +65,81 @@ public class TalhaoRepository(IConfiguration configuration)
                 Nome = reader.GetString(1),
                 Area = reader.GetDecimal(2),
                 PropriedadeId = reader.GetInt32(3),
-                Descricao = reader.IsDBNull(4) ? null : reader.GetString(4)
+                Descricao = reader.IsDBNull(4)
+                    ? null
+                    : reader.GetString(4)
             };
         }
+
         return null;
     }
 
     public bool Create(Talhao talhao)
-    {
-        string sql = "INSERT INTO TALHOES (NOME, AREA, PROPRIEDADEID, DESCRICAO) VALUES (:Nome, :Area, :PropId, :Desc)";
+{
+    string sql = @"
+        INSERT INTO TALHAO
+            (NOME, AREA, PROPRIEDADE_ID, DESCRICAO)
+        VALUES
+            (:pNome, :pArea, :pPropriedadeId, :pDescricao)";
 
-        using var connection = new OracleConnection(_connectionString);
-        using var command = new OracleCommand(sql, connection);
-        command.Parameters.Add(new OracleParameter("Nome", talhao.Nome));
-        command.Parameters.Add(new OracleParameter("Area", talhao.Area));
-        command.Parameters.Add(new OracleParameter("PropId", talhao.PropriedadeId));
-        command.Parameters.Add(new OracleParameter("Desc", (object?)talhao.Descricao ?? DBNull.Value));
+    using var connection = new OracleConnection(_connectionString);
+    using var command = new OracleCommand(sql, connection);
 
-        connection.Open();
-        return command.ExecuteNonQuery() > 0;
-    }
+    command.Parameters.Add(new OracleParameter("pNome", talhao.Nome));
+    command.Parameters.Add(new OracleParameter("pArea", talhao.Area));
+    command.Parameters.Add(new OracleParameter("pPropriedadeId", talhao.PropriedadeId));
+    command.Parameters.Add(
+        new OracleParameter(
+            "pDescricao",
+            (object?)talhao.Descricao ?? DBNull.Value
+        )
+    );
 
-    public bool Update(Talhao talhao)
-    {
-        string sql = "UPDATE TALHOES SET NOME = :Nome, AREA = :Area, PROPRIEDADEID = :PropId, DESCRICAO = :Desc WHERE ID = :Id";
+    connection.Open();
 
-        using var connection = new OracleConnection(_connectionString);
-        using var command = new OracleCommand(sql, connection);
-        command.Parameters.Add(new OracleParameter("Nome", talhao.Nome));
-        command.Parameters.Add(new OracleParameter("Area", talhao.Area));
-        command.Parameters.Add(new OracleParameter("PropId", talhao.PropriedadeId));
-        command.Parameters.Add(new OracleParameter("Desc", (object?)talhao.Descricao ?? DBNull.Value));
-        command.Parameters.Add(new OracleParameter("Id", talhao.Id));
+    return command.ExecuteNonQuery() > 0;
+}
 
-        connection.Open();
-        return command.ExecuteNonQuery() > 0;
-    }
+           public bool Update(Talhao talhao)
+{
+    string sql = @"
+        UPDATE TALHAO
+        SET NOME = :pNome,
+            AREA = :pArea,
+            PROPRIEDADE_ID = :pPropriedadeId,
+            DESCRICAO = :pDescricao
+        WHERE ID = :pId";
+
+    using var connection = new OracleConnection(_connectionString);
+    using var command = new OracleCommand(sql, connection);
+
+    command.Parameters.Add(new OracleParameter("pNome", talhao.Nome));
+    command.Parameters.Add(new OracleParameter("pArea", talhao.Area));
+    command.Parameters.Add(new OracleParameter("pPropriedadeId", talhao.PropriedadeId));
+    command.Parameters.Add(
+        new OracleParameter(
+            "pDescricao",
+            (object?)talhao.Descricao ?? DBNull.Value
+        )
+    );
+    command.Parameters.Add(new OracleParameter("pId", talhao.Id));
+
+    connection.Open();
+
+    return command.ExecuteNonQuery() > 0;
+}
 
     public bool Delete(int id)
     {
-        string sql = "DELETE FROM TALHOES WHERE ID = :Id";
+        string sql = "DELETE FROM TALHAO WHERE ID = :Id";
 
         using var connection = new OracleConnection(_connectionString);
         using var command = new OracleCommand(sql, connection);
+
         command.Parameters.Add(new OracleParameter("Id", id));
 
         connection.Open();
+
         return command.ExecuteNonQuery() > 0;
     }
 }
