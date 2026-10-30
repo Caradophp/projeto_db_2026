@@ -117,6 +117,7 @@
     display: grid;
     grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr);
     gap: 20px;
+align-items: start;
 }
 
 .dashboard-panel {
@@ -1006,4 +1007,180 @@
     .register-info span {
         display: none;
     }
+}
+
+/* =========================
+   EQUIPE DE DESENVOLVIMENTO
+========================= */
+
+.team-panel {
+    padding: 22px;
+}
+
+.team-title-icon {
+    background: #e8f4ec;
+    color: #17613f;
+}
+
+.team-members {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 18px;
+}
+
+.team-member {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 10px 12px;
+    background: #f7faf8;
+    border: 1px solid #edf2ef;
+    border-radius: 12px;
+    color: #173d2e;
+    font-size: 13px;
+    font-weight: 600;
+    transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+}
+
+.team-member:hover {
+    transform: translateX(3px);
+    background: #f0f7f3;
+    border-color: #dcebe2;
+}
+
+.team-member-icon {
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    background: #e5f2e9;
+    color: #23724c;
+    font-size: 12px;
+}
+
+.team-member span:last-child {
+    line-height: 1.25;
+}
+
+@media (max-width: 768px) {
+    .team-panel {
+        padding: 18px;
+    }
+
+    .team-member {
+        padding: 9px 10px;
+        font-size: 12px;
+    }
+}
+/* =========================
+   CORES DOS INTEGRANTES
+========================= */
+
+.member-brown {
+    background: #f3e7dc;
+    color: #9a5c25;
+}
+
+.member-blue {
+    background: #e2f2fb;
+    color: #2382b8;
+}
+
+.member-green {
+    background: #e4f5e2;
+    color: #3f9b45;
+}
+
+.member-yellow {
+    background: #fff1cf;
+    color: #c58a0b;
+}
+
+.member-pink {
+    background: #fde4ed;
+    color: #d94d7c;
+}
+/* =========================
+   AJUSTE FINAL DA HOME
+========================= */
+
+/* Faz o painel da tabela acompanhar a altura da coluna lateral */
+.dashboard-content-grid {
+    align-items: stretch;
+}
+
+/* A coluna lateral continua organizando os cards normalmente */
+.dashboard-side-column {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* O card da equipe não deve esticar sozinho */
+.team-panel {
+    flex: 0 0 auto;
+}
+
+/* =========================
+   CORES DOS INTEGRANTES
+========================= */
+
+/* Eloísa - marrom */
+.team-member-icon.member-brown {
+    background: #f3e4d7;
+    color: #9a5b2e;
+}
+
+/* Luciano - azul */
+.team-member-icon.member-blue {
+    background: #dff1fb;
+    color: #2583b8;
+}
+
+/* Miguel - verde */
+.team-member-icon.member-green {
+    background: #e1f4df;
+    color: #439b49;
+}
+
+/* Rhaique - amarelo */
+.team-member-icon.member-yellow {
+    background: #fff0c9;
+    color: #c58a0b;
+}
+
+/* Yasmim - rosa */
+.team-member-icon.member-pink {
+    background: #fde1eb;
+    color: #d94d7c;
+}
+
+/* =========================
+   ALINHAMENTO FINAL DOS PAINÉIS
+========================= */
+
+.dashboard-content-grid > .dashboard-panel {
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-content-grid > .dashboard-panel .table-wrapper {
+    flex: 1;
+    display: flex;
+}
+
+.dashboard-content-grid > .dashboard-panel .dashboard-table {
+    height: 100%;
+}
+
+.dashboard-content-grid > .dashboard-panel .dashboard-table tbody {
+    height: 100%;
+}
+
+.dashboard-content-grid > .dashboard-panel .dashboard-table tbody tr {
+    height: 10%;
 }

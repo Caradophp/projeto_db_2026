@@ -44,18 +44,19 @@ function setCardValue(elementId, value) {
 }
 
 function renderRegisterTable(data) {
-    const hiddenTables = [
-        'MIGRATIONS',
-        'CODES_SENT',
-        'USERS'
-    ];
-
     const tableInfo = {
         'APLICACAO_INSUMO': {
             label: 'Aplicações de insumos',
             description: 'Operações registradas',
             icon: 'fa-solid fa-tractor',
             className: 'register-blue'
+        },
+
+        'CODES_SENT': {
+            label: 'Códigos enviados',
+            description: 'Códigos de verificação enviados',
+            icon: 'fa-solid fa-envelope-circle-check',
+            className: 'register-green'
         },
 
         'COLHEITA': {
@@ -79,6 +80,13 @@ function renderRegisterTable(data) {
             className: 'register-blue'
         },
 
+        'MIGRATIONS': {
+            label: 'Migrações',
+            description: 'Migrações executadas no banco de dados',
+            icon: 'fa-solid fa-code-branch',
+            className: 'register-yellow'
+        },
+
         'PLANTIO': {
             label: 'Plantios',
             description: 'Plantios registrados',
@@ -98,13 +106,17 @@ function renderRegisterTable(data) {
             description: 'Talhões cadastrados',
             icon: 'fa-solid fa-table-cells-large',
             className: 'register-yellow'
+        },
+
+        'USERS': {
+            label: 'Usuários',
+            description: 'Usuários cadastrados no sistema',
+            icon: 'fa-solid fa-users',
+            className: 'register-blue'
         }
     };
 
-    const visibleData = data.filter(item => {
-        const tableName = String(item.name || '').toUpperCase();
-        return !hiddenTables.includes(tableName);
-    });
+    const visibleData = data;
 
     if (visibleData.length === 0) {
         $('#tbody-tables-info').html(`
