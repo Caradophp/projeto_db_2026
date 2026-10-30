@@ -1,0 +1,92 @@
+erDiagram
+    USERS ||--o{ PROPRIEDADE : possui
+    USERS ||--o{ CODES_SENT : recebe
+    PROPRIEDADE ||--o{ TALHAO : contem
+    TALHAO ||--o{ PLANTIO : recebe
+    CULTURA ||--o{ PLANTIO : classifica
+    PLANTIO ||--o{ COLHEITA : gera
+    TALHAO ||--o{ APLICACAO_INSUMO : recebe
+    INSUMO ||--o{ APLICACAO_INSUMO : utilizado
+
+    USERS {
+        NUMBER ID PK
+        VARCHAR2 NAME
+        VARCHAR2 EMAIL UK
+        VARCHAR2 PASSWORD
+        DATE CREATED_AT
+        VARCHAR2 STATUS
+    }
+
+    PROPRIEDADE {
+        NUMBER ID PK
+        VARCHAR2 NOME
+        NUMBER AREA_TOTAL
+        NUMBER USER_ID FK
+    }
+
+    TALHAO {
+        NUMBER ID PK
+        VARCHAR2 NOME
+        NUMBER AREA
+        NUMBER PROPRIEDADE_ID FK
+        VARCHAR2 DESCRICAO
+    }
+
+    CULTURA {
+        NUMBER ID PK
+        VARCHAR2 NOME UK
+        VARCHAR2 DESCRICAO
+    }
+
+    PLANTIO {
+        NUMBER ID PK
+        NUMBER TALHAO_ID FK
+        NUMBER CULTURA_ID FK
+        DATE DATA_PLANTIO
+        DATE DATA_PREVISTA_COLHEITA
+        NUMBER PRODUTIVIDADE_ESTIMADA
+        NUMBER CUSTO_PRODUCAO
+        VARCHAR2 STATUS
+        VARCHAR2 OBSERVACOES
+    }
+
+    COLHEITA {
+        NUMBER ID PK
+        NUMBER PLANTIO_ID FK
+        DATE DATA_COLHEITA
+        NUMBER PRODUCAO_TOTAL
+        VARCHAR2 OBSERVACOES
+    }
+
+    INSUMO {
+        NUMBER ID PK
+        VARCHAR2 NOME
+        VARCHAR2 TIPO
+        VARCHAR2 UNIDADE_MEDIDA
+        NUMBER ESTOQUE
+        NUMBER ESTOQUE_MINIMO
+    }
+
+    APLICACAO_INSUMO {
+        NUMBER ID PK
+        NUMBER TALHAO_ID FK
+        NUMBER INSUMO_ID FK
+        DATE DATA_APLICACAO
+        NUMBER QUANTIDADE
+        VARCHAR2 OBSERVACOES
+    }
+
+    CODES_SENT {
+        NUMBER ID PK
+        NUMBER CODE
+        NUMBER ID_USER FK
+        TIMESTAMP EXPIRATION_AT
+    }
+
+    MIGRATIONS {
+        NUMBER ID PK
+        VARCHAR2 SCRIPT_NAME
+        INTEGER DONE
+        DATE RUNNED_AT
+        VARCHAR2 ERROR_REASON
+    }
