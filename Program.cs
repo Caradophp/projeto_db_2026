@@ -34,6 +34,8 @@ try
     builder.Services.AddScoped<UtilRepository>();
     builder.Services.AddScoped<EmailService>();
     builder.Services.AddScoped<InsumoService>();
+builder.Services.AddScoped<AplicacaoInsumoService>();
+builder.Services.AddScoped<AplicacaoInsumoRepository>();
     builder.Services.AddScoped<PropriedadeService>();
     builder.Services.AddScoped<TalhaoService>();
     builder.Services.AddScoped<CulturaService>();

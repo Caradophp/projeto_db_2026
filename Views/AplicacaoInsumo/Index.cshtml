@@ -1,0 +1,357 @@
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Aplicação de Insumos";
+}
+
+<link rel="stylesheet" href="~/css/aplicacao-insumo.css" asp-append-version="true" />
+
+<main class="aplicacao-page">
+
+    <section class="aplicacao-hero">
+        <div class="aplicacao-hero-main">
+            <div class="aplicacao-hero-icon">
+                <i class="fa-solid fa-droplet"></i>
+            </div>
+
+            <div class="aplicacao-hero-text">
+                <span>MANEJO DA LAVOURA</span>
+                <h1>Aplicação de Insumos</h1>
+                <p>Acompanhe os insumos aplicados nos talhões, datas e quantidades utilizadas.</p>
+            </div>
+        </div>
+
+        <div class="aplicacao-hero-decoration">
+            <i class="fa-solid fa-flask"></i>
+        </div>
+    </section>
+
+    <section class="aplicacao-stats">
+
+        <article class="aplicacao-stat-card">
+            <span class="aplicacao-stat-icon green">
+                <i class="fa-solid fa-list-check"></i>
+            </span>
+
+            <div>
+                <span>Total de aplicações</span>
+                <strong id="aplicacaoTotal">0</strong>
+                <small>Registradas no sistema</small>
+            </div>
+        </article>
+
+        <article class="aplicacao-stat-card">
+            <span class="aplicacao-stat-icon green">
+                <i class="fa-solid fa-layer-group"></i>
+            </span>
+
+            <div>
+                <span>Talhões atendidos</span>
+                <strong id="aplicacaoTalhoes">0</strong>
+                <small>Talhões com aplicações</small>
+            </div>
+        </article>
+
+        <article class="aplicacao-stat-card">
+            <span class="aplicacao-stat-icon amber">
+                <i class="fa-solid fa-scale-balanced"></i>
+            </span>
+
+            <div>
+                <span>Quantidade aplicada</span>
+                <strong id="aplicacaoQuantidade">0,00</strong>
+                <small>Total registrado</small>
+            </div>
+        </article>
+
+        <article class="aplicacao-stat-card">
+            <span class="aplicacao-stat-icon blue">
+                <i class="fa-solid fa-flask"></i>
+            </span>
+
+            <div>
+                <span>Insumos utilizados</span>
+                <strong id="aplicacaoInsumos">0</strong>
+                <small>Diferentes insumos aplicados</small>
+            </div>
+        </article>
+
+    </section>
+
+    <section class="aplicacao-panel">
+
+        <header class="aplicacao-panel-header">
+
+            <div>
+                <h2>Aplicações registradas</h2>
+                <p>Visualize e gerencie as aplicações de insumos realizadas nos talhões.</p>
+            </div>
+
+            <div class="aplicacao-panel-tools">
+
+                <div class="aplicacao-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+
+                    <input
+                        type="text"
+                        id="aplicacaoSearch"
+                        placeholder="Buscar por talhão, insumo ou observação..."
+                        autocomplete="off" />
+                </div>
+
+                <button
+                    type="button"
+                    class="aplicacao-add-button"
+                    id="btnNovaAplicacao">
+
+                    <i class="fa-solid fa-plus"></i>
+                    Nova aplicação
+                </button>
+
+            </div>
+
+        </header>
+
+        <div class="aplicacao-table-wrapper">
+
+            <table class="aplicacao-table">
+
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Talhão</th>
+                        <th>Insumo</th>
+                        <th>Data da aplicação</th>
+                        <th>Quantidade</th>
+                        <th>Observações</th>
+                        <th class="aplicacao-actions-heading">Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody id="aplicacaoTableBody">
+
+                    <tr>
+                        <td colspan="7">
+
+                            <div class="aplicacao-loading">
+
+                                <span class="aplicacao-loading-icon">
+                                    <i class="fa-solid fa-droplet"></i>
+                                </span>
+
+                                <span>Carregando aplicações...</span>
+
+                            </div>
+
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <footer class="aplicacao-table-footer">
+            <span id="aplicacaoResultsText">
+                Nenhuma aplicação registrada
+            </span>
+        </footer>
+
+    </section>
+
+    <div class="modal fade"
+         id="aplicacaoModal"
+         tabindex="-1"
+         aria-labelledby="aplicacaoModalLabel"
+         aria-hidden="true">
+
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+
+            <div class="modal-content aplicacao-modal">
+
+                <div class="modal-header aplicacao-modal-header">
+
+                    <div class="aplicacao-modal-title">
+
+                        <span class="aplicacao-modal-icon">
+                            <i class="fa-solid fa-droplet"></i>
+                        </span>
+
+                        <div>
+                            <h5 id="aplicacaoModalLabel">
+                                Nova aplicação
+                            </h5>
+
+                            <p>
+                                Registre ou atualize uma aplicação de insumo.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Fechar">
+                    </button>
+
+                </div>
+
+                <form id="aplicacaoForm">
+
+                    <div class="modal-body aplicacao-modal-body">
+
+                        <input
+                            type="hidden"
+                            id="aplicacaoId"
+                            value="0" />
+
+                        <div class="aplicacao-modal-grid">
+
+                            <div class="aplicacao-form-group">
+
+                                <label for="aplicacaoTalhao">
+                                    Talhão
+                                    <span>*</span>
+                                </label>
+
+                                <div class="aplicacao-input">
+
+                                    <i class="fa-solid fa-layer-group"></i>
+
+                                    <select
+                                        id="aplicacaoTalhao"
+                                        required>
+
+                                        <option value="">
+                                            Selecione um talhão...
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+                            <div class="aplicacao-form-group">
+
+                                <label for="aplicacaoInsumo">
+                                    Insumo
+                                    <span>*</span>
+                                </label>
+
+                                <div class="aplicacao-input">
+
+                                    <i class="fa-solid fa-flask"></i>
+
+                                    <select
+                                        id="aplicacaoInsumo"
+                                        required>
+
+                                        <option value="">
+                                            Selecione um insumo...
+                                        </option>
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+                            <div class="aplicacao-form-group">
+
+                                <label for="aplicacaoData">
+                                    Data da aplicação
+                                    <span>*</span>
+                                </label>
+
+                                <div class="aplicacao-input">
+
+                                    <i class="fa-solid fa-calendar-days"></i>
+
+                                    <input
+                                        type="date"
+                                        id="aplicacaoData"
+                                        required />
+
+                                </div>
+
+                            </div>
+
+                            <div class="aplicacao-form-group">
+
+                                <label for="aplicacaoQuantidadeInput">
+                                    Quantidade
+                                    <span>*</span>
+                                </label>
+
+                                <div class="aplicacao-input">
+
+                                    <i class="fa-solid fa-scale-balanced"></i>
+
+                                    <input
+                                        type="number"
+                                        id="aplicacaoQuantidadeInput"
+                                        step="0.01"
+                                        min="0.01"
+                                        placeholder="0,00"
+                                        required />
+
+                                </div>
+
+                            </div>
+
+                            <div class="aplicacao-form-group aplicacao-description-group">
+
+                                <label for="aplicacaoObservacoes">
+                                    Observações
+                                </label>
+
+                                <div class="aplicacao-textarea">
+
+                                    <textarea
+                                        id="aplicacaoObservacoes"
+                                        rows="3"
+                                        maxlength="500"
+                                        placeholder="Informações adicionais sobre a aplicação..."></textarea>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="aplicacao-modal-footer">
+
+                        <button
+                            type="button"
+                            class="aplicacao-button-secondary"
+                            data-bs-dismiss="modal">
+
+                            Cancelar
+                        </button>
+
+                        <button
+                            type="submit"
+                            class="aplicacao-button-primary">
+
+                            <i class="fa-solid fa-check"></i>
+                            Salvar aplicação
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<script src="~/js/aplicacao-insumo.js" asp-append-version="true"></script>

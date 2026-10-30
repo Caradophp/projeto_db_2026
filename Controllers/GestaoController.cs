@@ -29,13 +29,10 @@ public class GestaoController : Controller
 {
     return View("~/Views/Plantio/Index.cshtml");
 }
-    public IActionResult Aplicacoes() => List(
-        "Aplicação de Insumos",
-        "Consulte as aplicações realizadas em cada talhão.",
-        "aplicação",
-        "Nova aplicação",
-        "Talhão", "Insumo", "Data da aplicação", "Quantidade", "Observações");
-
+    public IActionResult Aplicacoes()
+{
+    return View("~/Views/AplicacaoInsumo/Index.cshtml");
+}
     private ViewResult List(
         string title,
         string description,
