@@ -8,6 +8,10 @@
 - .NET SDK 8 installed.
 - A web browser.
 
+## Apresentation Video
+
+Youtube: [https://youtu.be/Zcs_KK_hEX8](https://youtu.be/Zcs_KK_hEX8)
+
 ## Creating the Oracle Database
 
 The project already includes a `compose.yml` file in its root directory. There is no need to recreate it; from the project root, start the database container with:
@@ -116,6 +120,10 @@ Navigate to [http://localhost:8081/login](http://localhost:8081/login).
 - Docker com Docker Compose instalado.
 - SDK do .NET na versão 8 instalado.
 - Um navegador web.
+
+## Video de apresentação
+
+Youtube: [https://youtu.be/Zcs_KK_hEX8](https://youtu.be/Zcs_KK_hEX8)
 
 ## Criando o Banco de Dados Oracle
 
